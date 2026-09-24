@@ -1,0 +1,381 @@
+{
+  "roles": [
+    {
+      "role": "admin",
+      "requests": 10,
+      "sessions": [
+        "sess_86163120544f"
+      ],
+      "endpoints_reached": 7,
+      "endpoints_offered": 6,
+      "urls_fetched": 10,
+      "reached": [
+        {
+          "endpoint": "shop.example.com/api/admin/flags",
+          "methods": [
+            "POST"
+          ],
+          "statuses": [
+            200
+          ],
+          "sightings": 1,
+          "max_response_bytes": 12,
+          "evidence": [
+            "burp_000029"
+          ]
+        },
+        {
+          "endpoint": "shop.example.com/api/admin/users",
+          "methods": [
+            "GET"
+          ],
+          "statuses": [
+            200
+          ],
+          "sightings": 1,
+          "max_response_bytes": 779,
+          "evidence": [
+            "burp_000028"
+          ]
+        },
+        {
+          "endpoint": "shop.example.com/api/admin/users/{id}",
+          "methods": [
+            "DELETE"
+          ],
+          "statuses": [
+            204
+          ],
+          "sightings": 1,
+          "max_response_bytes": 0,
+          "evidence": [
+            "burp_000030"
+          ]
+        },
+        {
+          "endpoint": "shop.example.com/api/config/internal",
+          "methods": [
+            "GET"
+          ],
+          "statuses": [
+            200
+          ],
+          "sightings": 1,
+          "max_response_bytes": 248,
+          "evidence": [
+            "burp_000032"
+          ]
+        },
+        {
+          "endpoint": "shop.example.com/api/profile",
+          "methods": [
+            "GET"
+          ],
+          "statuses": [
+            200
+          ],
+          "sightings": 1,
+          "max_response_bytes": 36,
+          "evidence": [
+            "burp_000033"
+          ]
+        },
+        {
+          "endpoint": "shop.example.com/api/reports/export/raw",
+          "methods": [
+            "GET"
+          ],
+          "statuses": [
+            200
+          ],
+          "sightings": 1,
+          "max_response_bytes": 15,
+          "evidence": [
+            "burp_000031"
+          ]
+        },
+        {
+          "endpoint": "shop.example.com/api/session",
+          "methods": [
+            "POST"
+          ],
+          "statuses": [
+            200
+          ],
+          "sightings": 1,
+          "max_response_bytes": 12,
+          "evidence": [
+            "burp_000027"
+          ]
+        }
+      ],
+      "offered": [
+        "shop.example.com/api/admin/audit",
+        "shop.example.com/api/admin/flags",
+        "shop.example.com/api/admin/users",
+        "shop.example.com/api/admin/users/{id}",
+        "shop.example.com/api/config/internal",
+        "shop.example.com/api/reports/export/raw"
+      ]
+    },
+    {
+      "role": "user",
+      "requests": 20,
+      "sessions": [
+        "sess_8966a6cafb2b",
+        "sess_e66cf6c53a96"
+      ],
+      "endpoints_reached": 13,
+      "endpoints_offered": 8,
+      "urls_fetched": 19,
+      "reached": [
+        {
+          "endpoint": "shop.example.com/api/account/address",
+          "methods": [
+            "PUT"
+          ],
+          "statuses": [
+            200
+          ],
+          "sightings": 1,
+          "max_response_bytes": 12,
+          "evidence": [
+            "burp_000011"
+          ]
+        },
+        {
+          "endpoint": "shop.example.com/api/account/preferences",
+          "methods": [
+            "PATCH"
+          ],
+          "statuses": [
+            200
+          ],
+          "sightings": 1,
+          "max_response_bytes": 12,
+          "evidence": [
+            "burp_000012"
+          ]
+        },
+        {
+          "endpoint": "shop.example.com/api/admin/users",
+          "methods": [
+            "GET"
+          ],
+          "statuses": [
+            200
+          ],
+          "sightings": 1,
+          "max_response_bytes": 779,
+          "evidence": [
+            "burp_000019"
+          ]
+        },
+        {
+          "endpoint": "shop.example.com/api/billing/invoices",
+          "methods": [
+            "GET"
+          ],
+          "statuses": [
+            401
+          ],
+          "sightings": 1,
+          "max_response_bytes": 20,
+          "evidence": [
+            "burp_000018"
+          ]
+        },
+        {
+          "endpoint": "shop.example.com/api/config/internal",
+          "methods": [
+            "GET"
+          ],
+          "statuses": [
+            200
+          ],
+          "sightings": 1,
+          "max_response_bytes": 248,
+          "evidence": [
+            "burp_000020"
+          ]
+        },
+        {
+          "endpoint": "shop.example.com/api/export",
+          "methods": [
+            "POST"
+          ],
+          "statuses": [
+            201
+          ],
+          "sightings": 1,
+          "max_response_bytes": 32,
+          "evidence": [
+            "burp_000010"
+          ]
+        },
+        {
+          "endpoint": "shop.example.com/api/internal/debug",
+          "methods": [
+            "GET"
+          ],
+          "statuses": [
+            403
+          ],
+          "sightings": 1,
+          "max_response_bytes": 22,
+          "evidence": [
+            "burp_000017"
+          ]
+        },
+        {
+          "endpoint": "shop.example.com/api/orders",
+          "methods": [
+            "GET"
+          ],
+          "statuses": [
+            200
+          ],
+          "sightings": 1,
+          "max_response_bytes": 152,
+          "evidence": [
+            "burp_000008"
+          ]
+        },
+        {
+          "endpoint": "shop.example.com/api/orders/{id}",
+          "methods": [
+            "GET"
+          ],
+          "statuses": [
+            200
+          ],
+          "sightings": 1,
+          "max_response_bytes": 27,
+          "evidence": [
+            "burp_000009"
+          ]
+        },
+        {
+          "endpoint": "shop.example.com/api/profile",
+          "methods": [
+            "GET"
+          ],
+          "statuses": [
+            200
+          ],
+          "sightings": 1,
+          "max_response_bytes": 146,
+          "evidence": [
+            "burp_000007"
+          ]
+        },
+        {
+          "endpoint": "shop.example.com/api/session",
+          "methods": [
+            "POST"
+          ],
+          "statuses": [
+            200
+          ],
+          "sightings": 1,
+          "max_response_bytes": 55,
+          "evidence": [
+            "burp_000006"
+          ]
+        },
+        {
+          "endpoint": "shop.example.com/graphql",
+          "methods": [
+            "POST"
+          ],
+          "statuses": [
+            200
+          ],
+          "sightings": 1,
+          "max_response_bytes": 74,
+          "evidence": [
+            "burp_000013"
+          ]
+        },
+        {
+          "endpoint": "shop.example.com/static/app.js.map",
+          "methods": [
+            "GET"
+          ],
+          "statuses": [
+            200
+          ],
+          "sightings": 1,
+          "max_response_bytes": 864,
+          "evidence": [
+            "burp_000004"
+          ]
+        }
+      ],
+      "offered": [
+        "shop.example.com/api/account/address",
+        "shop.example.com/api/export",
+        "shop.example.com/api/internal/debug",
+        "shop.example.com/api/invoices/pending",
+        "shop.example.com/api/orders",
+        "shop.example.com/api/profile",
+        "shop.example.com/api/stream/notifications",
+        "shop.example.com/ws/orders"
+      ]
+    }
+  ],
+  "cross_role": [
+    {
+      "low": "user",
+      "high": "admin",
+      "surface": [
+        {
+          "endpoint": "shop.example.com/api/admin/users",
+          "reached_by": "user",
+          "offered_to": "admin",
+          "methods": [
+            "GET"
+          ],
+          "statuses": [
+            200
+          ],
+          "max_response_bytes": 779,
+          "evidence": [
+            "burp_000019"
+          ],
+          "unknown": "ROLE_BOUNDARY_UNKNOWN",
+          "next_step": "replay this request as 'user' and compare the response with the same request as 'admin'; equal bodies mean the boundary is not enforced, a denial or an empty result means it is",
+          "note": "a hypothesis, not a finding: nothing here says whether the application authorized this response"
+        },
+        {
+          "endpoint": "shop.example.com/api/config/internal",
+          "reached_by": "user",
+          "offered_to": "admin",
+          "methods": [
+            "GET"
+          ],
+          "statuses": [
+            200
+          ],
+          "max_response_bytes": 248,
+          "evidence": [
+            "burp_000020"
+          ],
+          "unknown": "ROLE_BOUNDARY_UNKNOWN",
+          "next_step": "replay this request as 'user' and compare the response with the same request as 'admin'; equal bodies mean the boundary is not enforced, a denial or an empty result means it is",
+          "note": "a hypothesis, not a finding: nothing here says whether the application authorized this response"
+        }
+      ],
+      "high_only_endpoints": [
+        "shop.example.com/api/admin/audit",
+        "shop.example.com/api/admin/flags",
+        "shop.example.com/api/admin/users",
+        "shop.example.com/api/admin/users/{id}",
+        "shop.example.com/api/config/internal",
+        "shop.example.com/api/reports/export/raw"
+      ],
+      "reading": "attention, not severity. Every entry is an endpoint a lower-privileged session requested that only the higher-privileged interface names. Whether the application authorized it is unknown."
+    }
+  ],
+  "reading": "OBSERVED means this role's traffic reached it in this capture, which is not the same as it being reachable in general. SignalMap surfaces hypotheses and the evidence needed to test them; it never declares a vulnerability."
+}

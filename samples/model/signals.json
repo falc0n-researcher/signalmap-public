@@ -1,0 +1,372 @@
+{
+  "host": "shop.example.com",
+  "scan_id": "ing_0001",
+  "reading": "attention, not severity - SignalMap makes no vulnerability claim",
+  "signals": [
+    {
+      "kind": "cross_role_surface",
+      "category": "cross_role_surface",
+      "title": "2 endpoint(s) reached by 'user' that only 'admin' is offered",
+      "summary": "GET shop.example.com/api/admin/users → 200; GET shop.example.com/api/config/internal → 200",
+      "attention": 5,
+      "confidence": "high",
+      "inputs": [
+        "coverage_incomplete",
+        "crossed_role_boundary",
+        "runtime_evidence",
+        "unknown_authorization",
+        "sensitive_workflow"
+      ],
+      "novel": false,
+      "why": "two captured identities disagree about this endpoint: the lower-privileged one requested it, and nothing that identity's interface was served ever names it. That is where a broken access control would look exactly like this",
+      "suggested": "replay each request as the lower role and as the higher one and compare: equal bodies mean the boundary is not enforced, a denial or an empty result means it is. SignalMap has not tested this and makes no claim",
+      "entities": [
+        "shop.example.com/api/admin/users",
+        "shop.example.com/api/config/internal"
+      ],
+      "unknowns": [
+        "ROLE_BOUNDARY_UNKNOWN"
+      ],
+      "evidence": [
+        "ev_0113",
+        "ev_0159",
+        "ev_0121",
+        "ev_0162"
+      ],
+      "note": "attention, not severity; SignalMap makes no vulnerability claim"
+    },
+    {
+      "kind": "ai_surface",
+      "category": "ai_surface",
+      "title": "1 model API the application refers to",
+      "summary": "api.openai.com/v1/chat/completions — OpenAI",
+      "attention": 5,
+      "confidence": "high",
+      "inputs": [
+        "coverage_incomplete",
+        "runtime_evidence",
+        "new_third_party",
+        "sensitive_workflow"
+      ],
+      "novel": false,
+      "why": "the client-side code names a model API, and a credential for one of those providers appears in the same shipped code. Together those say the key reaches the browser",
+      "suggested": "check whether the request is made from the browser or proxied. Providers named: OpenAI",
+      "entities": [
+        "api.openai.com/v1/chat/completions"
+      ],
+      "unknowns": [
+        "AUTHORIZATION_UNKNOWN"
+      ],
+      "evidence": [
+        "ev_0155"
+      ],
+      "note": "attention, not severity; SignalMap makes no vulnerability claim"
+    },
+    {
+      "kind": "parameter_surface",
+      "category": "parameter_surface",
+      "title": "4 parameters that read as object references (IDOR candidates)",
+      "summary": "account_id on shop.example.com/api/account/address, id on shop.example.com/api/admin/users/{id}, account_id (integer) on shop.example.com/api/export, id (integer) on shop.example.com/api/orders/{id}",
+      "attention": 5,
+      "confidence": "medium",
+      "inputs": [
+        "coverage_incomplete",
+        "unknown_authorization",
+        "high_application_affinity",
+        "sensitive_workflow"
+      ],
+      "novel": false,
+      "why": "an id a client supplies is where a missing per-object authorization check shows up - a reading of the parameter's name and value shape, never a claim",
+      "suggested": "confirm the check that should bound this input, with an authorized test",
+      "entities": [
+        "shop.example.com/api/account/address?account_id=",
+        "shop.example.com/api/admin/users/{id}?id=",
+        "shop.example.com/api/export?account_id=",
+        "shop.example.com/api/orders/{id}?id="
+      ],
+      "evidence": [
+        "ev_0146",
+        "ev_0149",
+        "ev_0200",
+        "ev_0152"
+      ],
+      "note": "attention, not severity; SignalMap makes no vulnerability claim"
+    },
+    {
+      "kind": "protected_surface",
+      "category": "protected_surface",
+      "title": "2 endpoints refused an anonymous request (401/403)",
+      "summary": "401 shop.example.com/api/billing/invoices, 403 shop.example.com/api/internal/debug",
+      "attention": 5,
+      "confidence": "high",
+      "inputs": [
+        "coverage_incomplete",
+        "unknown_authorization",
+        "new_authentication_boundary",
+        "sensitive_workflow"
+      ],
+      "novel": false,
+      "why": "the endpoint itself refused the scan for lack of credentials - the clearest evidence of an authorization boundary, and the surface an authenticated session would open",
+      "suggested": "re-scan with a session for one of these to see what it guards",
+      "entities": [
+        "shop.example.com/api/billing/invoices",
+        "shop.example.com/api/internal/debug"
+      ],
+      "unknowns": [
+        "AUTHENTICATED_STATE_NOT_OBSERVED"
+      ],
+      "evidence": [
+        "ev_0161",
+        "ev_0104",
+        "ev_0164"
+      ],
+      "note": "attention, not severity; SignalMap makes no vulnerability claim"
+    },
+    {
+      "kind": "authenticated_surface",
+      "category": "authenticated_surface",
+      "title": "35 entities mapped while holding your session",
+      "summary": "15 route(s), 18 endpoint(s)",
+      "attention": 4,
+      "confidence": "high",
+      "inputs": [
+        "coverage_incomplete",
+        "unknown_authorization",
+        "sensitive_workflow"
+      ],
+      "novel": false,
+      "why": "this scan ran signed in, so the model describes the application a signed-in user sees - which part of it needs the session is the one thing a single run cannot say",
+      "suggested": "scan again without --auth-storage-state and diff the two: what only appears in this one is the authenticated surface",
+      "entities": [
+        "shop.example.com/",
+        "shop.example.com/admin",
+        "shop.example.com/api/admin/users",
+        "shop.example.com/login",
+        "shop.example.com/static/admin.chunk.js",
+        "shop.example.com/static/app.js",
+        "shop.example.com/api/config/internal",
+        "shop.example.com/static/app.js.map"
+      ],
+      "unknowns": [
+        "UNAUTHENTICATED_STATE_NOT_OBSERVED",
+        "AUTHORIZATION_UNKNOWN"
+      ],
+      "note": "attention, not severity; SignalMap makes no vulnerability claim"
+    },
+    {
+      "kind": "secret_candidate",
+      "category": "secret_candidate",
+      "title": "1 model-provider key in shipped code",
+      "summary": "https://shop.example.com/static/app.js#f113eebd68b4 — OpenAI",
+      "attention": 4,
+      "confidence": "medium",
+      "inputs": [
+        "coverage_incomplete",
+        "sensitive_workflow",
+        "runtime_evidence"
+      ],
+      "novel": false,
+      "why": "a OpenAI credential format appears in code the browser downloads. Unlike most credentials this one is metered and needs no access to the application to spend: whoever holds it can bill the owner directly",
+      "suggested": "confirm whether each is a real key or a placeholder, and whether the model call belongs on the server. SignalMap has not validated any of them against any service",
+      "entities": [
+        "https://shop.example.com/static/app.js#f113eebd68b4"
+      ],
+      "evidence": [
+        "ev_0213"
+      ],
+      "note": "attention, not severity; SignalMap makes no vulnerability claim"
+    },
+    {
+      "kind": "static_only_api",
+      "category": "static_only_api",
+      "title": "2 endpoints referenced in source but never observed in use",
+      "summary": "shop.example.com/api/admin/audit, shop.example.com/api/invoices/pending",
+      "attention": 4,
+      "confidence": "high",
+      "inputs": [
+        "coverage_incomplete",
+        "unknown_authorization",
+        "high_application_affinity",
+        "sensitive_workflow"
+      ],
+      "novel": false,
+      "why": "the application's own code names these, and nothing was seen calling them during this scan - the disagreement is the interesting part",
+      "suggested": "confirm whether these are reachable, and by whom",
+      "entities": [
+        "shop.example.com/api/admin/audit",
+        "shop.example.com/api/invoices/pending"
+      ],
+      "unknowns": [
+        "AUTHORIZATION_UNKNOWN",
+        "RUNTIME_UNKNOWN"
+      ],
+      "evidence": [
+        "ev_0123",
+        "ev_0102"
+      ],
+      "note": "attention, not severity; SignalMap makes no vulnerability claim"
+    },
+    {
+      "kind": "parameter_surface",
+      "category": "parameter_surface",
+      "title": "1 parameter that read as credentials carried in a URL",
+      "summary": "password on shop.example.com/api/session",
+      "attention": 3,
+      "confidence": "medium",
+      "inputs": [
+        "coverage_incomplete",
+        "high_application_affinity"
+      ],
+      "novel": false,
+      "why": "a token or key in a query string ends up in logs, history and referers - a reading of the parameter's name and value shape, never a claim",
+      "suggested": "confirm the check that should bound this input, with an authorized test",
+      "entities": [
+        "shop.example.com/api/session?password=[REDACTED]"
+      ],
+      "evidence": [
+        "ev_0205"
+      ],
+      "note": "attention, not severity; SignalMap makes no vulnerability claim"
+    },
+    {
+      "kind": "coverage_gap",
+      "category": "coverage_gap",
+      "title": "1 collector did not see everything",
+      "summary": "browser is NOT_CONFIGURED: disabled by configuration",
+      "attention": 2,
+      "confidence": "high",
+      "inputs": [],
+      "novel": false,
+      "why": "every count in this scan is a floor rather than a total, and a signal that did not fire may only mean nothing looked",
+      "suggested": "raise the budget and re-scan before treating any absence as real",
+      "note": "attention, not severity; SignalMap makes no vulnerability claim"
+    },
+    {
+      "kind": "runtime_only_api",
+      "category": "runtime_only_api",
+      "title": "6 endpoints called at runtime with no source reference",
+      "summary": "shop.example.com/api/account/preferences, shop.example.com/api/billing/invoices, shop.example.com/api/orders/{id}, shop.example.com/api/session, shop.example.com/graphql, shop.example.com/static/app.js.map",
+      "attention": 2,
+      "confidence": "high",
+      "inputs": [
+        "coverage_incomplete",
+        "runtime_evidence"
+      ],
+      "novel": false,
+      "why": "something requested these while the page ran, and no bundle this scan read mentions them - the caller is code that was not collected",
+      "suggested": "find what issues these calls; a chunk may not have been fetched",
+      "entities": [
+        "shop.example.com/api/account/preferences",
+        "shop.example.com/api/billing/invoices",
+        "shop.example.com/api/orders/{id}",
+        "shop.example.com/api/session",
+        "shop.example.com/graphql",
+        "shop.example.com/static/app.js.map"
+      ],
+      "note": "attention, not severity; SignalMap makes no vulnerability claim"
+    },
+    {
+      "kind": "secret_candidate",
+      "category": "secret_candidate",
+      "title": "7 secret candidates in shipped code",
+      "summary": "values whose shape matches a known credential format, or whose name says so Some of these formats are publishable by design and are protected by an origin or referrer restriction rather than by secrecy - check the restriction, not the exposure.",
+      "attention": 2,
+      "confidence": "medium",
+      "inputs": [
+        "coverage_incomplete"
+      ],
+      "novel": false,
+      "why": "shape is not proof - many are publishable keys - but a credential format in client code is worth a human deciding about",
+      "suggested": "confirm whether each is publishable or was never meant to ship",
+      "entities": [
+        "https://shop.example.com/api/config/internal#0a8adf155f0c",
+        "https://shop.example.com/api/config/internal#f0568ff8e7d0",
+        "https://shop.example.com/api/session#6f889376de58",
+        "https://shop.example.com/static/app.js#0e0c2062ef04",
+        "https://shop.example.com/static/app.js#3a576da218ce",
+        "https://shop.example.com/static/app.js#7bc1e23cfbda",
+        "https://shop.example.com/static/app.js#ef943d619cda"
+      ],
+      "evidence": [
+        "ev_0220",
+        "ev_0219",
+        "ev_0218",
+        "ev_0215",
+        "ev_0216",
+        "ev_0217",
+        "ev_0214"
+      ],
+      "note": "attention, not severity; SignalMap makes no vulnerability claim"
+    },
+    {
+      "kind": "source_map_exposure",
+      "category": "source_map_exposure",
+      "title": "1 published source map",
+      "summary": "the original source of 1 bundle is recoverable",
+      "attention": 2,
+      "confidence": "high",
+      "inputs": [
+        "coverage_incomplete",
+        "central"
+      ],
+      "novel": false,
+      "why": "a source map turns a minified bundle back into readable code, including paths and dependency names the build intended to hide",
+      "suggested": "read the reconstructed tree for structure the bundle hides",
+      "entities": [
+        "https://shop.example.com/static/app.js.map"
+      ],
+      "evidence": [
+        "ev_0126"
+      ],
+      "note": "attention, not severity; SignalMap makes no vulnerability claim"
+    },
+    {
+      "kind": "auth_surface",
+      "category": "auth_surface",
+      "title": "No identity providers, 1 authentication route",
+      "summary": "https://shop.example.com/login",
+      "attention": 1,
+      "confidence": "medium",
+      "inputs": [
+        "coverage_incomplete"
+      ],
+      "novel": false,
+      "why": "how an application delegates identity shapes everything behind it",
+      "suggested": "the signed-in application was never observed; SignalMap does not sign in",
+      "entities": [
+        "https://shop.example.com/login"
+      ],
+      "unknowns": [
+        "AUTHENTICATED_STATE_NOT_OBSERVED"
+      ],
+      "note": "attention, not severity; SignalMap makes no vulnerability claim"
+    },
+    {
+      "kind": "runtime_configuration",
+      "category": "runtime_configuration",
+      "title": "4 configuration blocks served to the browser",
+      "summary": "the application hands its own settings to anyone who loads the page",
+      "attention": 1,
+      "confidence": "high",
+      "inputs": [
+        "coverage_incomplete"
+      ],
+      "novel": false,
+      "why": "configuration names services, identifiers and endpoints that no crawl of the rendered page would reach",
+      "suggested": "read the keys for service identifiers and API bases",
+      "entities": [
+        "https://shop.example.com/#__CONFIG__",
+        "https://shop.example.com/login#__CONFIG__",
+        "https://shop.example.com/static/app.js#CONFIG",
+        "https://shop.example.com/static/app.js#ROUTES"
+      ],
+      "evidence": [
+        "ev_0138",
+        "ev_0141",
+        "ev_0144",
+        "ev_0145"
+      ],
+      "note": "attention, not severity; SignalMap makes no vulnerability claim"
+    }
+  ]
+}

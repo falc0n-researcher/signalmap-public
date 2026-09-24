@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SignalMap Burp Report — shop</title>
+<style>
+  :root{
+    --ink:#FFFFFF; --panel:#FFFFFF; --panel2:#F7F8FA; --panel3:#FAFBFC;
+    --line:#E7EAEF; --line2:#CFD5DD;
+    --text:#141924; --muted:#6B7580; --faint:#98A1AC;
+    --signal:#E85002;      /* attention: findings, crossed boundaries */
+    --observed:#0E8FD6;    /* OBSERVED */
+    --inferred:#7A5CFF;    /* INFERRED */
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{
+    background:var(--ink); color:var(--text);
+    font-family:'Space Grotesk',system-ui,-apple-system,"Segoe UI",sans-serif;
+    font-size:13px; display:flex; flex-direction:column; overflow:hidden;
+  }
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+
+  /* ------------------------------------------------------------ header */
+  header{
+    height:60px; flex:0 0 auto; display:flex; align-items:center; gap:24px;
+    padding:0 20px; border-bottom:1px solid var(--line); background:var(--panel);
+  }
+  .brand{display:flex; align-items:center; gap:11px; min-width:0; flex:0 0 auto}
+  .brand .name{font-size:14px; font-weight:600; line-height:1.25; white-space:nowrap}
+  .brand .sub{color:var(--muted); font-size:11px; white-space:nowrap}
+  .brand .sub b{color:var(--text); font-weight:500}
+
+  .stats{display:flex; gap:2px; margin-left:auto; flex:0 1 auto; overflow:hidden}
+  .stat{padding:4px 12px; border-left:1px solid var(--line); text-align:center; white-space:nowrap}
+  .stat:first-child{border-left:0}
+  .stat b{display:block; font-size:15px; line-height:1.15; font-weight:600}
+  .stat span{font-size:10px; color:var(--muted); letter-spacing:.04em; text-transform:uppercase}
+  .stat.hot b{color:var(--signal)}
+
+  .search{flex:0 0 auto; position:relative}
+  .search input{
+    background:var(--panel2); border:1px solid var(--line2); color:var(--text);
+    border-radius:7px; height:32px; padding:0 11px 0 30px; font-family:inherit;
+    font-size:12px; width:210px;
+  }
+  .search input::placeholder{color:var(--faint)}
+  .search input:focus{outline:none; border-color:var(--signal); background:var(--panel)}
+  .search svg{position:absolute; left:9px; top:8px; width:14px; height:14px; stroke:var(--faint); fill:none}
+
+  /* -------------------------------------------------------------- body */
+  main{flex:1 1 auto; display:grid; grid-template-columns:252px 1fr 372px; min-height:0}
+  aside{overflow-y:auto; background:var(--panel2); border-right:1px solid var(--line); padding:16px 14px}
+  aside.right{border-right:0; border-left:1px solid var(--line); background:var(--panel); padding:0}
+  .graphwrap{position:relative; min-width:0; background:var(--panel3); overflow:hidden}
+  svg#graph{width:100%; height:100%; display:block; touch-action:none; cursor:grab}
+  svg#graph.panning{cursor:grabbing}
+
+  .sec{margin-bottom:20px}
+  .sec > h2{
+    font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--faint);
+    margin:0 0 8px; font-weight:600;
+  }
+  .sec .hint{font-size:11px; color:var(--muted); line-height:1.5; margin:-2px 0 8px}
+
+  /* views */
+  .view{
+    display:block; width:100%; text-align:left; background:transparent; border:1px solid transparent;
+    border-radius:7px; padding:7px 9px; margin-bottom:2px; cursor:pointer;
+    font-family:inherit; font-size:12.5px; color:var(--text); line-height:1.3;
+  }
+  .view:hover{background:var(--panel)}
+  .view.active{background:var(--panel); border-color:var(--line2); font-weight:600}
+  .view.active.hot{border-color:var(--signal); color:var(--signal)}
+  .view .d{display:block; color:var(--muted); font-size:10.5px; font-weight:400; margin-top:1px}
+
+  /* structure rows */
+  .row{
+    display:flex; align-items:center; gap:8px; width:100%; background:transparent;
+    border:0; border-radius:6px; padding:5px 7px; cursor:pointer; font-family:inherit;
+    font-size:12.5px; color:var(--text); text-align:left;
+  }
+  .row:hover{background:var(--panel)}
+  .row.on{background:var(--panel); font-weight:600}
+  .row .dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+  .row .nm{flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .row .ct{color:var(--muted); font-size:11px; font-variant-numeric:tabular-nums}
+  .row .chev{width:9px; color:var(--faint); font-size:9px; flex:0 0 auto; transition:transform .14s}
+  .row.on .chev{transform:rotate(90deg); color:var(--signal)}
+
+  .minirow{display:flex; gap:6px; margin-top:6px}
+  .mini{
+    flex:1; background:var(--panel); border:1px solid var(--line2); color:var(--muted);
+    border-radius:6px; padding:5px 0; font-family:inherit; font-size:11px; cursor:pointer;
+  }
+  .mini:hover{border-color:var(--signal); color:var(--signal)}
+
+  .key{display:flex; align-items:center; gap:8px; font-size:11px; color:var(--muted); padding:3px 0}
+  .key svg{width:28px; height:8px; flex:0 0 auto}
+  .note{font-size:10.5px; color:var(--faint); line-height:1.55}
+  code{font-family:ui-monospace,monospace; font-size:10.5px; background:var(--panel); padding:1px 4px; border-radius:3px}
+
+  /* ------------------------------------------------------------ drawer */
+  .dhead{padding:16px 18px 12px; border-bottom:1px solid var(--line); position:sticky; top:0; background:var(--panel); z-index:2}
+  .dhead .t{font-size:15px; font-weight:600; word-break:break-word; line-height:1.3; display:flex; align-items:center; gap:9px}
+  .dhead .t .dot{width:11px;height:11px;border-radius:50%;flex:0 0 auto}
+  .dhead .k{font-size:10.5px; color:var(--muted); letter-spacing:.05em; text-transform:uppercase; margin-top:5px}
+  .dbody{padding:14px 18px 28px}
+  .back{background:none;border:0;color:var(--signal);font-family:inherit;font-size:11.5px;cursor:pointer;padding:0;margin-bottom:10px}
+
+  .empty{color:var(--muted); font-size:12px; line-height:1.6}
+  .kv{display:flex; justify-content:space-between; gap:12px; padding:6px 0; border-top:1px solid var(--line); font-size:11.5px}
+  .kv .k{color:var(--muted); flex:0 0 auto}
+  .kv .v{text-align:right; word-break:break-all; font-family:ui-monospace,monospace; font-size:11px}
+  .kv.link{cursor:pointer} .kv.link:hover .v{color:var(--signal)}
+  .tag{display:inline-block; font-size:10.5px; padding:2px 8px; border-radius:999px; border:1px solid var(--line2); color:var(--muted); margin:3px 4px 0 0}
+  .tag.warn{border-color:var(--inferred); color:var(--inferred)}
+  .tag.hot{border-color:var(--signal); color:var(--signal)}
+  .tag.obs{border-color:var(--observed); color:var(--observed)}
+  .subh{font-size:10px; letter-spacing:.09em; text-transform:uppercase; color:var(--faint); margin:18px 0 6px; font-weight:600}
+  .subh.hot{color:var(--signal)}
+  pre{background:var(--panel2); border:1px solid var(--line); border-radius:7px; padding:11px;
+    font-family:ui-monospace,monospace; font-size:11px; line-height:1.55; overflow-x:auto; margin:0 0 8px;
+    white-space:pre-wrap; word-break:break-word; max-height:320px; overflow-y:auto}
+  pre .red{color:var(--signal); font-weight:600}
+  .ev{font-family:ui-monospace,monospace; font-size:10.5px; color:var(--observed)}
+
+  .card{border-top:1px solid var(--line); padding:11px 0}
+  .card .ti{font-weight:600; font-size:12.5px; line-height:1.35}
+  .card .meta{font-size:10.5px; color:var(--muted); margin:3px 0 5px}
+  .card .meta .att{color:var(--signal); letter-spacing:.1em}
+  .card .bd{font-size:11.5px; color:var(--muted); line-height:1.55}
+  .card .bd b{color:var(--text); font-weight:600}
+
+  /* ------------------------------------------------------------ footer */
+  footer{flex:0 0 auto; height:38px; display:flex; align-items:center; justify-content:space-between;
+    padding:0 20px; border-top:1px solid var(--line); background:var(--panel); color:var(--faint); font-size:10.5px}
+  .btnrow{display:flex; gap:7px}
+  .btn{background:var(--panel2); border:1px solid var(--line2); color:var(--text); border-radius:6px;
+    padding:5px 11px; font-family:inherit; font-size:11.5px; cursor:pointer}
+  .btn:hover{border-color:var(--signal); color:var(--signal)}
+
+  /* ------------------------------------------------------------- graph */
+  .link{stroke:var(--line2); stroke-width:1.5; fill:none}          /* tree */
+  .rel{stroke:#C8D0D9; stroke-width:1.1; fill:none; opacity:.5}     /* model edge */
+  .rel.inferred{stroke-dasharray:4 4; stroke:#C3B8F0}
+  .rel.hot{stroke:var(--signal); stroke-width:2.4; opacity:1}
+  .node{cursor:pointer}
+  .node circle.core{stroke:#FFFFFF; stroke-width:2}
+  .node text{font-size:10.5px; fill:var(--text); pointer-events:none; paint-order:stroke;
+    stroke:var(--panel3); stroke-width:3.5px; stroke-linejoin:round; font-family:'Space Grotesk',sans-serif}
+  .node text.ct{fill:var(--muted); font-size:9.5px}
+  .node.dim{opacity:.2}
+  .node.sel circle.core{stroke:var(--text); stroke-width:2.5}
+  .node.hot circle.core{stroke:var(--signal); stroke-width:2.5}
+  .hub text{font-weight:600; font-size:11.5px}
+  .root text{font-weight:600; font-size:13px}
+  .tip{position:absolute; pointer-events:none; background:var(--text); border-radius:5px; padding:5px 9px;
+    font-size:11px; color:#fff; transform:translate(-50%,-160%); opacity:0; transition:opacity .1s;
+    max-width:min(460px,55vw); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    font-family:ui-monospace,monospace}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <svg viewBox="0 0 120 120" width="28" height="28" fill="none" aria-hidden="true">
+      <path d="M74.7 49.7A18 18 0 1 0 74.7 70.3" stroke="#141924" stroke-opacity=".85" stroke-width="6" stroke-linecap="round"/>
+      <path d="M87.9 40.5A34 34 0 1 0 87.9 79.5" stroke="#141924" stroke-opacity=".5" stroke-width="6" stroke-linecap="round"/>
+      <path d="M101 31.3A50 50 0 1 0 101 88.7" stroke="#141924" stroke-opacity=".28" stroke-width="6" stroke-linecap="round"/>
+      <line x1="60" y1="60" x2="102" y2="60" stroke="#E85002" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="106" cy="60" r="8" fill="#E85002"/>
+    </svg>
+    <div style="min-width:0">
+      <div class="name" id="ttl">SignalMap</div>
+      <div class="sub mono" id="sub"></div>
+    </div>
+  </div>
+  <div class="stats" id="stats"></div>
+  <div class="search">
+    <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+    <input id="search" type="search" placeholder="Search path, host, key…" aria-label="Search the model">
+  </div>
+</header>
+
+<main>
+  <aside class="left">
+    <div class="sec">
+      <h2>Views</h2>
+      <div id="views"></div>
+    </div>
+
+    <div class="sec">
+      <h2>Structure</h2>
+      <div class="hint">The web app, then what it is made of. Click a branch to open it.</div>
+      <div id="tree"></div>
+      <div class="minirow">
+        <button class="mini" id="expandall">Expand all</button>
+        <button class="mini" id="collapseall">Collapse all</button>
+      </div>
+    </div>
+
+    <div class="sec">
+      <h2>Reading the map</h2>
+      <div id="edgekey"></div>
+    </div>
+
+    <div class="sec" id="trimnote"></div>
+  </aside>
+
+  <div class="graphwrap">
+    <svg id="graph" role="img" aria-label="Web-app model"></svg>
+    <div class="tip" id="tip"></div>
+  </div>
+
+  <aside class="right"><div id="drawer"></div></aside>
+</main>
+
+<footer>
+  <div id="foot">Every node resolves to stored, redacted evidence.</div>
+  <div class="btnrow">
+    <button class="btn" id="reset">Reset</button>
+    <button class="btn" id="export">Export PNG</button>
+  </div>
+</footer>
+
+<script>
+/* ============================================================================
+   REPORT DATA CONTRACT — what `signalmap burp ingest` writes into this page.
+
+     webapp, ingest, host, generated_at   strings
+     groups[]   {id, label, count}        the branches, in reading order
+     nodes[]    {id, group, type, layer, label, full, evidence[],
+                 state?, roles?[], unknowns?[], attrs{}}
+     edges[]    {from, to, type, state}   state: OBSERVED | INFERRED
+     signals[]  {kind,title,summary,attention,confidence,why,suggested,...}
+     cross_role {low, high, surface[], unavailable}
+     evidence{} id -> {method,url,status,role,request,response}  (REDACTED)
+     trimmed    what was folded for legibility, and what it was
+
+   The page draws a *hierarchy*: the web app at the root, one branch per
+   group, the nodes of that group as its leaves. Model edges are drawn on
+   top, between leaves that are both open. A flat force layout of the same
+   data was a hairball - everything hangs off the host, so everything
+   collapsed onto it.
+   ========================================================================== */
+const REPORT_DATA = {"webapp":"shop","ingest":"ing_0001","host":"shop.example.com","generated_at":"2026-09-24T11:22:48+00:00","roles":[{"id":"admin","label":"admin","level":"high","requests":10,"reached":7,"offered":6},{"id":"user","label":"user","level":"low","requests":20,"reached":13,"offered":8}],"cross_role":{"low":"user","high":"admin","surface":["endpoint:shop.example.com/api/admin/users","endpoint:shop.example.com/api/config/internal"],"unavailable":""},"groups":[{"id":"app","label":"Application","count":2},{"id":"route","label":"Routes & pages","count":18},{"id":"script","label":"JavaScript","count":17},{"id":"asset","label":"Other assets","count":2},{"id":"api","label":"APIs","count":21},{"id":"param","label":"Parameters","count":19},{"id":"vendor","label":"Libraries & tech","count":4},{"id":"thirdparty","label":"Third parties","count":4},{"id":"identity","label":"Identity & roles","count":3},{"id":"finding","label":"Keys & model APIs","count":10}],"signals":[{"kind":"cross_role_surface","title":"2 endpoint(s) reached by 'user' that only 'admin' is offered","summary":"GET shop.example.com/api/admin/users → 200; GET shop.example.com/api/config/internal → 200","attention":5,"confidence":"high","why":"two captured identities disagree about this endpoint: the lower-privileged one requested it, and nothing that identity's interface was served ever names it. That is where a broken access control would look exactly like this","suggested":"replay each request as the lower role and as the higher one and compare: equal bodies mean the boundary is not enforced, a denial or an empty result means it is. SignalMap has not tested this and makes no claim","entities":["shop.example.com/api/admin/users","shop.example.com/api/config/internal"],"unknowns":["ROLE_BOUNDARY_UNKNOWN"]},{"kind":"ai_surface","title":"1 model API the application refers to","summary":"api.openai.com/v1/chat/completions — OpenAI","attention":5,"confidence":"high","why":"the client-side code names a model API, and a credential for one of those providers appears in the same shipped code. Together those say the key reaches the browser","suggested":"check whether the request is made from the browser or proxied. Providers named: OpenAI","entities":["api.openai.com/v1/chat/completions"],"unknowns":["AUTHORIZATION_UNKNOWN"]},{"kind":"parameter_surface","title":"4 parameters that read as object references (IDOR candidates)","summary":"account_id on shop.example.com/api/account/address, id on shop.example.com/api/admin/users/{id}, account_id (integer) on shop.example.com/api/export, id (integer) on shop.example.com/api/orders/{id}","attention":5,"confidence":"medium","why":"an id a client supplies is where a missing per-object authorization check shows up - a reading of the parameter's name and value shape, never a claim","suggested":"confirm the check that should bound this input, with an authorized test","entities":["shop.example.com/api/account/address?account_id=","shop.example.com/api/admin/users/{id}?id=","shop.example.com/api/export?account_id=","shop.example.com/api/orders/{id}?id="],"unknowns":[]},{"kind":"protected_surface","title":"2 endpoints refused an anonymous request (401/403)","summary":"401 shop.example.com/api/billing/invoices, 403 shop.example.com/api/internal/debug","attention":5,"confidence":"high","why":"the endpoint itself refused the scan for lack of credentials - the clearest evidence of an authorization boundary, and the surface an authenticated session would open","suggested":"re-scan with a session for one of these to see what it guards","entities":["shop.example.com/api/billing/invoices","shop.example.com/api/internal/debug"],"unknowns":["AUTHENTICATED_STATE_NOT_OBSERVED"]},{"kind":"authenticated_surface","title":"35 entities mapped while holding your session","summary":"15 route(s), 18 endpoint(s)","attention":4,"confidence":"high","why":"this scan ran signed in, so the model describes the application a signed-in user sees - which part of it needs the session is the one thing a single run cannot say","suggested":"scan again without --auth-storage-state and diff the two: what only appears in this one is the authenticated surface","entities":["shop.example.com/","shop.example.com/admin","shop.example.com/api/admin/users","shop.example.com/login","shop.example.com/static/admin.chunk.js","shop.example.com/static/app.js","shop.example.com/api/config/internal","shop.example.com/static/app.js.map"],"unknowns":["UNAUTHENTICATED_STATE_NOT_OBSERVED","AUTHORIZATION_UNKNOWN"]},{"kind":"secret_candidate","title":"1 model-provider key in shipped code","summary":"https://shop.example.com/static/app.js#f113eebd68b4 — OpenAI","attention":4,"confidence":"medium","why":"a OpenAI credential format appears in code the browser downloads. Unlike most credentials this one is metered and needs no access to the application to spend: whoever holds it can bill the owner directly","suggested":"confirm whether each is a real key or a placeholder, and whether the model call belongs on the server. SignalMap has not validated any of them against any service","entities":["https://shop.example.com/static/app.js#f113eebd68b4"],"unknowns":[]},{"kind":"static_only_api","title":"2 endpoints referenced in source but never observed in use","summary":"shop.example.com/api/admin/audit, shop.example.com/api/invoices/pending","attention":4,"confidence":"high","why":"the application's own code names these, and nothing was seen calling them during this scan - the disagreement is the interesting part","suggested":"confirm whether these are reachable, and by whom","entities":["shop.example.com/api/admin/audit","shop.example.com/api/invoices/pending"],"unknowns":["AUTHORIZATION_UNKNOWN","RUNTIME_UNKNOWN"]},{"kind":"parameter_surface","title":"1 parameter that read as credentials carried in a URL","summary":"password on shop.example.com/api/session","attention":3,"confidence":"medium","why":"a token or key in a query string ends up in logs, history and referers - a reading of the parameter's name and value shape, never a claim","suggested":"confirm the check that should bound this input, with an authorized test","entities":["shop.example.com/api/session?password=[REDACTED]"],"unknowns":[]},{"kind":"coverage_gap","title":"1 collector did not see everything","summary":"browser is NOT_CONFIGURED: disabled by configuration","attention":2,"confidence":"high","why":"every count in this scan is a floor rather than a total, and a signal that did not fire may only mean nothing looked","suggested":"raise the budget and re-scan before treating any absence as real","entities":[],"unknowns":[]},{"kind":"runtime_only_api","title":"6 endpoints called at runtime with no source reference","summary":"shop.example.com/api/account/preferences, shop.example.com/api/billing/invoices, shop.example.com/api/orders/{id}, shop.example.com/api/session, shop.example.com/graphql, shop.example.com/static/app.js.map","attention":2,"confidence":"high","why":"something requested these while the page ran, and no bundle this scan read mentions them - the caller is code that was not collected","suggested":"find what issues these calls; a chunk may not have been fetched","entities":["shop.example.com/api/account/preferences","shop.example.com/api/billing/invoices","shop.example.com/api/orders/{id}","shop.example.com/api/session","shop.example.com/graphql","shop.example.com/static/app.js.map"],"unknowns":[]},{"kind":"secret_candidate","title":"7 secret candidates in shipped code","summary":"values whose shape matches a known credential format, or whose name says so Some of these formats are publishable by design and are protected by an origin or referrer restriction rather than by secrecy - check the restriction, not the exposure.","attention":2,"confidence":"medium","why":"shape is not proof - many are publishable keys - but a credential format in client code is worth a human deciding about","suggested":"confirm whether each is publishable or was never meant to ship","entities":["https://shop.example.com/api/config/internal#0a8adf155f0c","https://shop.example.com/api/config/internal#f0568ff8e7d0","https://shop.example.com/api/session#6f889376de58","https://shop.example.com/static/app.js#0e0c2062ef04","https://shop.example.com/static/app.js#3a576da218ce","https://shop.example.com/static/app.js#7bc1e23cfbda","https://shop.example.com/static/app.js#ef943d619cda"],"unknowns":[]},{"kind":"source_map_exposure","title":"1 published source map","summary":"the original source of 1 bundle is recoverable","attention":2,"confidence":"high","why":"a source map turns a minified bundle back into readable code, including paths and dependency names the build intended to hide","suggested":"read the reconstructed tree for structure the bundle hides","entities":["https://shop.example.com/static/app.js.map"],"unknowns":[]}],"trimmed":{"folded_security_controls":13,"merged_pages":13,"dropped_for_size":0,"note":"Folded and merged for legibility only. `model/graph.json` and the Markdown reports still carry every node and every edge."},"nodes":[{"id":"host:shop.example.com","type":"host","group":"app","layer":1,"label":"shop.example.com","full":"shop.example.com","evidence":[]},{"id":"technology:express","type":"technology","group":"vendor","layer":1,"label":"Express","full":"Express","evidence":["ev_0033"],"attrs":{"category":"server"}},{"id":"technology:nginx","type":"technology","group":"vendor","layer":1,"label":"nginx","full":"nginx","evidence":["ev_0032"],"attrs":{"category":"server"}},{"id":"form:https://shop.example.com/","type":"form","group":"route","layer":2,"label":"https:/shop.example.com","full":"https://shop.example.com/","evidence":["ev_0071","ev_0074"],"attrs":{"method":"POST"}},{"id":"form:https://shop.example.com/login","type":"form","group":"route","layer":2,"label":"shop.example.com/login","full":"https://shop.example.com/login","evidence":["ev_0078"],"attrs":{"method":"POST"}},{"id":"route:cdn.example.net/","type":"route","group":"route","layer":2,"label":"/ (home)","full":"cdn.example.net/","evidence":["ev_0140","ev_0143"]},{"id":"route:shop.example.com/","type":"route","group":"route","layer":2,"label":"/ (home)","full":"shop.example.com/","evidence":["ev_0006"],"attrs":{"template":"/"}},{"id":"route:shop.example.com/admin","type":"route","group":"route","layer":2,"label":"/admin","full":"shop.example.com/admin","evidence":["ev_0008"],"attrs":{"template":"/admin"}},{"id":"route:shop.example.com/api","type":"route","group":"route","layer":2,"label":"/api","full":"shop.example.com/api","evidence":["ev_0139","ev_0142"]},{"id":"route:shop.example.com/api/admin/users","type":"route","group":"route","layer":2,"label":"/api/admin/users","full":"shop.example.com/api/admin/users","evidence":["ev_0010"],"unknowns":["ROLE_BOUNDARY_UNKNOWN"],"attrs":{"template":"/api/admin/users"}},{"id":"route:shop.example.com/api/config/internal","type":"route","group":"route","layer":2,"label":"/api/config/internal","full":"shop.example.com/api/config/internal","evidence":["ev_0018"],"unknowns":["ROLE_BOUNDARY_UNKNOWN"],"attrs":{"template":"/api/config/internal"}},{"id":"route:shop.example.com/api/orders","type":"route","group":"route","layer":2,"label":"/api/orders","full":"shop.example.com/api/orders","evidence":["ev_0026"],"attrs":{"template":"/api/orders"}},{"id":"route:shop.example.com/api/orders/9001","type":"route","group":"route","layer":2,"label":"/api/orders/9001","full":"shop.example.com/api/orders/9001","evidence":["ev_0024"],"attrs":{"template":"/api/orders/{id}"}},{"id":"route:shop.example.com/api/profile","type":"route","group":"route","layer":2,"label":"/api/profile","full":"shop.example.com/api/profile","evidence":["ev_0030"],"attrs":{"template":"/api/profile"}},{"id":"route:shop.example.com/api/reports/export/raw","type":"route","group":"route","layer":2,"label":"/api/reports/export/raw","full":"shop.example.com/api/reports/export/raw","evidence":["ev_0028"],"attrs":{"template":"/api/reports/export/raw"}},{"id":"route:shop.example.com/login","type":"route","group":"route","layer":2,"label":"shop.example.com/login","full":"shop.example.com/login","evidence":["ev_0012"],"attrs":{"template":"/login"}},{"id":"route:shop.example.com/static/admin.chunk.js","type":"route","group":"route","layer":2,"label":"/static/admin.chunk.js","full":"shop.example.com/static/admin.chunk.js","evidence":["ev_0014"],"attrs":{"template":"/static/admin.chunk.js"}},{"id":"route:shop.example.com/static/app.js","type":"route","group":"route","layer":2,"label":"/static/app.js","full":"shop.example.com/static/app.js","evidence":["ev_0016"],"attrs":{"template":"/static/app.js"}},{"id":"route:shop.example.com/static/app.js.map","type":"route","group":"route","layer":2,"label":"/static/app.js.map","full":"shop.example.com/static/app.js.map","evidence":["ev_0020"],"attrs":{"template":"/static/app.js.map"}},{"id":"route:shop.example.com/static/vendor.js","type":"route","group":"route","layer":2,"label":"/static/vendor.js","full":"shop.example.com/static/vendor.js","evidence":["ev_0022"],"attrs":{"template":"/static/vendor.js"}},{"id":"asset:https://cdn.example.net/img/banner.png","type":"asset","group":"asset","layer":3,"label":"banner.png","full":"https://cdn.example.net/img/banner.png","evidence":["ev_0086"]},{"id":"asset:https://shop.example.com/manifest.webmanifest","type":"asset","group":"asset","layer":3,"label":"manifest.webmanifest","full":"https://shop.example.com/manifest.webmanifest","evidence":["ev_0087"]},{"id":"asset:https://shop.example.com/static/admin.chunk.js","type":"asset","group":"script","layer":3,"label":"static/admin.chunk.js","full":"https://shop.example.com/static/admin.chunk.js","evidence":["ev_0088"]},{"id":"asset:https://shop.example.com/static/app.js","type":"asset","group":"script","layer":3,"label":"static/app.js","full":"https://shop.example.com/static/app.js","evidence":["ev_0085"]},{"id":"asset:https://shop.example.com/static/vendor.js","type":"asset","group":"script","layer":3,"label":"static/vendor.js","full":"https://shop.example.com/static/vendor.js","evidence":["ev_0084"]},{"id":"library:jQuery@3.6.0","type":"library","group":"vendor","layer":3,"label":"jQuery@3.6.0","full":"jQuery@3.6.0","evidence":["ev_0124"],"attrs":{"method":"version banner"}},{"id":"package:jquery","type":"package","group":"vendor","layer":3,"label":"jquery","full":"jquery","evidence":["ev_0125"]},{"id":"runtime_config:https://shop.example.com/#__CONFIG__","type":"runtime_config","group":"script","layer":3,"label":"https://shop.…m/#__CONFIG__","full":"https://shop.example.com/#__CONFIG__","evidence":["ev_0138"]},{"id":"runtime_config:https://shop.example.com/login#__CONFIG__","type":"runtime_config","group":"script","layer":3,"label":"https://shop.…in#__CONFIG__","full":"https://shop.example.com/login#__CONFIG__","evidence":["ev_0141"]},{"id":"runtime_config:https://shop.example.com/static/app.js#CONFIG","type":"runtime_config","group":"script","layer":3,"label":"https://shop.…app.js#CONFIG","full":"https://shop.example.com/static/app.js#CONFIG","evidence":["ev_0144"]},{"id":"runtime_config:https://shop.example.com/static/app.js#ROUTES","type":"runtime_config","group":"script","layer":3,"label":"https://shop.…app.js#ROUTES","full":"https://shop.example.com/static/app.js#ROUTES","evidence":["ev_0145"]},{"id":"script:https://shop.example.com/static/admin.chunk.js","type":"script","group":"script","layer":3,"label":"shop.example.…dmin.chunk.js","full":"https://shop.example.com/static/admin.chunk.js","evidence":["ev_0111"],"attrs":{"ownership":"first-party"}},{"id":"script:https://shop.example.com/static/app.js","type":"script","group":"script","layer":3,"label":"shop.example.…static/app.js","full":"https://shop.example.com/static/app.js","evidence":["ev_0092"],"attrs":{"ownership":"first-party"}},{"id":"script:https://shop.example.com/static/vendor.js","type":"script","group":"script","layer":3,"label":"shop.example.…tic/vendor.js","full":"https://shop.example.com/static/vendor.js","evidence":["ev_0091"],"attrs":{"ownership":"library"}},{"id":"source_file:src/api/admin.ts","type":"source_file","group":"script","layer":3,"label":"src/api/admin.ts","full":"src/api/admin.ts","evidence":["ev_0130"]},{"id":"source_file:src/api/orders.ts","type":"source_file","group":"script","layer":3,"label":"src/api/orders.ts","full":"src/api/orders.ts","evidence":["ev_0129"]},{"id":"source_file:src/api/profile.ts","type":"source_file","group":"script","layer":3,"label":"src/api/profile.ts","full":"src/api/profile.ts","evidence":["ev_0128"]},{"id":"source_file:src/config.ts","type":"source_file","group":"script","layer":3,"label":"src/config.ts","full":"src/config.ts","evidence":["ev_0132"]},{"id":"source_file:src/index.ts","type":"source_file","group":"script","layer":3,"label":"src/index.ts","full":"src/index.ts","evidence":["ev_0127"]},{"id":"source_file:src/lib/ai.ts","type":"source_file","group":"script","layer":3,"label":"src/lib/ai.ts","full":"src/lib/ai.ts","evidence":["ev_0131"]},{"id":"source_map:https://shop.example.com/static/app.js.map","type":"source_map","group":"script","layer":3,"label":"app.js.map","full":"https://shop.example.com/static/app.js.map","evidence":["ev_0126"]},{"id":"api_service:shop.example.com","type":"api_service","group":"app","layer":4,"label":"shop.example.com","full":"shop.example.com","evidence":[]},{"id":"endpoint:shop.example.com/api/account/address","type":"endpoint","group":"api","layer":4,"label":"PUT /api/account/address","full":"shop.example.com/api/account/address","evidence":["burp_000011"],"state":"BOTH","roles":["user"],"attrs":{"method":"PUT","methods":"GET, PUT","api_state":"BOTH","template":"/api/account/address","response_status":"200","response_content_type":"application/json"}},{"id":"endpoint:shop.example.com/api/account/preferences","type":"endpoint","group":"api","layer":4,"label":"PATCH /api/ac…t/preferences","full":"shop.example.com/api/account/preferences","evidence":["burp_000012"],"state":"RUNTIME_ONLY","roles":["user"],"attrs":{"method":"PATCH","methods":"PATCH","api_state":"RUNTIME_ONLY","template":"/api/account/preferences","response_status":"200","response_content_type":"application/json"}},{"id":"endpoint:shop.example.com/api/admin/audit","type":"endpoint","group":"api","layer":4,"label":"GET /api/admin/audit","full":"shop.example.com/api/admin/audit","evidence":["ev_0123"],"state":"STATIC_ONLY","unknowns":["RUNTIME_UNKNOWN"],"attrs":{"method":"GET","methods":"GET","api_state":"STATIC_ONLY","template":"/api/admin/audit"}},{"id":"endpoint:shop.example.com/api/admin/flags","type":"endpoint","group":"api","layer":4,"label":"POST /api/admin/flags","full":"shop.example.com/api/admin/flags","evidence":["burp_000029"],"state":"BOTH","roles":["admin"],"attrs":{"method":"POST","methods":"GET, POST","api_state":"BOTH","template":"/api/admin/flags","response_status":"200","response_content_type":"application/json"}},{"id":"endpoint:shop.example.com/api/admin/users","type":"endpoint","group":"api","layer":4,"label":"GET /api/admin/users","full":"shop.example.com/api/admin/users","evidence":["burp_000019","burp_000028"],"state":"REACHED_BY_LOWER_ROLE","roles":["admin","user"],"unknowns":["ROLE_BOUNDARY_UNKNOWN"],"attrs":{"method":"GET","methods":"GET","api_state":"BOTH","template":"/api/admin/users","response_status":"200","response_content_type":"application/json"}},{"id":"endpoint:shop.example.com/api/admin/users/{id}","type":"endpoint","group":"api","layer":4,"label":"DELETE /api/admin/users/{id}","full":"shop.example.com/api/admin/users/{id}","evidence":["burp_000030"],"state":"BOTH","roles":["admin"],"attrs":{"method":"DELETE","methods":"DELETE, GET","api_state":"BOTH","template":"/api/admin/users/{id}","response_status":"204","response_content_type":"application/json"}},{"id":"endpoint:shop.example.com/api/billing/invoices","type":"endpoint","group":"api","layer":4,"label":"GET /api/billing/invoices","full":"shop.example.com/api/billing/invoices","evidence":["burp_000018"],"state":"RUNTIME_ONLY","roles":["user"],"attrs":{"method":"GET","methods":"GET","api_state":"RUNTIME_ONLY","template":"/api/billing/invoices","response_status":"401","response_content_type":"application/json"}},{"id":"endpoint:shop.example.com/api/config/internal","type":"endpoint","group":"api","layer":4,"label":"GET /api/config/internal","full":"shop.example.com/api/config/internal","evidence":["burp_000020","burp_000032"],"state":"REACHED_BY_LOWER_ROLE","roles":["admin","user"],"unknowns":["ROLE_BOUNDARY_UNKNOWN"],"attrs":{"method":"GET","methods":"GET","api_state":"BOTH","template":"/api/config/internal","response_status":"200","response_content_type":"application/json"}},{"id":"endpoint:shop.example.com/api/export","type":"endpoint","group":"api","layer":4,"label":"POST /api/export","full":"shop.example.com/api/export","evidence":["burp_000010"],"state":"BOTH","roles":["user"],"attrs":{"method":"POST","methods":"GET, POST","api_state":"BOTH","template":"/api/export","response_status":"201","response_content_type":"application/json"}},{"id":"endpoint:shop.example.com/api/internal/debug","type":"endpoint","group":"api","layer":4,"label":"GET /api/internal/debug","full":"shop.example.com/api/internal/debug","evidence":["burp_000017"],"state":"BOTH","roles":["user"],"attrs":{"method":"GET","methods":"GET","api_state":"BOTH","template":"/api/internal/debug","response_status":"403","response_content_type":"application/json"}},{"id":"endpoint:shop.example.com/api/invoices/pending","type":"endpoint","group":"api","layer":4,"label":"GET /api/invoices/pending","full":"shop.example.com/api/invoices/pending","evidence":["ev_0102"],"state":"STATIC_ONLY","unknowns":["RUNTIME_UNKNOWN"],"attrs":{"method":"GET","methods":"GET","api_state":"STATIC_ONLY","template":"/api/invoices/pending"}},{"id":"endpoint:shop.example.com/api/orders","type":"endpoint","group":"api","layer":4,"label":"GET /api/orders","full":"shop.example.com/api/orders","evidence":["burp_000008"],"state":"BOTH","roles":["user"],"attrs":{"method":"GET","methods":"GET","api_state":"BOTH","template":"/api/orders","response_status":"200","response_content_type":"application/json"}},{"id":"endpoint:shop.example.com/api/orders/{id}","type":"endpoint","group":"api","layer":4,"label":"GET /api/orders/{id}","full":"shop.example.com/api/orders/{id}","evidence":["burp_000009"],"state":"RUNTIME_ONLY","roles":["user"],"attrs":{"method":"GET","methods":"GET","api_state":"RUNTIME_ONLY","template":"/api/orders/{id}","response_status":"200","response_content_type":"application/json"}},{"id":"endpoint:shop.example.com/api/profile","type":"endpoint","group":"api","layer":4,"label":"GET /api/profile","full":"shop.example.com/api/profile","evidence":["burp_000007","burp_000033"],"state":"BOTH","roles":["admin","user"],"attrs":{"method":"GET","methods":"GET","api_state":"BOTH","template":"/api/profile","response_status":"200","response_content_type":"application/json"}},{"id":"endpoint:shop.example.com/api/reports/export/raw","type":"endpoint","group":"api","layer":4,"label":"GET /api/reports/export/raw","full":"shop.example.com/api/reports/export/raw","evidence":["burp_000031"],"state":"BOTH","roles":["admin"],"attrs":{"method":"GET","methods":"GET","api_state":"BOTH","template":"/api/reports/export/raw","response_status":"200","response_content_type":"application/json"}},{"id":"endpoint:shop.example.com/api/session","type":"endpoint","group":"api","layer":4,"label":"POST /api/session","full":"shop.example.com/api/session","evidence":["burp_000006","burp_000027"],"state":"RUNTIME_ONLY","roles":["admin","user"],"attrs":{"method":"POST","methods":"POST","api_state":"RUNTIME_ONLY","template":"/api/session","response_status":"200","response_content_type":"application/json"}},{"id":"endpoint:shop.example.com/graphql","type":"endpoint","group":"api","layer":4,"label":"POST /graphql","full":"shop.example.com/graphql","evidence":["burp_000013"],"state":"RUNTIME_ONLY","roles":["user"],"attrs":{"method":"POST","methods":"POST","api_state":"RUNTIME_ONLY","template":"/graphql","response_status":"200","response_content_type":"application/json"}},{"id":"endpoint:shop.example.com/static/app.js.map","type":"endpoint","group":"api","layer":4,"label":"GET /static/app.js.map","full":"shop.example.com/static/app.js.map","evidence":["burp_000004"],"state":"RUNTIME_ONLY","roles":["user"],"attrs":{"method":"GET","methods":"GET","api_state":"RUNTIME_ONLY","template":"/static/app.js.map","response_status":"200","response_content_type":"application/json"}},{"id":"graphql_operation:query ProductSearch","type":"graphql_operation","group":"api","layer":4,"label":"query ProductSearch","full":"query ProductSearch","evidence":["ev_0134","ev_0135"]},{"id":"parameter:shop.example.com/api/account/address?account_id=","type":"parameter","group":"param","layer":4,"label":"account_id · address","full":"shop.example.com/api/account/address?account_id=","evidence":["ev_0146"],"attrs":{"location":"body"}},{"id":"parameter:shop.example.com/api/account/address?line1=","type":"parameter","group":"param","layer":4,"label":"line1 · address","full":"shop.example.com/api/account/address?line1=","evidence":["ev_0147","ev_0194"],"attrs":{"location":"body"}},{"id":"parameter:shop.example.com/api/account/address?postcode=","type":"parameter","group":"param","layer":4,"label":"postcode · address","full":"shop.example.com/api/account/address?postcode=","evidence":["ev_0148","ev_0195"],"attrs":{"location":"body"}},{"id":"parameter:shop.example.com/api/account/preferences?currency=","type":"parameter","group":"param","layer":4,"label":"currency · preferences","full":"shop.example.com/api/account/preferences?currency=","evidence":["ev_0196"],"attrs":{"value_shape":"opaque","location":"body"}},{"id":"parameter:shop.example.com/api/account/preferences?marketing=","type":"parameter","group":"param","layer":4,"label":"marketing · preferences","full":"shop.example.com/api/account/preferences?marketing=","evidence":["ev_0197"],"attrs":{"value_shape":"boolean","location":"body"}},{"id":"parameter:shop.example.com/api/admin/flags?enabled=","type":"parameter","group":"param","layer":4,"label":"enabled · flags","full":"shop.example.com/api/admin/flags?enabled=","evidence":["ev_0198"],"attrs":{"value_shape":"boolean","location":"body"}},{"id":"parameter:shop.example.com/api/admin/flags?flag=","type":"parameter","group":"param","layer":4,"label":"flag · flags","full":"shop.example.com/api/admin/flags?flag=","evidence":["ev_0199"],"attrs":{"value_shape":"opaque","location":"body"}},{"id":"parameter:shop.example.com/api/admin/users/{id}?id=","type":"parameter","group":"param","layer":4,"label":"users/{id}","full":"shop.example.com/api/admin/users/{id}?id=","evidence":["ev_0149"],"attrs":{"location":"path"}},{"id":"parameter:shop.example.com/api/export?account_id=","type":"parameter","group":"param","layer":4,"label":"account_id · export","full":"shop.example.com/api/export?account_id=","evidence":["ev_0200"],"attrs":{"value_shape":"integer","location":"body"}},{"id":"parameter:shop.example.com/api/export?card=","type":"parameter","group":"param","layer":4,"label":"card · export","full":"shop.example.com/api/export?card=","evidence":["ev_0201"],"attrs":{"value_shape":"opaque","location":"body"}},{"id":"parameter:shop.example.com/api/export?format=","type":"parameter","group":"param","layer":4,"label":"format · export","full":"shop.example.com/api/export?format=","evidence":["ev_0202"],"attrs":{"value_shape":"opaque","location":"body"}},{"id":"parameter:shop.example.com/api/orders/{id}?id=","type":"parameter","group":"param","layer":4,"label":"orders/{id}","full":"shop.example.com/api/orders/{id}?id=","evidence":["ev_0152"],"attrs":{"value_shape":"integer","location":"path"}},{"id":"parameter:shop.example.com/api/orders?page=","type":"parameter","group":"param","layer":4,"label":"page · orders","full":"shop.example.com/api/orders?page=","evidence":["ev_0150","ev_0203"],"attrs":{"value_shape":"integer","location":"query"}},{"id":"parameter:shop.example.com/api/orders?status=","type":"parameter","group":"param","layer":4,"label":"status · orders","full":"shop.example.com/api/orders?status=","evidence":["ev_0151","ev_0204"],"attrs":{"value_shape":"opaque","location":"query"}},{"id":"parameter:shop.example.com/api/session?password=[REDACTED]","type":"parameter","group":"param","layer":4,"label":"password · session","full":"shop.example.com/api/session?password=[REDACTED]","evidence":["ev_0205"],"attrs":{"location":"body"}},{"id":"parameter:shop.example.com/api/session?username=","type":"parameter","group":"param","layer":4,"label":"username · session","full":"shop.example.com/api/session?username=","evidence":["ev_0206"],"attrs":{"value_shape":"opaque","location":"body"}},{"id":"parameter:shop.example.com/graphql?operationName=","type":"parameter","group":"param","layer":4,"label":"operationName · graphql","full":"shop.example.com/graphql?operationName=","evidence":["ev_0207"],"attrs":{"value_shape":"opaque","location":"body"}},{"id":"parameter:shop.example.com/graphql?query=","type":"parameter","group":"param","layer":4,"label":"query · graphql","full":"shop.example.com/graphql?query=","evidence":["ev_0208"],"attrs":{"value_shape":"opaque","location":"body"}},{"id":"parameter:shop.example.com/graphql?variables.term=","type":"parameter","group":"param","layer":4,"label":"variables.term · graphql","full":"shop.example.com/graphql?variables.term=","evidence":["ev_0209"],"attrs":{"value_shape":"opaque","location":"body"}},{"id":"sse_endpoint:/api/stream/notifications","type":"sse_endpoint","group":"api","layer":4,"label":"/api/stream/notifications","full":"/api/stream/notifications","evidence":["ev_0108"]},{"id":"websocket:wss://shop.example.com/ws/orders","type":"websocket","group":"api","layer":4,"label":"wss://shop.ex…com/ws/orders","full":"wss://shop.example.com/ws/orders","evidence":["ev_0107"]},{"id":"ai_service:api.openai.com/v1/chat/completions","type":"ai_service","group":"finding","layer":5,"label":"OpenAI · /v1/…t/completions","full":"api.openai.com/v1/chat/completions","evidence":["ev_0155"],"attrs":{"provider":"OpenAI"}},{"id":"auth_mechanism:jwt","type":"auth_mechanism","group":"identity","layer":5,"label":"jwt","full":"jwt","evidence":["ev_0137"]},{"id":"auth_route:https://shop.example.com/login","type":"auth_route","group":"route","layer":5,"label":"https:/shop.e…ple.com/login","full":"https://shop.example.com/login","evidence":["ev_0136"]},{"id":"exposure:https://shop.example.com/static/app.js.map","type":"exposure","group":"finding","layer":5,"label":"https://shop.…ic/app.js.map","full":"https://shop.example.com/static/app.js.map","evidence":["ev_0154"]},{"id":"external_host:api.openai.com","type":"external_host","group":"thirdparty","layer":5,"label":"api.openai.com","full":"api.openai.com","evidence":["ev_0050","ev_0055","ev_0210"]},{"id":"external_host:api.stripe.com","type":"external_host","group":"thirdparty","layer":5,"label":"api.stripe.com","full":"api.stripe.com","evidence":["ev_0051","ev_0056"],"attrs":{"category":"payment"}},{"id":"external_host:cdn.example.net","type":"external_host","group":"thirdparty","layer":5,"label":"cdn.example.net","full":"cdn.example.net","evidence":["ev_0089","ev_0211"]},{"id":"external_host:metrics.example.net","type":"external_host","group":"thirdparty","layer":5,"label":"metrics.example.net","full":"metrics.example.net","evidence":["ev_0052","ev_0057","ev_0212"]},{"id":"role:admin","type":"role","group":"identity","layer":5,"label":"role: admin","full":"admin","evidence":["ev_0192"],"attrs":{"methods":"DELETE, GET, POST"}},{"id":"role:user","type":"role","group":"identity","layer":5,"label":"role: user","full":"user","evidence":["ev_0193"],"attrs":{"methods":"GET, PATCH, POST, PUT"}},{"id":"secret_candidate:https://shop.example.com/api/config/internal#0a8adf155f0c","type":"secret_candidate","group":"finding","layer":5,"label":"PEM private key · internal","full":"https://shop.example.com/api/config/internal#0a8adf155f0c","evidence":["burp_000020"],"attrs":{"method":"GET","provider":"PEM private key","candidate_type":"private_key","fingerprint":"0a8adf155f0c","entropy":"5.47","length":"194","location":"https://shop.example.com/api/config/internal"}},{"id":"secret_candidate:https://shop.example.com/api/config/internal#f0568ff8e7d0","type":"secret_candidate","group":"finding","layer":5,"label":"database conn…ng · internal","full":"https://shop.example.com/api/config/internal#f0568ff8e7d0","evidence":["burp_000020"],"attrs":{"method":"GET","provider":"database connection string","candidate_type":"connection_string","fingerprint":"f0568ff8e7d0","entropy":"4.87","length":"68","location":"https://shop.example.com/api/config/internal"}},{"id":"secret_candidate:https://shop.example.com/api/session#6f889376de58","type":"secret_candidate","group":"finding","layer":5,"label":"JSON Web Token · session","full":"https://shop.example.com/api/session#6f889376de58","evidence":["burp_000006"],"attrs":{"method":"POST","provider":"JSON Web Token","candidate_type":"jwt","fingerprint":"6f889376de58","entropy":"5.38","length":"121","location":"https://shop.example.com/api/session"}},{"id":"secret_candidate:https://shop.example.com/static/app.js#0e0c2062ef04","type":"secret_candidate","group":"finding","layer":5,"label":"Google API · app.js","full":"https://shop.example.com/static/app.js#0e0c2062ef04","evidence":["burp_000003"],"attrs":{"method":"GET","provider":"Google API","candidate_type":"google_api_key","fingerprint":"0e0c2062ef04","entropy":"5.18","length":"39","location":"https://shop.example.com/static/app.js"}},{"id":"secret_candidate:https://shop.example.com/static/app.js#3a576da218ce","type":"secret_candidate","group":"finding","layer":5,"label":"Sentry · app.js","full":"https://shop.example.com/static/app.js#3a576da218ce","evidence":["burp_000003"],"attrs":{"method":"GET","provider":"Sentry","candidate_type":"sentry_dsn","fingerprint":"3a576da218ce","entropy":"4.77","length":"70","location":"https://shop.example.com/static/app.js"}},{"id":"secret_candidate:https://shop.example.com/static/app.js#7bc1e23cfbda","type":"secret_candidate","group":"finding","layer":5,"label":"AWS · app.js","full":"https://shop.example.com/static/app.js#7bc1e23cfbda","evidence":["burp_000003"],"attrs":{"method":"GET","provider":"AWS","candidate_type":"aws_access_key_id","fingerprint":"7bc1e23cfbda","entropy":"4.12","length":"20","location":"https://shop.example.com/static/app.js"}},{"id":"secret_candidate:https://shop.example.com/static/app.js#ef943d619cda","type":"secret_candidate","group":"finding","layer":5,"label":"Stripe · app.js","full":"https://shop.example.com/static/app.js#ef943d619cda","evidence":["burp_000003"],"attrs":{"method":"GET","provider":"Stripe","candidate_type":"stripe_publishable_key","fingerprint":"ef943d619cda","entropy":"4.8","length":"33","location":"https://shop.example.com/static/app.js"}},{"id":"secret_candidate:https://shop.example.com/static/app.js#f113eebd68b4","type":"secret_candidate","group":"finding","layer":5,"label":"OpenAI · app.js","full":"https://shop.example.com/static/app.js#f113eebd68b4","evidence":["burp_000003"],"attrs":{"method":"GET","provider":"OpenAI","candidate_type":"openai_project_key","fingerprint":"f113eebd68b4","entropy":"5.51","length":"58","location":"https://shop.example.com/static/app.js"}}],"edges":[{"from":"host:shop.example.com","to":"route:shop.example.com/","type":"SERVES","state":"OBSERVED","evidence":["ev_0002"]},{"from":"host:shop.example.com","to":"route:shop.example.com/admin","type":"SERVES","state":"OBSERVED","evidence":["ev_0007"]},{"from":"host:shop.example.com","to":"route:shop.example.com/api/admin/users","type":"SERVES","state":"OBSERVED","evidence":["ev_0009"]},{"from":"host:shop.example.com","to":"route:shop.example.com/login","type":"SERVES","state":"OBSERVED","evidence":["ev_0011"]},{"from":"host:shop.example.com","to":"route:shop.example.com/static/admin.chunk.js","type":"SERVES","state":"OBSERVED","evidence":["ev_0013"]},{"from":"host:shop.example.com","to":"route:shop.example.com/static/app.js","type":"SERVES","state":"OBSERVED","evidence":["ev_0015"]},{"from":"host:shop.example.com","to":"route:shop.example.com/api/config/internal","type":"SERVES","state":"OBSERVED","evidence":["ev_0017"]},{"from":"host:shop.example.com","to":"route:shop.example.com/static/app.js.map","type":"SERVES","state":"OBSERVED","evidence":["ev_0019"]},{"from":"host:shop.example.com","to":"route:shop.example.com/static/vendor.js","type":"SERVES","state":"OBSERVED","evidence":["ev_0021"]},{"from":"host:shop.example.com","to":"route:shop.example.com/api/orders/9001","type":"SERVES","state":"OBSERVED","evidence":["ev_0023"]},{"from":"host:shop.example.com","to":"route:shop.example.com/api/orders","type":"SERVES","state":"OBSERVED","evidence":["ev_0025"]},{"from":"host:shop.example.com","to":"route:shop.example.com/api/reports/export/raw","type":"SERVES","state":"OBSERVED","evidence":["ev_0027"]},{"from":"host:shop.example.com","to":"route:shop.example.com/api/profile","type":"SERVES","state":"OBSERVED","evidence":["ev_0029"]},{"from":"host:shop.example.com","to":"technology:nginx","type":"SERVES","state":"OBSERVED","evidence":["ev_0032"]},{"from":"host:shop.example.com","to":"technology:express","type":"SERVES","state":"OBSERVED","evidence":["ev_0033"]},{"from":"host:shop.example.com","to":"external_host:api.openai.com","type":"DEPENDS_ON","state":"OBSERVED","evidence":["ev_0050"]},{"from":"host:shop.example.com","to":"external_host:api.stripe.com","type":"DEPENDS_ON","state":"OBSERVED","evidence":["ev_0051"]},{"from":"host:shop.example.com","to":"external_host:metrics.example.net","type":"DEPENDS_ON","state":"OBSERVED","evidence":["ev_0052"]},{"from":"host:shop.example.com","to":"form:https://shop.example.com/","type":"SERVES","state":"OBSERVED","evidence":["ev_0071"]},{"from":"host:shop.example.com","to":"form:https://shop.example.com/login","type":"SERVES","state":"OBSERVED","evidence":["ev_0078"]},{"from":"route:shop.example.com/","to":"asset:https://shop.example.com/static/vendor.js","type":"LOADS","state":"OBSERVED","evidence":["ev_0084"]},{"from":"route:shop.example.com/","to":"asset:https://shop.example.com/static/app.js","type":"LOADS","state":"OBSERVED","evidence":["ev_0085"]},{"from":"route:shop.example.com/","to":"asset:https://cdn.example.net/img/banner.png","type":"LOADS","state":"OBSERVED","evidence":["ev_0086"]},{"from":"route:shop.example.com/","to":"asset:https://shop.example.com/manifest.webmanifest","type":"LOADS","state":"OBSERVED","evidence":["ev_0087"]},{"from":"route:shop.example.com/admin","to":"asset:https://shop.example.com/static/admin.chunk.js","type":"LOADS","state":"OBSERVED","evidence":["ev_0088"]},{"from":"host:shop.example.com","to":"external_host:cdn.example.net","type":"DEPENDS_ON","state":"OBSERVED","evidence":["ev_0089"]},{"from":"host:shop.example.com","to":"script:https://shop.example.com/static/vendor.js","type":"SERVES","state":"OBSERVED","evidence":["ev_0091"]},{"from":"host:shop.example.com","to":"script:https://shop.example.com/static/app.js","type":"SERVES","state":"OBSERVED","evidence":["ev_0092"]},{"from":"script:https://shop.example.com/static/app.js","to":"endpoint:shop.example.com/api/profile","type":"REFERENCES","state":"OBSERVED","evidence":["ev_0093"]},{"from":"host:shop.example.com","to":"endpoint:shop.example.com/api/profile","type":"SERVES","state":"OBSERVED","evidence":["ev_0094"]},{"from":"script:https://shop.example.com/static/app.js","to":"endpoint:shop.example.com/api/orders","type":"REFERENCES","state":"OBSERVED","evidence":["ev_0095"]},{"from":"host:shop.example.com","to":"endpoint:shop.example.com/api/orders","type":"SERVES","state":"OBSERVED","evidence":["ev_0096"]},{"from":"script:https://shop.example.com/static/app.js","to":"endpoint:shop.example.com/api/account/address","type":"REFERENCES","state":"OBSERVED","evidence":["ev_0097"]},{"from":"host:shop.example.com","to":"endpoint:shop.example.com/api/account/address","type":"SERVES","state":"OBSERVED","evidence":["ev_0098"]},{"from":"script:https://shop.example.com/static/app.js","to":"endpoint:shop.example.com/api/export","type":"REFERENCES","state":"OBSERVED","evidence":["ev_0099"]},{"from":"host:shop.example.com","to":"endpoint:shop.example.com/api/export","type":"SERVES","state":"OBSERVED","evidence":["ev_0100"]},{"from":"script:https://shop.example.com/static/app.js","to":"endpoint:shop.example.com/api/invoices/pending","type":"REFERENCES","state":"OBSERVED","evidence":["ev_0101"]},{"from":"host:shop.example.com","to":"endpoint:shop.example.com/api/invoices/pending","type":"SERVES","state":"OBSERVED","evidence":["ev_0102"]},{"from":"script:https://shop.example.com/static/app.js","to":"endpoint:shop.example.com/api/internal/debug","type":"REFERENCES","state":"OBSERVED","evidence":["ev_0103"]},{"from":"host:shop.example.com","to":"endpoint:shop.example.com/api/internal/debug","type":"SERVES","state":"OBSERVED","evidence":["ev_0104"]},{"from":"host:shop.example.com","to":"websocket:wss://shop.example.com/ws/orders","type":"SERVES","state":"OBSERVED","evidence":["ev_0107"]},{"from":"host:shop.example.com","to":"sse_endpoint:/api/stream/notifications","type":"SERVES","state":"OBSERVED","evidence":["ev_0108"]},{"from":"script:https://shop.example.com/static/app.js","to":"script:https://shop.example.com/static/vendor.js","type":"IMPORTS","state":"OBSERVED","evidence":["ev_0109"]},{"from":"host:shop.example.com","to":"script:https://shop.example.com/static/admin.chunk.js","type":"SERVES","state":"OBSERVED","evidence":["ev_0111"]},{"from":"script:https://shop.example.com/static/admin.chunk.js","to":"endpoint:shop.example.com/api/admin/users","type":"REFERENCES","state":"OBSERVED","evidence":["ev_0112"]},{"from":"host:shop.example.com","to":"endpoint:shop.example.com/api/admin/users","type":"SERVES","state":"OBSERVED","evidence":["ev_0113"]},{"from":"script:https://shop.example.com/static/admin.chunk.js","to":"endpoint:shop.example.com/api/admin/flags","type":"REFERENCES","state":"OBSERVED","evidence":["ev_0114"]},{"from":"host:shop.example.com","to":"endpoint:shop.example.com/api/admin/flags","type":"SERVES","state":"OBSERVED","evidence":["ev_0115"]},{"from":"script:https://shop.example.com/static/admin.chunk.js","to":"endpoint:shop.example.com/api/reports/export/raw","type":"REFERENCES","state":"OBSERVED","evidence":["ev_0116"]},{"from":"host:shop.example.com","to":"endpoint:shop.example.com/api/reports/export/raw","type":"SERVES","state":"OBSERVED","evidence":["ev_0117"]},{"from":"script:https://shop.example.com/static/admin.chunk.js","to":"endpoint:shop.example.com/api/admin/users/{id}","type":"REFERENCES","state":"OBSERVED","evidence":["ev_0118"]},{"from":"host:shop.example.com","to":"endpoint:shop.example.com/api/admin/users/{id}","type":"SERVES","state":"OBSERVED","evidence":["ev_0119"]},{"from":"script:https://shop.example.com/static/admin.chunk.js","to":"endpoint:shop.example.com/api/config/internal","type":"REFERENCES","state":"OBSERVED","evidence":["ev_0120"]},{"from":"host:shop.example.com","to":"endpoint:shop.example.com/api/config/internal","type":"SERVES","state":"OBSERVED","evidence":["ev_0121"]},{"from":"script:https://shop.example.com/static/admin.chunk.js","to":"endpoint:shop.example.com/api/admin/audit","type":"REFERENCES","state":"OBSERVED","evidence":["ev_0122"]},{"from":"host:shop.example.com","to":"endpoint:shop.example.com/api/admin/audit","type":"SERVES","state":"OBSERVED","evidence":["ev_0123"]},{"from":"library:jQuery@3.6.0","to":"package:jquery","type":"SHIPS","state":"OBSERVED","evidence":["ev_0124"]},{"from":"script:https://shop.example.com/static/app.js","to":"source_map:https://shop.example.com/static/app.js.map","type":"MAPS","state":"OBSERVED","evidence":["ev_0126"]},{"from":"script:https://shop.example.com/static/app.js","to":"source_file:src/index.ts","type":"MAPS","state":"OBSERVED","evidence":["ev_0127"]},{"from":"source_map:https://shop.example.com/static/app.js.map","to":"source_file:src/index.ts","type":"RECONSTRUCTS","state":"OBSERVED","evidence":["ev_0127"]},{"from":"script:https://shop.example.com/static/app.js","to":"source_file:src/api/profile.ts","type":"MAPS","state":"OBSERVED","evidence":["ev_0128"]},{"from":"source_map:https://shop.example.com/static/app.js.map","to":"source_file:src/api/profile.ts","type":"RECONSTRUCTS","state":"OBSERVED","evidence":["ev_0128"]},{"from":"script:https://shop.example.com/static/app.js","to":"source_file:src/api/orders.ts","type":"MAPS","state":"OBSERVED","evidence":["ev_0129"]},{"from":"source_map:https://shop.example.com/static/app.js.map","to":"source_file:src/api/orders.ts","type":"RECONSTRUCTS","state":"OBSERVED","evidence":["ev_0129"]},{"from":"script:https://shop.example.com/static/app.js","to":"source_file:src/api/admin.ts","type":"MAPS","state":"OBSERVED","evidence":["ev_0130"]},{"from":"source_map:https://shop.example.com/static/app.js.map","to":"source_file:src/api/admin.ts","type":"RECONSTRUCTS","state":"OBSERVED","evidence":["ev_0130"]},{"from":"script:https://shop.example.com/static/app.js","to":"source_file:src/lib/ai.ts","type":"MAPS","state":"OBSERVED","evidence":["ev_0131"]},{"from":"source_map:https://shop.example.com/static/app.js.map","to":"source_file:src/lib/ai.ts","type":"RECONSTRUCTS","state":"OBSERVED","evidence":["ev_0131"]},{"from":"script:https://shop.example.com/static/app.js","to":"source_file:src/config.ts","type":"MAPS","state":"OBSERVED","evidence":["ev_0132"]},{"from":"source_map:https://shop.example.com/static/app.js.map","to":"source_file:src/config.ts","type":"RECONSTRUCTS","state":"OBSERVED","evidence":["ev_0132"]},{"from":"host:shop.example.com","to":"graphql_operation:query ProductSearch","type":"SERVES","state":"OBSERVED","evidence":["ev_0134"]},{"from":"script:https://shop.example.com/static/app.js","to":"graphql_operation:query ProductSearch","type":"CONTAINS","state":"OBSERVED","evidence":["ev_0134"]},{"from":"host:shop.example.com","to":"auth_route:https://shop.example.com/login","type":"SERVES","state":"OBSERVED","evidence":["ev_0136"]},{"from":"host:shop.example.com","to":"auth_mechanism:jwt","type":"SERVES","state":"OBSERVED","evidence":["ev_0137"]},{"from":"runtime_config:https://shop.example.com/#__CONFIG__","to":"route:shop.example.com/","type":"CONFIGURES","state":"OBSERVED","evidence":["ev_0138"]},{"from":"host:shop.example.com","to":"route:shop.example.com/api","type":"SERVES","state":"OBSERVED","evidence":["ev_0139"]},{"from":"host:shop.example.com","to":"route:cdn.example.net/","type":"SERVES","state":"OBSERVED","evidence":["ev_0140"]},{"from":"runtime_config:https://shop.example.com/login#__CONFIG__","to":"route:shop.example.com/login","type":"CONFIGURES","state":"OBSERVED","evidence":["ev_0141"]},{"from":"runtime_config:https://shop.example.com/static/app.js#CONFIG","to":"route:shop.example.com/static/app.js","type":"CONFIGURES","state":"OBSERVED","evidence":["ev_0144"]},{"from":"runtime_config:https://shop.example.com/static/app.js#ROUTES","to":"route:shop.example.com/static/app.js","type":"CONFIGURES","state":"OBSERVED","evidence":["ev_0145"]},{"from":"endpoint:shop.example.com/api/account/address","to":"parameter:shop.example.com/api/account/address?account_id=","type":"USES_PARAMETER","state":"OBSERVED","evidence":["ev_0146"]},{"from":"endpoint:shop.example.com/api/account/address","to":"parameter:shop.example.com/api/account/address?line1=","type":"USES_PARAMETER","state":"OBSERVED","evidence":["ev_0147"]},{"from":"endpoint:shop.example.com/api/account/address","to":"parameter:shop.example.com/api/account/address?postcode=","type":"USES_PARAMETER","state":"OBSERVED","evidence":["ev_0148"]},{"from":"endpoint:shop.example.com/api/admin/users/{id}","to":"parameter:shop.example.com/api/admin/users/{id}?id=","type":"USES_PARAMETER","state":"OBSERVED","evidence":["ev_0149"]},{"from":"endpoint:shop.example.com/api/orders","to":"parameter:shop.example.com/api/orders?page=","type":"USES_PARAMETER","state":"OBSERVED","evidence":["ev_0150"]},{"from":"endpoint:shop.example.com/api/orders","to":"parameter:shop.example.com/api/orders?status=","type":"USES_PARAMETER","state":"OBSERVED","evidence":["ev_0151"]},{"from":"endpoint:shop.example.com/api/orders/{id}","to":"parameter:shop.example.com/api/orders/{id}?id=","type":"USES_PARAMETER","state":"OBSERVED","evidence":["ev_0152"]},{"from":"host:shop.example.com","to":"exposure:https://shop.example.com/static/app.js.map","type":"SERVES","state":"OBSERVED","evidence":["ev_0154"]},{"from":"host:shop.example.com","to":"ai_service:api.openai.com/v1/chat/completions","type":"DEPENDS_ON","state":"OBSERVED","evidence":["ev_0155"]},{"from":"script:https://shop.example.com/static/app.js","to":"ai_service:api.openai.com/v1/chat/completions","type":"REFERENCES","state":"OBSERVED","evidence":["ev_0155"]},{"from":"host:shop.example.com","to":"endpoint:shop.example.com/api/account/preferences","type":"SERVES","state":"OBSERVED","evidence":["ev_0157"]},{"from":"host:shop.example.com","to":"endpoint:shop.example.com/api/billing/invoices","type":"SERVES","state":"OBSERVED","evidence":["ev_0161"]},{"from":"host:shop.example.com","to":"endpoint:shop.example.com/api/orders/{id}","type":"SERVES","state":"OBSERVED","evidence":["ev_0166"]},{"from":"host:shop.example.com","to":"endpoint:shop.example.com/api/session","type":"SERVES","state":"OBSERVED","evidence":["ev_0169"]},{"from":"host:shop.example.com","to":"endpoint:shop.example.com/graphql","type":"SERVES","state":"OBSERVED","evidence":["ev_0170"]},{"from":"host:shop.example.com","to":"endpoint:shop.example.com/static/app.js.map","type":"SERVES","state":"OBSERVED","evidence":["ev_0171"]},{"from":"endpoint:shop.example.com/api/account/preferences","to":"parameter:shop.example.com/api/account/preferences?currency=","type":"USES_PARAMETER","state":"OBSERVED","evidence":["ev_0196"]},{"from":"endpoint:shop.example.com/api/account/preferences","to":"parameter:shop.example.com/api/account/preferences?marketing=","type":"USES_PARAMETER","state":"OBSERVED","evidence":["ev_0197"]},{"from":"endpoint:shop.example.com/api/admin/flags","to":"parameter:shop.example.com/api/admin/flags?enabled=","type":"USES_PARAMETER","state":"OBSERVED","evidence":["ev_0198"]},{"from":"endpoint:shop.example.com/api/admin/flags","to":"parameter:shop.example.com/api/admin/flags?flag=","type":"USES_PARAMETER","state":"OBSERVED","evidence":["ev_0199"]},{"from":"endpoint:shop.example.com/api/export","to":"parameter:shop.example.com/api/export?account_id=","type":"USES_PARAMETER","state":"OBSERVED","evidence":["ev_0200"]},{"from":"endpoint:shop.example.com/api/export","to":"parameter:shop.example.com/api/export?card=","type":"USES_PARAMETER","state":"OBSERVED","evidence":["ev_0201"]},{"from":"endpoint:shop.example.com/api/export","to":"parameter:shop.example.com/api/export?format=","type":"USES_PARAMETER","state":"OBSERVED","evidence":["ev_0202"]},{"from":"endpoint:shop.example.com/api/session","to":"parameter:shop.example.com/api/session?password=[REDACTED]","type":"USES_PARAMETER","state":"OBSERVED","evidence":["ev_0205"]},{"from":"endpoint:shop.example.com/api/session","to":"parameter:shop.example.com/api/session?username=","type":"USES_PARAMETER","state":"OBSERVED","evidence":["ev_0206"]},{"from":"endpoint:shop.example.com/graphql","to":"parameter:shop.example.com/graphql?operationName=","type":"USES_PARAMETER","state":"OBSERVED","evidence":["ev_0207"]},{"from":"endpoint:shop.example.com/graphql","to":"parameter:shop.example.com/graphql?query=","type":"USES_PARAMETER","state":"OBSERVED","evidence":["ev_0208"]},{"from":"endpoint:shop.example.com/graphql","to":"parameter:shop.example.com/graphql?variables.term=","type":"USES_PARAMETER","state":"OBSERVED","evidence":["ev_0209"]},{"from":"script:https://shop.example.com/static/app.js","to":"secret_candidate:https://shop.example.com/static/app.js#f113eebd68b4","type":"SHIPS","state":"OBSERVED","evidence":["ev_0213"]},{"from":"script:https://shop.example.com/static/app.js","to":"secret_candidate:https://shop.example.com/static/app.js#ef943d619cda","type":"SHIPS","state":"OBSERVED","evidence":["ev_0214"]},{"from":"script:https://shop.example.com/static/app.js","to":"secret_candidate:https://shop.example.com/static/app.js#0e0c2062ef04","type":"SHIPS","state":"OBSERVED","evidence":["ev_0215"]},{"from":"script:https://shop.example.com/static/app.js","to":"secret_candidate:https://shop.example.com/static/app.js#3a576da218ce","type":"SHIPS","state":"OBSERVED","evidence":["ev_0216"]},{"from":"script:https://shop.example.com/static/app.js","to":"secret_candidate:https://shop.example.com/static/app.js#7bc1e23cfbda","type":"SHIPS","state":"OBSERVED","evidence":["ev_0217"]},{"from":"route:shop.example.com/api/config/internal","to":"secret_candidate:https://shop.example.com/api/config/internal#f0568ff8e7d0","type":"SHIPS","state":"OBSERVED","evidence":["ev_0219"]},{"from":"route:shop.example.com/api/config/internal","to":"secret_candidate:https://shop.example.com/api/config/internal#0a8adf155f0c","type":"SHIPS","state":"OBSERVED","evidence":["ev_0220"]},{"from":"source_file:src/api/profile.ts","to":"endpoint:shop.example.com/api/profile","type":"REFERENCES","state":"OBSERVED","evidence":["ev_0128"]},{"from":"source_file:src/api/orders.ts","to":"endpoint:shop.example.com/api/orders","type":"REFERENCES","state":"OBSERVED","evidence":["ev_0129"]},{"from":"source_file:src/api/admin.ts","to":"endpoint:shop.example.com/api/admin/flags","type":"REFERENCES","state":"OBSERVED","evidence":["ev_0130"]},{"from":"source_file:src/api/admin.ts","to":"endpoint:shop.example.com/api/admin/users","type":"REFERENCES","state":"OBSERVED","evidence":["ev_0130"]},{"from":"route:shop.example.com/","to":"script:https://shop.example.com/static/vendor.js","type":"LOADS","state":"OBSERVED","evidence":["ev_0084"]},{"from":"route:shop.example.com/","to":"script:https://shop.example.com/static/app.js","type":"LOADS","state":"OBSERVED","evidence":["ev_0085"]},{"from":"route:shop.example.com/admin","to":"script:https://shop.example.com/static/admin.chunk.js","type":"LOADS","state":"OBSERVED","evidence":["ev_0088"]},{"from":"host:shop.example.com","to":"api_service:shop.example.com","type":"DEPENDS_ON","state":"INFERRED","evidence":["ev_0094"]},{"from":"api_service:shop.example.com","to":"endpoint:shop.example.com/api/profile","type":"SERVES","state":"INFERRED","evidence":["ev_0094"]},{"from":"api_service:shop.example.com","to":"endpoint:shop.example.com/api/orders","type":"SERVES","state":"INFERRED","evidence":["ev_0096"]},{"from":"api_service:shop.example.com","to":"endpoint:shop.example.com/api/account/address","type":"SERVES","state":"INFERRED","evidence":["ev_0098"]},{"from":"api_service:shop.example.com","to":"endpoint:shop.example.com/api/export","type":"SERVES","state":"INFERRED","evidence":["ev_0100"]},{"from":"api_service:shop.example.com","to":"endpoint:shop.example.com/api/invoices/pending","type":"SERVES","state":"INFERRED","evidence":["ev_0102"]},{"from":"api_service:shop.example.com","to":"endpoint:shop.example.com/api/internal/debug","type":"SERVES","state":"INFERRED","evidence":["ev_0104"]},{"from":"api_service:shop.example.com","to":"endpoint:shop.example.com/api/admin/users","type":"SERVES","state":"INFERRED","evidence":["ev_0113"]},{"from":"api_service:shop.example.com","to":"endpoint:shop.example.com/api/admin/flags","type":"SERVES","state":"INFERRED","evidence":["ev_0115"]},{"from":"api_service:shop.example.com","to":"endpoint:shop.example.com/api/reports/export/raw","type":"SERVES","state":"INFERRED","evidence":["ev_0117"]},{"from":"api_service:shop.example.com","to":"endpoint:shop.example.com/api/admin/users/{id}","type":"SERVES","state":"INFERRED","evidence":["ev_0119"]},{"from":"api_service:shop.example.com","to":"endpoint:shop.example.com/api/config/internal","type":"SERVES","state":"INFERRED","evidence":["ev_0121"]},{"from":"api_service:shop.example.com","to":"endpoint:shop.example.com/api/admin/audit","type":"SERVES","state":"INFERRED","evidence":["ev_0123"]},{"from":"api_service:shop.example.com","to":"endpoint:shop.example.com/api/account/preferences","type":"SERVES","state":"INFERRED","evidence":["ev_0157"]},{"from":"api_service:shop.example.com","to":"endpoint:shop.example.com/api/billing/invoices","type":"SERVES","state":"INFERRED","evidence":["ev_0161"]},{"from":"api_service:shop.example.com","to":"endpoint:shop.example.com/api/orders/{id}","type":"SERVES","state":"INFERRED","evidence":["ev_0166"]},{"from":"api_service:shop.example.com","to":"endpoint:shop.example.com/api/session","type":"SERVES","state":"INFERRED","evidence":["ev_0169"]},{"from":"api_service:shop.example.com","to":"endpoint:shop.example.com/graphql","type":"SERVES","state":"INFERRED","evidence":["ev_0170"]},{"from":"api_service:shop.example.com","to":"endpoint:shop.example.com/static/app.js.map","type":"SERVES","state":"INFERRED","evidence":["ev_0171"]},{"from":"role:user","to":"endpoint:shop.example.com/api/account/address","type":"REACHED","state":"OBSERVED","evidence":["ev_0172"]},{"from":"role:user","to":"endpoint:shop.example.com/api/account/preferences","type":"REACHED","state":"OBSERVED","evidence":["ev_0173"]},{"from":"role:admin","to":"endpoint:shop.example.com/api/admin/flags","type":"REACHED","state":"OBSERVED","evidence":["ev_0174"]},{"from":"role:admin","to":"endpoint:shop.example.com/api/admin/users","type":"REACHED","state":"OBSERVED","evidence":["ev_0175"]},{"from":"role:user","to":"endpoint:shop.example.com/api/admin/users","type":"REACHED","state":"OBSERVED","evidence":["ev_0176"]},{"from":"role:admin","to":"endpoint:shop.example.com/api/admin/users/{id}","type":"REACHED","state":"OBSERVED","evidence":["ev_0177"]},{"from":"role:user","to":"endpoint:shop.example.com/api/billing/invoices","type":"REACHED","state":"OBSERVED","evidence":["ev_0178"]},{"from":"role:admin","to":"endpoint:shop.example.com/api/config/internal","type":"REACHED","state":"OBSERVED","evidence":["ev_0179"]},{"from":"role:user","to":"endpoint:shop.example.com/api/config/internal","type":"REACHED","state":"OBSERVED","evidence":["ev_0180"]},{"from":"role:user","to":"endpoint:shop.example.com/api/export","type":"REACHED","state":"OBSERVED","evidence":["ev_0181"]},{"from":"role:user","to":"endpoint:shop.example.com/api/internal/debug","type":"REACHED","state":"OBSERVED","evidence":["ev_0182"]},{"from":"role:user","to":"endpoint:shop.example.com/api/orders","type":"REACHED","state":"OBSERVED","evidence":["ev_0183"]},{"from":"role:user","to":"endpoint:shop.example.com/api/orders/{id}","type":"REACHED","state":"OBSERVED","evidence":["ev_0184"]},{"from":"role:admin","to":"endpoint:shop.example.com/api/profile","type":"REACHED","state":"OBSERVED","evidence":["ev_0185"]},{"from":"role:user","to":"endpoint:shop.example.com/api/profile","type":"REACHED","state":"OBSERVED","evidence":["ev_0186"]},{"from":"role:admin","to":"endpoint:shop.example.com/api/reports/export/raw","type":"REACHED","state":"OBSERVED","evidence":["ev_0187"]},{"from":"role:admin","to":"endpoint:shop.example.com/api/session","type":"REACHED","state":"OBSERVED","evidence":["ev_0188"]},{"from":"role:user","to":"endpoint:shop.example.com/api/session","type":"REACHED","state":"OBSERVED","evidence":["ev_0189"]},{"from":"role:user","to":"endpoint:shop.example.com/graphql","type":"REACHED","state":"OBSERVED","evidence":["ev_0190"]},{"from":"role:user","to":"endpoint:shop.example.com/static/app.js.map","type":"REACHED","state":"OBSERVED","evidence":["ev_0191"]},{"from":"endpoint:shop.example.com/api/admin/audit","to":"role:admin","type":"REQUIRES_ROLE","state":"INFERRED","evidence":["ev_0221"]},{"from":"endpoint:shop.example.com/api/admin/flags","to":"role:admin","type":"REQUIRES_ROLE","state":"INFERRED","evidence":["ev_0222"]},{"from":"endpoint:shop.example.com/api/admin/users","to":"role:admin","type":"REQUIRES_ROLE","state":"INFERRED","evidence":["ev_0223"]},{"from":"endpoint:shop.example.com/api/admin/users/{id}","to":"role:admin","type":"REQUIRES_ROLE","state":"INFERRED","evidence":["ev_0224"]},{"from":"endpoint:shop.example.com/api/config/internal","to":"role:admin","type":"REQUIRES_ROLE","state":"INFERRED","evidence":["ev_0225"]},{"from":"endpoint:shop.example.com/api/reports/export/raw","to":"role:admin","type":"REQUIRES_ROLE","state":"INFERRED","evidence":["ev_0226"]},{"from":"host:shop.example.com","to":"role:admin","type":"BROWSED_AS","state":"OBSERVED","evidence":["ev_0192"]},{"from":"host:shop.example.com","to":"role:user","type":"BROWSED_AS","state":"OBSERVED","evidence":["ev_0193"]}],"evidence":{"burp_000019":{"method":"GET","url":"https://shop.example.com/api/admin/users","status":200,"role":"user","request":"GET /api/admin/users HTTP/1.1\r\nhost: shop.example.com\r\nuser-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\r\naccept: */*\r\naccept-language: en-GB,en;q=0.9\r\nreferer: https://shop.example.com/\r\ncookie: consent=[REDACTED]; sid=[REDACTED]; _ga=[REDACTED]\r\nauthorization: [REDACTED]\r\n\r\n","response":"HTTP/1.1 200 OK\r\ncontent-type: application/json\r\nserver: nginx/1.25.3\r\nx-powered-by: Express\r\ncontent-length: 910\r\n\r\n{\"users\": [{\"id\": 1, \"email\": \"[REDACTED]\", \"role\": \"staff\"}, {\"id\": 2, \"email\": \"[REDACTED]\", \"role\": \"staff\"}, {\"id\": 3, \"email\": \"[REDACTED]\", \"role\": \"customer\"}, {\"id\": 4, \"email\": \"[REDACTED]\", \"role\": \"customer\"}, {\"id\": 5, \"email\": \"[REDACTED]\", \"role\": \"customer\"}, {\"id\": 6, \"email\": \"[REDACTED]\", \"role\": \"customer\"}, {\"id\": 7, \"email\": \"[REDACTED]\", \"role\": \"customer\"}, {\"id\": 8, \"email\": \"[REDACTED]\", \"role\": \"customer\"}, {\"id\": 9, \"email\": \"[REDACTED]\", \"role\": \"customer\"}, {\"id\": 10, \"email\": \"[REDACTED]\", \"role\": \"customer\"}, {\"id\": 11, \"email\": \"[REDACTED]\", \"role\": \"customer\"}, {\"id\": 12, \"email\": \"[REDACTED]\", \"role\": \"customer\"}, {\"id\": 13, \"email\": \"[REDACTED]\", \"role\": \"customer\"}, {\"id\": 14, \"email\": \"[REDACTED]\", \"role\": \"customer\"}], \"total\": 14}"},"burp_000028":{"method":"GET","url":"https://shop.example.com/api/admin/users","status":200,"role":"admin","request":"GET /api/admin/users HTTP/1.1\r\nhost: shop.example.com\r\nuser-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\r\naccept: */*\r\naccept-language: en-GB,en;q=0.9\r\nreferer: https://shop.example.com/\r\ncookie: consent=[REDACTED]; sid=[REDACTED]; _ga=[REDACTED]\r\n\r\n","response":"HTTP/1.1 200 OK\r\ncontent-type: application/json\r\nserver: nginx/1.25.3\r\nx-powered-by: Express\r\ncontent-length: 910\r\n\r\n{\"users\": [{\"id\": 1, \"email\": \"[REDACTED]\", \"role\": \"staff\"}, {\"id\": 2, \"email\": \"[REDACTED]\", \"role\": \"staff\"}, {\"id\": 3, \"email\": \"[REDACTED]\", \"role\": \"customer\"}, {\"id\": 4, \"email\": \"[REDACTED]\", \"role\": \"customer\"}, {\"id\": 5, \"email\": \"[REDACTED]\", \"role\": \"customer\"}, {\"id\": 6, \"email\": \"[REDACTED]\", \"role\": \"customer\"}, {\"id\": 7, \"email\": \"[REDACTED]\", \"role\": \"customer\"}, {\"id\": 8, \"email\": \"[REDACTED]\", \"role\": \"customer\"}, {\"id\": 9, \"email\": \"[REDACTED]\", \"role\": \"customer\"}, {\"id\": 10, \"email\": \"[REDACTED]\", \"role\": \"customer\"}, {\"id\": 11, \"email\": \"[REDACTED]\", \"role\": \"customer\"}, {\"id\": 12, \"email\": \"[REDACTED]\", \"role\": \"customer\"}, {\"id\": 13, \"email\": \"[REDACTED]\", \"role\": \"customer\"}, {\"id\": 14, \"email\": \"[REDACTED]\", \"role\": \"customer\"}], \"total\": 14}"},"burp_000020":{"method":"GET","url":"https://shop.example.com/api/config/internal","status":200,"role":"user","request":"GET /api/config/internal HTTP/1.1\r\nhost: shop.example.com\r\nuser-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\r\naccept: */*\r\naccept-language: en-GB,en;q=0.9\r\nreferer: https://shop.example.com/\r\ncookie: consent=[REDACTED]; sid=[REDACTED]; _ga=[REDACTED]\r\nauthorization: [REDACTED]\r\n\r\n","response":"HTTP/1.1 200 OK\r\ncontent-type: application/json\r\nserver: nginx/1.25.3\r\nx-powered-by: Express\r\ncontent-length: 670\r\n\r\n{\"region\": \"ap-south-1\", \"database_url\": \"[REDACTED]\", \"aws_access_key_id\": \"[REDACTED]\", \"openai_api_key\": \"[REDACTED]\", \"stripe_publishable_key\": \"[REDACTED]\", \"maps_api_key\": \"[REDACTED]\", \"sentry_dsn\": \"[REDACTED]\", \"signing_key\": \"[REDACTED]\"}"},"burp_000032":{"method":"GET","url":"https://shop.example.com/api/config/internal","status":200,"role":"admin","request":"GET /api/config/internal HTTP/1.1\r\nhost: shop.example.com\r\nuser-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\r\naccept: */*\r\naccept-language: en-GB,en;q=0.9\r\nreferer: https://shop.example.com/\r\ncookie: consent=[REDACTED]; sid=[REDACTED]; _ga=[REDACTED]\r\n\r\n","response":"HTTP/1.1 200 OK\r\ncontent-type: application/json\r\nserver: nginx/1.25.3\r\nx-powered-by: Express\r\ncontent-length: 670\r\n\r\n{\"region\": \"ap-south-1\", \"database_url\": \"[REDACTED]\", \"aws_access_key_id\": \"[REDACTED]\", \"openai_api_key\": \"[REDACTED]\", \"stripe_publishable_key\": \"[REDACTED]\", \"maps_api_key\": \"[REDACTED]\", \"sentry_dsn\": \"[REDACTED]\", \"signing_key\": \"[REDACTED]\"}"},"burp_000011":{"method":"PUT","url":"https://shop.example.com/api/account/address","status":200,"role":"user","request":"PUT /api/account/address HTTP/1.1\r\nhost: shop.example.com\r\nuser-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\r\naccept: */*\r\naccept-language: en-GB,en;q=0.9\r\nreferer: https://shop.example.com/\r\ncookie: consent=[REDACTED]; sid=[REDACTED]; _ga=[REDACTED]\r\nauthorization: [REDACTED]\r\ncontent-type: application/json\r\ncontent-length: 66\r\n\r\n{\"line1\": \"44 Nehru Road, Bengaluru 560001\", \"postcode\": \"[REDACTED]\"}","response":"HTTP/1.1 200 OK\r\ncontent-type: application/json\r\nserver: nginx/1.25.3\r\nx-powered-by: Express\r\ncontent-length: 12\r\n\r\n{\"ok\": true}"},"burp_000012":{"method":"PATCH","url":"https://shop.example.com/api/account/preferences","status":200,"role":"user","request":"PATCH /api/account/preferences HTTP/1.1\r\nhost: shop.example.com\r\nuser-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\r\naccept: */*\r\naccept-language: en-GB,en;q=0.9\r\nreferer: https://shop.example.com/\r\ncookie: consent=[REDACTED]; sid=[REDACTED]; _ga=[REDACTED]\r\nauthorization: [REDACTED]\r\ncontent-type: application/json\r\ncontent-length: 39\r\n\r\n{\"marketing\": false, \"currency\": \"INR\"}","response":"HTTP/1.1 200 OK\r\ncontent-type: application/json\r\nserver: nginx/1.25.3\r\nx-powered-by: Express\r\ncontent-length: 12\r\n\r\n{\"ok\": true}"},"burp_000029":{"method":"POST","url":"https://shop.example.com/api/admin/flags","status":200,"role":"admin","request":"POST /api/admin/flags HTTP/1.1\r\nhost: shop.example.com\r\nuser-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\r\naccept: */*\r\naccept-language: en-GB,en;q=0.9\r\nreferer: https://shop.example.com/\r\ncookie: consent=[REDACTED]; sid=[REDACTED]; _ga=[REDACTED]\r\ncontent-type: application/json\r\ncontent-length: 41\r\n\r\n{\"flag\": \"new_checkout\", \"enabled\": true}","response":"HTTP/1.1 200 OK\r\ncontent-type: application/json\r\nserver: nginx/1.25.3\r\nx-powered-by: Express\r\ncontent-length: 12\r\n\r\n{\"ok\": true}"},"burp_000030":{"method":"DELETE","url":"https://shop.example.com/api/admin/users/42","status":204,"role":"admin","request":"DELETE /api/admin/users/42 HTTP/1.1\r\nhost: shop.example.com\r\nuser-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\r\naccept: */*\r\naccept-language: en-GB,en;q=0.9\r\nreferer: https://shop.example.com/\r\ncookie: consent=[REDACTED]; sid=[REDACTED]; _ga=[REDACTED]\r\n\r\n","response":"HTTP/1.1 204 No Content\r\ncontent-type: application/json\r\nserver: nginx/1.25.3\r\nx-powered-by: Express\r\ncontent-length: 0\r\n\r\n"},"burp_000018":{"method":"GET","url":"https://shop.example.com/api/billing/invoices","status":401,"role":"user","request":"GET /api/billing/invoices HTTP/1.1\r\nhost: shop.example.com\r\nuser-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\r\naccept: */*\r\naccept-language: en-GB,en;q=0.9\r\nreferer: https://shop.example.com/\r\ncookie: consent=[REDACTED]; sid=[REDACTED]; _ga=[REDACTED]\r\n\r\n","response":"HTTP/1.1 401 Unauthorized\r\ncontent-type: application/json\r\nserver: nginx/1.25.3\r\nx-powered-by: Express\r\ncontent-length: 20\r\nallow: GET, POST, DELETE\r\n\r\n{\"error\": \"sign in\"}"},"burp_000010":{"method":"POST","url":"https://shop.example.com/api/export","status":201,"role":"user","request":"POST /api/export HTTP/1.1\r\nhost: shop.example.com\r\nuser-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\r\naccept: */*\r\naccept-language: en-GB,en;q=0.9\r\nreferer: https://shop.example.com/\r\ncookie: consent=[REDACTED]; sid=[REDACTED]; _ga=[REDACTED]\r\nauthorization: [REDACTED]\r\ncontent-type: application/json\r\ncontent-length: 68\r\n\r\n{\"account_id\": 4821, \"format\": \"csv\", \"card\": \"[REDACTED] 1111\"}","response":"HTTP/1.1 201 Created\r\ncontent-type: application/json\r\nserver: nginx/1.25.3\r\nx-powered-by: Express\r\ncontent-length: 32\r\n\r\n{\"job\": \"exp_4412\", \"rows\": 812}"},"burp_000017":{"method":"GET","url":"https://shop.example.com/api/internal/debug","status":403,"role":"user","request":"GET /api/internal/debug HTTP/1.1\r\nhost: shop.example.com\r\nuser-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\r\naccept: */*\r\naccept-language: en-GB,en;q=0.9\r\nreferer: https://shop.example.com/\r\ncookie: consent=[REDACTED]; sid=[REDACTED]; _ga=[REDACTED]\r\nauthorization: [REDACTED]\r\n\r\n","response":"HTTP/1.1 403 Forbidden\r\ncontent-type: application/json\r\nserver: nginx/1.25.3\r\nx-powered-by: Express\r\ncontent-length: 22\r\n\r\n{\"error\": \"forbidden\"}"},"burp_000008":{"method":"GET","url":"https://shop.example.com/api/orders?status=open&page=1","status":200,"role":"user","request":"GET /api/orders?status=open&page=1 HTTP/1.1\r\nhost: shop.example.com\r\nuser-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\r\naccept: */*\r\naccept-language: en-GB,en;q=0.9\r\nreferer: https://shop.example.com/\r\ncookie: consent=[REDACTED]; sid=[REDACTED]; _ga=[REDACTED]\r\nauthorization: [REDACTED]\r\n\r\n","response":"HTTP/1.1 200 OK\r\ncontent-type: application/json\r\nserver: nginx/1.25.3\r\nx-powered-by: Express\r\ntransfer-encoding: chunked\r\n\r\n{\"orders\": [{\"id\": 9001, \"status\": \"open\", \"total\": 4200, \"customer_email\": \"[REDACTED]\"}, {\"id\": 9002, \"status\": \"shipped\", \"total\": 1899}], \"page\": 1}"},"burp_000009":{"method":"GET","url":"https://shop.example.com/api/orders/9001","status":200,"role":"user","request":"GET /api/orders/9001 HTTP/1.1\r\nhost: shop.example.com\r\nuser-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\r\naccept: */*\r\naccept-language: en-GB,en;q=0.9\r\nreferer: https://shop.example.com/\r\ncookie: consent=[REDACTED]; sid=[REDACTED]; _ga=[REDACTED]\r\nauthorization: [REDACTED]\r\n\r\n","response":"HTTP/1.1 200 OK\r\ncontent-type: application/json\r\nserver: nginx/1.25.3\r\nx-powered-by: Express\r\ncontent-length: 27\r\n\r\n{\"id\": 9001, \"total\": 4200}"},"burp_000007":{"method":"GET","url":"https://shop.example.com/api/profile","status":200,"role":"user","request":"GET /api/profile HTTP/1.1\r\nhost: shop.example.com\r\nuser-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\r\naccept: */*\r\naccept-language: en-GB,en;q=0.9\r\nreferer: https://shop.example.com/\r\ncookie: consent=[REDACTED]; sid=[REDACTED]; _ga=[REDACTED]\r\nauthorization: [REDACTED]\r\n\r\n","response":"HTTP/1.1 200 OK\r\ncontent-type: application/json\r\nserver: nginx/1.25.3\r\nx-powered-by: Express\r\ncontent-length: 192\r\n\r\n{\"id\": 4821, \"full_name\": \"[REDACTED]\", \"email\": \"[REDACTED]\", \"phone\": \"[REDACTED]\", \"pan\": \"[REDACTED]\", \"address\": \"[REDACTED]\", \"plan\": \"pro\"}"},"burp_000033":{"method":"GET","url":"https://shop.example.com/api/profile","status":200,"role":"admin","request":"GET /api/profile HTTP/1.1\r\nhost: shop.example.com\r\nuser-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\r\naccept: */*\r\naccept-language: en-GB,en;q=0.9\r\nreferer: https://shop.example.com/\r\ncookie: consent=[REDACTED]; sid=[REDACTED]; _ga=[REDACTED]\r\n\r\n","response":"HTTP/1.1 200 OK\r\ncontent-type: application/json\r\nserver: nginx/1.25.3\r\nx-powered-by: Express\r\ncontent-length: 35\r\n\r\n{\"id\": 1, \"full_name\": \"[REDACTED]\"}"},"burp_000031":{"method":"GET","url":"https://shop.example.com/api/reports/export/raw","status":200,"role":"admin","request":"GET /api/reports/export/raw HTTP/1.1\r\nhost: shop.example.com\r\nuser-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\r\naccept: */*\r\naccept-language: en-GB,en;q=0.9\r\nreferer: https://shop.example.com/\r\ncookie: consent=[REDACTED]; sid=[REDACTED]; _ga=[REDACTED]\r\n\r\n","response":"HTTP/1.1 200 OK\r\ncontent-type: application/json\r\nserver: nginx/1.25.3\r\nx-powered-by: Express\r\ncontent-length: 15\r\n\r\n{\"rows\": 12045}"},"burp_000006":{"method":"POST","url":"https://shop.example.com/api/session","status":200,"role":"user","request":"POST /api/session HTTP/1.1\r\nhost: shop.example.com\r\nuser-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\r\naccept: */*\r\naccept-language: en-GB,en;q=0.9\r\nreferer: https://shop.example.com/\r\ncookie: consent=[REDACTED]; sid=[REDACTED]; _ga=[REDACTED]\r\nauthorization: [REDACTED]\r\ncontent-type: application/json\r\ncontent-length: 45\r\n\r\n{\"username\": \"ananya\", \"password\": \"[REDACTED]\"}","response":"HTTP/1.1 200 OK\r\ncontent-type: application/json\r\nserver: nginx/1.25.3\r\nx-powered-by: Express\r\ncontent-length: 166\r\nset-cookie: sid=[REDACTED]; Path=/; HttpOnly; Secure; SameSite=Lax\r\nset-cookie: csrf=[REDACTED]; Path=/; Secure; SameSite=Strict\r\n\r\n{\"ok\": true, \"token\": \"[REDACTED]\", \"expires_in\": 3600}"},"burp_000027":{"method":"POST","url":"https://shop.example.com/api/session","status":200,"role":"admin","request":"POST /api/session HTTP/1.1\r\nhost: shop.example.com\r\nuser-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\r\naccept: */*\r\naccept-language: en-GB,en;q=0.9\r\nreferer: https://shop.example.com/\r\ncookie: consent=[REDACTED]; sid=[REDACTED]; _ga=[REDACTED]\r\ncontent-type: application/json\r\ncontent-length: 42\r\n\r\n{\"username\": \"ops\", \"password\": \"[REDACTED]\"}","response":"HTTP/1.1 200 OK\r\ncontent-type: application/json\r\nserver: nginx/1.25.3\r\nx-powered-by: Express\r\ncontent-length: 12\r\nset-cookie: sid=[REDACTED]; Path=/; HttpOnly; Secure\r\n\r\n{\"ok\": true}"},"burp_000013":{"method":"POST","url":"https://shop.example.com/graphql","status":200,"role":"user","request":"POST /graphql HTTP/1.1\r\nhost: shop.example.com\r\nuser-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\r\naccept: */*\r\naccept-language: en-GB,en;q=0.9\r\nreferer: https://shop.example.com/\r\ncookie: consent=[REDACTED]; sid=[REDACTED]; _ga=[REDACTED]\r\nauthorization: [REDACTED]\r\ncontent-type: application/json\r\ncontent-length: 158\r\n\r\n{\"operationName\": \"ProductSearch\", \"query\": \"query ProductSearch($term: String!) { products(term: $term) { id name price } }\", \"variables\": {\"term\": \"shirt\"}}","response":"HTTP/1.1 200 OK\r\ncontent-type: application/json\r\nserver: nginx/1.25.3\r\nx-powered-by: Express\r\ncontent-length: 74\r\n\r\n{\"data\": {\"products\": [{\"id\": 1, \"name\": \"Oxford shirt\", \"price\": 2400}]}}"},"burp_000004":{"method":"GET","url":"https://shop.example.com/static/app.js.map","status":200,"role":"user","request":"GET /static/app.js.map HTTP/1.1\r\nhost: shop.example.com\r\nuser-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\r\naccept: */*\r\naccept-language: en-GB,en;q=0.9\r\nreferer: https://shop.example.com/\r\ncookie: consent=[REDACTED]; sid=[REDACTED]; _ga=[REDACTED]\r\nauthorization: [REDACTED]\r\n\r\n","response":"HTTP/1.1 200 OK\r\ncontent-type: application/json\r\nserver: nginx/1.25.3\r\nx-powered-by: Express\r\ncontent-length: 864\r\n\r\n{\"version\": 3, \"file\": \"app.js\", \"sourceRoot\": \"\", \"sources\": [\"src/index.ts\", \"src/api/profile.ts\", \"src/api/orders.ts\", \"src/api/admin.ts\", \"src/lib/ai.ts\", \"src/config.ts\"], \"sourcesContent\": [\"import { loadProfile } from './api/profile';\\nexport function boot() { loadProfile(); }\\n\", \"export async function loadProfile() { return fetch('/api/profile'); }\\n\", \"export async function listOrders() { return fetch('/api/orders'); }\\n\", \"// Admin surface. Bundled for every visitor; only rendered for staff.\\nexport async function listUsers() { return fetch('/api/admin/users'); }\\nexport async function setFlag(n) { return fetch('/api/admin/flags', {method:'POST'}); }\\n\", \"export async function summarise(t) { return fetch('https://api.openai.com/v1/chat/completions'); }\\n\", \"export const CONFIG = { region: 'ap-south-1' };\\n\"], \"names\": [], \"mappings\": \"AAAA\"}"},"burp_000003":{"method":"GET","url":"https://shop.example.com/static/app.js","status":200,"role":"user","request":"GET /static/app.js HTTP/1.1\r\nhost: shop.example.com\r\nuser-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\r\naccept: */*\r\naccept-language: en-GB,en;q=0.9\r\nreferer: https://shop.example.com/\r\ncookie: consent=[REDACTED]; sid=[REDACTED]; _ga=[REDACTED]\r\nauthorization: [REDACTED]\r\n\r\n","response":"HTTP/1.1 200 OK\r\ncontent-type: application/javascript\r\nserver: nginx/1.25.3\r\nx-powered-by: Express\r\ncontent-encoding: gzip\r\ncontent-length: 1157\r\n\r\n/* shop.example.com — main bundle */\nimport { track } from \"./vendor.js\";\n\n// Build-time configuration, inlined by the bundler. This is how a key ends\n// up in a browser: nobody put it there on purpose.\nconst CONFIG = {\n  stripePublishableKey: \"[REDACTED]\",\n  mapsApiKey: \"[REDACTED]\",\n  sentryDsn: \"[REDACTED]\",\n  openaiApiKey: \"[REDACTED]\",\n  awsAccessKeyId: \"[REDACTED]\",\n  analyticsHost: \"https://metrics.example.net\"\n};\n\nexport async function loadProfile() { return fetch(\"/api/profile\").then(r => r.json()); }\nexport async function listOrders()  { return fetch(\"/api/orders?status=open&page=1\"); }\nexport async function saveAddress(body) {\n  return fetch(\"/api/account/address\", { method: \"PUT\", body: JSON.stringify(body) });\n}\nexport async function startExport(accountId) {\n  return fetch(\"/api/export\", { method: \"POST\", body: JSON.stringify({ account_id: accountId }) });\n}\n\n// Referenced here and never called in any capture: STATIC_ONLY.\nexport async function legacyInvoices() { return fetch(\"/api/invoices/pending\"); }\nexport async function internalDebug() { return fetch(\"/api/internal/debug\"); }\n\n// A model API called straight from the browser, with the key above.\nexport async function summarise(text) {\n  return fetch(\"https://api.openai.com/v1/chat/completions\", {\n    method: \"POST\",\n    headers: { \"Authorization\": \"Bearer \" + CONFIG.openaiApiKey },\n    body: JSON.stringify({ model: \"gpt-4o-mini\", messages: [{ role: \"user\", content: text }] })\n  });\n}\n\n// GraphQL, a live-updates socket and a server-sent stream.\nexport const SEARCH_QUERY = `query ProductSearch($term: String!) { products(term: $term) { id name price } }`;\nexport function live()   { return new WebSocket(\"wss://shop.example.com/ws/orders\"); }\nexport function stream() { return new EventSource(\"/api/stream/notifications\"); }\n\nexport const ROUTES = [\n  { path: \"/\", component: \"Home\" },\n  { path: \"/orders\", component: \"Orders\" },\n  { path: \"/account\", component: \"Account\" },\n  { path: \"/admin\", component: \"AdminHome\" }\n];\n\ntrack(CONFIG.analyticsHost);\n//# sourceMappingURL=/static/app.js.map\n"}},"note":"Built from captured traffic. Every relationship means 'observed in this capture', never 'reachable in general'. Requests and responses shown here were redacted before they were stored."};
+const D = REPORT_DATA;
+
+/* One colour per branch. The only place a colour is decided. */
+const GROUP = {
+  app:        {color:"#2B3440", icon:"◉"},
+  route:      {color:"#0FA79A", icon:"▤"},
+  script:     {color:"#7A5CFF", icon:"{}"},
+  asset:      {color:"#9AA4B0", icon:"▪"},
+  api:        {color:"#0E8FD6", icon:"⇄"},
+  param:      {color:"#7FC4E8", icon:"·"},
+  vendor:     {color:"#1F9D55", icon:"▣"},
+  thirdparty: {color:"#C98A2E", icon:"◆"},
+  identity:   {color:"#D6338A", icon:"◍"},
+  finding:    {color:"#E85002", icon:"!"}
+};
+const colorOf = g => (GROUP[g]||GROUP.asset).color;
+const LOW  = (D.cross_role && D.cross_role.low)  || "";
+const HIGH = (D.cross_role && D.cross_role.high) || "";
+const SURFACE = new Set((D.cross_role && D.cross_role.surface) || []);
+
+const N = new Map(D.nodes.map(n=>[n.id,n]));
+const adj = new Map(D.nodes.map(n=>[n.id,new Set()]));
+D.nodes.forEach(n=>n.deg=0);
+D.edges.forEach(e=>{
+  if(N.has(e.from)&&N.has(e.to)){
+    adj.get(e.from).add(e.to); adj.get(e.to).add(e.from);
+    N.get(e.from).deg++; N.get(e.to).deg++;
+  }
+});
+
+/* --------------------------------------------------------------- the tree */
+const ROOT = "__root__";
+const BRANCHES = (D.groups||[]).map(g=>({
+  id:"__b_"+g.id, group:g.id, label:g.label, count:g.count,
+  children: D.nodes.filter(n=>n.group===g.id).sort((a,b)=>(b.deg-a.deg)||a.label.localeCompare(b.label))
+}));
+const branchOf = new Map();
+BRANCHES.forEach(b=>b.children.forEach(c=>branchOf.set(c.id,b.id)));
+
+const open = new Set();            /* branch ids currently expanded */
+let sel=null, hover=null, view="overview", search="";
+const P = new Map();               /* id -> {x,y,pin} */
+
+function visible(){
+  const out=[{id:ROOT, kind:"root", label:D.webapp||D.host, full:D.host}];
+  BRANCHES.forEach(b=>{
+    out.push({id:b.id, kind:"branch", label:b.label, count:b.count, group:b.group, full:b.label});
+    if(open.has(b.id)) b.children.forEach(c=>out.push({id:c.id, kind:"leaf", node:c, label:c.label, group:c.group, full:c.full||c.label}));
+  });
+  return out;
+}
+
+/* ------------------------------------------------------------- the layout
+   Radial and computed, not simulated. The hierarchy already says where
+   everything belongs, so there is nothing for a force to discover - and a
+   layout with no simulation cannot drift, cannot thrash, and cannot get
+   stuck, which the previous one did. Positions are a pure function of what
+   is open, so the same model always draws the same picture. */
+const svg=document.getElementById("graph"), SVGNS="http://www.w3.org/2000/svg";
+let W=900,H=650, cx=450, cy=325;
+function size(){ const r=svg.getBoundingClientRect(); W=r.width||900; H=r.height||650; cx=W/2; cy=H/2; }
+
+function layout(){
+  size();
+  const shown=visible();
+  const R1=Math.min(W,H)*0.26;
+  P.set(ROOT,{x:cx,y:cy});
+  const n=BRANCHES.length||1;
+  BRANCHES.forEach((b,i)=>{
+    const a=(i/n)*Math.PI*2 - Math.PI/2;
+    b._a=a;
+    const keep=P.get(b.id);
+    P.set(b.id, keep&&keep.pin ? keep : {x:cx+Math.cos(a)*R1, y:cy+Math.sin(a)*R1});
+    if(!open.has(b.id)) return;
+
+    /* Children fan out inside their branch's own sector, in rings. The
+       sector is narrower than the slice so two open branches never
+       interleave their leaves. */
+    const kids=b.children, m=kids.length;
+    const sector=(Math.PI*2/n)*0.82;
+    const perRing=Math.max(4, Math.round(sector/0.14));
+    const rings=Math.ceil(m/perRing);
+    kids.forEach((c,j)=>{
+      const ring=Math.floor(j/perRing), inRing=j%perRing;
+      const countHere=Math.min(perRing, m-ring*perRing);
+      const t=countHere===1?0.5:(inRing/(countHere-1));
+      const ang=a - sector/2 + sector*t;
+      const rad=R1 + 96 + ring*54;
+      const keepC=P.get(c.id);
+      P.set(c.id, keepC&&keepC.pin ? keepC : {x:cx+Math.cos(ang)*rad, y:cy+Math.sin(ang)*rad});
+    });
+  });
+  return shown;
+}
+
+/* --------------------------------------------------------------- drawing */
+const gLink=document.createElementNS(SVGNS,"g");
+const gRel=document.createElementNS(SVGNS,"g");
+const gNode=document.createElementNS(SVGNS,"g");
+const root=document.createElementNS(SVGNS,"g");
+svg.appendChild(root); root.appendChild(gLink); root.appendChild(gRel); root.appendChild(gNode);
+
+let zoom=1, panX=0, panY=0;
+function applyTransform(){ root.setAttribute("transform",`translate(${panX},${panY}) scale(${zoom})`); }
+
+function radius(v){
+  if(v.kind==="root") return 17;
+  if(v.kind==="branch") return 11 + Math.min(7, Math.sqrt(v.count||1)*1.6);
+  return 5 + Math.min(5, Math.sqrt(v.node.deg||0)*1.6);
+}
+function fill(v){
+  if(v.kind==="root") return "#141924";
+  if(v.kind==="branch") return colorOf(v.group);
+  if(v.node.state==="REACHED_BY_LOWER_ROLE") return "var(--signal)";
+  return colorOf(v.group);
+}
+
+function render(){
+  const shown=layout();
+  const ids=new Set(shown.map(v=>v.id));
+  const q=search.trim().toLowerCase();
+  const nb = sel ? new Set([sel, ...(adj.get(sel)||[]), branchOf.get(sel)||"", ROOT]) : null;
+
+  /* tree links */
+  gLink.textContent="";
+  const line=(a,b,cls)=>{
+    const pa=P.get(a), pb=P.get(b); if(!pa||!pb) return;
+    const p=document.createElementNS(SVGNS,"path");
+    const mx=(pa.x+pb.x)/2, my=(pa.y+pb.y)/2;
+    p.setAttribute("d",`M${pa.x},${pa.y} Q${mx},${my} ${pb.x},${pb.y}`);
+    p.setAttribute("class",cls); gLink.appendChild(p);
+  };
+  BRANCHES.forEach(b=>{
+    line(ROOT,b.id,"link");
+    if(open.has(b.id)) b.children.forEach(c=>line(b.id,c.id,"link"));
+  });
+
+  /* model edges, only between leaves that are both on screen */
+  gRel.textContent="";
+  D.edges.forEach(e=>{
+    if(!ids.has(e.from)||!ids.has(e.to)) return;
+    const pa=P.get(e.from), pb=P.get(e.to); if(!pa||!pb) return;
+    const p=document.createElementNS(SVGNS,"path");
+    p.setAttribute("d",`M${pa.x},${pa.y} L${pb.x},${pb.y}`);
+    let cls="rel"+(e.state==="INFERRED"?" inferred":"");
+    if(e.type==="REACHED" && SURFACE.has(e.to) && e.from==="role:"+LOW) cls="rel hot";
+    if(nb && !(nb.has(e.from)&&nb.has(e.to))) cls+=" dim";
+    p.setAttribute("class",cls); gRel.appendChild(p);
+  });
+
+  /* nodes */
+  gNode.textContent="";
+  shown.forEach(v=>{
+    const p=P.get(v.id); if(!p) return;
+    const g=document.createElementNS(SVGNS,"g");
+    g.setAttribute("class","node"+(v.kind==="branch"?" hub":"")+(v.kind==="root"?" root":"")
+      + (v.id===sel?" sel":"")
+      + ((v.kind==="leaf"&&SURFACE.has(v.id))?" hot":"")
+      + (dimmed(v,q,nb)?" dim":""));
+    g.setAttribute("transform",`translate(${p.x},${p.y})`);
+    g.dataset.id=v.id;
+
+    const r=radius(v);
+    const c=document.createElementNS(SVGNS,"circle");
+    c.setAttribute("class","core"); c.setAttribute("r",r); c.setAttribute("fill",fill(v));
+    g.appendChild(c);
+
+    if(v.kind==="branch"){
+      const t=document.createElementNS(SVGNS,"text");
+      t.setAttribute("text-anchor","middle"); t.setAttribute("y",r+13);
+      t.textContent=v.label; g.appendChild(t);
+      const ct=document.createElementNS(SVGNS,"text");
+      ct.setAttribute("class","ct"); ct.setAttribute("text-anchor","middle"); ct.setAttribute("y",r+25);
+      ct.textContent=v.count+(open.has(v.id)?" · open":" · click to open"); g.appendChild(ct);
+    } else {
+      const t=document.createElementNS(SVGNS,"text");
+      t.setAttribute("text-anchor","middle"); t.setAttribute("y",r+12);
+      t.textContent=v.label; g.appendChild(t);
+    }
+    gNode.appendChild(g);
+    wire(g,v);
+  });
+  applyTransform();
+}
+
+function dimmed(v,q,nb){
+  if(v.kind==="root") return false;
+  if(q){
+    const hay=((v.full||"")+" "+(v.label||"")).toLowerCase();
+    if(v.kind==="branch"){
+      const any=BRANCHES.find(b=>b.id===v.id).children.some(c=>((c.full||"")+" "+c.label).toLowerCase().includes(q));
+      return !(hay.includes(q)||any);
+    }
+    return !hay.includes(q);
+  }
+  if(nb && v.kind==="leaf" && !nb.has(v.id)) return true;
+  if(nb && v.kind==="branch" && v.id!==(branchOf.get(sel)||"")) return true;
+  return false;
+}
+
+function wire(g,v){
+  g.addEventListener("click",ev=>{
+    ev.stopPropagation();
+    if(v.kind==="branch"){ toggle(v.id); return; }
+    if(v.kind==="root"){ sel=null; showOverview(); render(); return; }
+    sel = sel===v.id ? null : v.id;
+    sel ? showNode(sel) : showView();
+    render();
+  });
+  g.addEventListener("pointerenter",()=>{
+    hover=v.id; const p=P.get(v.id);
+    tip.textContent=v.full||v.label;
+    const pt=toScreen(p); tip.style.left=pt.x+"px"; tip.style.top=pt.y+"px"; tip.style.opacity=1;
+  });
+  g.addEventListener("pointerleave",()=>{ hover=null; tip.style.opacity=0; });
+
+  /* Drag to reposition. The pin is set on the way down and released on the
+     way up - a drag that pinned permanently is what froze the old map. */
+  let dragging=false, moved=false;
+  g.addEventListener("pointerdown",ev=>{
+    ev.stopPropagation(); dragging=true; moved=false;
+    g.setPointerCapture(ev.pointerId);
+    const p=P.get(v.id)||{}; P.set(v.id,{x:p.x,y:p.y,pin:true});
+  });
+  g.addEventListener("pointermove",ev=>{
+    if(!dragging) return; moved=true;
+    const m=toGraph(ev.clientX,ev.clientY);
+    P.set(v.id,{x:m.x,y:m.y,pin:true});
+    tip.style.opacity=0; render();
+  });
+  const up=ev=>{
+    if(!dragging) return; dragging=false;
+    const p=P.get(v.id); if(p) P.set(v.id,{x:p.x,y:p.y,pin:moved});
+    try{ g.releasePointerCapture(ev.pointerId); }catch(_){}
+  };
+  g.addEventListener("pointerup",up);
+  g.addEventListener("pointercancel",up);
+}
+
+function toScreen(p){ const r=svg.getBoundingClientRect(); return {x:p.x*zoom+panX, y:p.y*zoom+panY}; }
+function toGraph(clientX,clientY){ const r=svg.getBoundingClientRect(); return {x:(clientX-r.left-panX)/zoom, y:(clientY-r.top-panY)/zoom}; }
+
+function toggle(id){
+  open.has(id) ? open.delete(id) : open.add(id);
+  syncTree(); render();
+  const b=BRANCHES.find(x=>x.id===id);
+  if(b && open.has(id)) showBranch(b); else showView();
+}
+
+/* ------------------------------------------------------------ pan & zoom */
+const tip=document.getElementById("tip");
+let panning=false, px=0, py=0;
+svg.addEventListener("pointerdown",ev=>{ panning=true; px=ev.clientX; py=ev.clientY; svg.classList.add("panning"); });
+svg.addEventListener("pointermove",ev=>{ if(!panning) return; panX+=ev.clientX-px; panY+=ev.clientY-py; px=ev.clientX; py=ev.clientY; applyTransform(); });
+addEventListener("pointerup",()=>{ panning=false; svg.classList.remove("panning"); });
+svg.addEventListener("click",()=>{ if(sel){ sel=null; showView(); render(); } });
+svg.addEventListener("wheel",ev=>{
+  ev.preventDefault();
+  const f=ev.deltaY<0?1.12:1/1.12, before=toGraph(ev.clientX,ev.clientY);
+  zoom=Math.max(0.35,Math.min(3,zoom*f));
+  const r=svg.getBoundingClientRect();
+  panX=ev.clientX-r.left-before.x*zoom; panY=ev.clientY-r.top-before.y*zoom;
+  applyTransform();
+},{passive:false});
+
+/* ------------------------------------------------------------- the views
+   A view is a saved question, not a filter: it opens the branches that
+   answer it and puts the answer in the panel. */
+const VIEWS=[
+  {id:"overview", name:"Overview", d:"The web app and what it is made of", open:[]},
+  {id:"surface",  name:"Attack surface", d:"APIs, their parameters and the routes", open:["api","param","route"]},
+  {id:"code",     name:"Client code", d:"JavaScript and everything else shipped", open:["script","asset"]},
+  {id:"supply",   name:"Supply chain", d:"Third parties, libraries and tech", open:["thirdparty","vendor"]},
+  {id:"findings", name:"Findings", d:"Keys, model APIs and what to look at", open:["finding","identity"], hot:true},
+  {id:"crossrole",name:"Cross-role surface", d:"What a lower role reached", open:["api","identity","finding"], hot:true, needs:"surface"}
+];
+function applyView(id){
+  const v=VIEWS.find(x=>x.id===id)||VIEWS[0];
+  view=id; sel=null; open.clear();
+  v.open.forEach(g=>{ const b=BRANCHES.find(b=>b.group===g); if(b) open.add(b.id); });
+  syncViews(); syncTree(); render(); showView();
+}
+function showView(){
+  if(sel) return showNode(sel);
+  if(view==="crossrole") return showCrossRole();
+  if(view==="findings")  return showFindings();
+  if(view==="overview")  return showOverview();
+  const b=BRANCHES.find(b=>open.has(b.id));
+  b ? showBranch(b) : showOverview();
+}
+
+/* ------------------------------------------------------------ the drawer */
+const drawer=document.getElementById("drawer");
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function panel(dotColor,title,kind,body){
+  drawer.innerHTML=`<div class="dhead"><div class="t"><span class="dot" style="background:${dotColor}"></span>${title}</div>
+      <div class="k">${kind}</div></div><div class="dbody">${body}</div>`;
+  drawer.querySelectorAll("[data-goto]").forEach(el=>el.addEventListener("click",()=>{
+    const id=el.dataset.goto, b=branchOf.get(id);
+    if(b) open.add(b);
+    sel=id; syncTree(); render(); showNode(id);
+  }));
+  const back=drawer.querySelector("[data-back]");
+  if(back) back.addEventListener("click",()=>{ sel=null; render(); showView(); });
+}
+const rowFor=(n,extra)=>`<div class="kv link" data-goto="${esc(n.id)}"><span class="k">${esc(n.label)}</span><span class="v">${esc(extra||"")}</span></div>`;
+
+function showOverview(){
+  const rows=BRANCHES.map(b=>`<div class="kv link" data-open="${esc(b.id)}">
+      <span class="k"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${colorOf(b.group)};margin-right:7px"></span>${esc(b.label)}</span>
+      <span class="v">${b.count}</span></div>`).join("");
+  const sig=(D.signals||[]).slice(0,3).map(cardFor).join("");
+  panel("#141924", esc(D.webapp||D.host), esc(D.host)+" · "+esc(D.ingest),
+    `<div class="empty">A graph of one web application, built from captured traffic. The root is the app; each branch is one kind of thing it is made of. Open a branch to see its nodes, click a node for its evidence.</div>
+     <div class="subh">What is in this model</div>${rows}
+     ${sig?`<div class="subh hot">Worth reading first</div>${sig}`:""}
+     <div class="subh">Honesty</div>
+     <div class="empty">${esc(D.note||"")}</div>`);
+  drawer.querySelectorAll("[data-open]").forEach(el=>el.addEventListener("click",()=>{
+    open.add(el.dataset.open); syncTree(); render();
+    showBranch(BRANCHES.find(b=>b.id===el.dataset.open));
+  }));
+}
+
+function showBranch(b){
+  if(!b) return showOverview();
+  const rows=b.children.slice(0,120).map(c=>rowFor(c, (c.attrs&&(c.attrs.provider||c.attrs.method||c.attrs.category))||"")).join("");
+  const more=b.children.length>120?`<div class="empty">…and ${b.children.length-120} more.</div>`:"";
+  panel(colorOf(b.group), esc(b.label), b.count+" node"+(b.count===1?"":"s"),
+    `<button class="back" data-back>← overview</button>${rows}${more}`);
+}
+
+function cardFor(s){
+  return `<div class="card">
+    <div class="ti">${esc(s.title)}</div>
+    <div class="meta"><span class="att">${"●".repeat(Math.max(1,Math.min(5,s.attention)))}</span>
+      ${esc(s.kind)} · ${esc(s.confidence)} confidence</div>
+    ${s.summary?`<div class="bd">${esc(s.summary)}</div>`:""}
+    ${s.why?`<div class="bd" style="margin-top:5px"><b>Why:</b> ${esc(s.why)}</div>`:""}
+    ${s.suggested?`<div class="bd" style="margin-top:5px"><b>Next:</b> ${esc(s.suggested)}</div>`:""}
+  </div>`;
+}
+
+function showFindings(){
+  const secrets=D.nodes.filter(n=>n.type==="secret_candidate");
+  const ai=D.nodes.filter(n=>n.type==="ai_service");
+  const sig=(D.signals||[]).map(cardFor).join("");
+  let html=`<button class="back" data-back>← overview</button>`;
+  if(SURFACE.size){
+    html+=`<div class="subh hot">Crossed role boundary (${SURFACE.size})</div>`;
+    [...SURFACE].forEach(id=>{ const n=N.get(id); if(n) html+=rowFor(n,(n.attrs&&n.attrs.response_status)||""); });
+    html+=`<div class="empty" style="margin-top:6px">Reached by <b>${esc(LOW)}</b>, offered only to <b>${esc(HIGH)}</b>. A hypothesis, not a finding.</div>`;
+  }
+  if(secrets.length){
+    html+=`<div class="subh hot">Credential candidates (${secrets.length})</div>`;
+    secrets.forEach(n=>html+=rowFor(n,(n.attrs&&n.attrs.candidate_type)||""));
+    html+=`<div class="empty" style="margin-top:6px">Never validated against any service. The value is not stored — only a hash of it.</div>`;
+  }
+  if(ai.length){
+    html+=`<div class="subh hot">Model APIs (${ai.length})</div>`;
+    ai.forEach(n=>html+=rowFor(n,(n.attrs&&n.attrs.provider)||""));
+  }
+  html += sig ? `<div class="subh">What deserves attention (${(D.signals||[]).length})</div>${sig}`
+              : `<div class="empty">Nothing flagged. That is a statement about this capture, not about the application.</div>`;
+  panel("var(--signal)","Findings","what the model flagged",html);
+}
+
+function showCrossRole(){
+  if(!SURFACE.size){
+    panel("var(--signal)","Cross-role surface", LOW&&HIGH ? esc(LOW)+" vs "+esc(HIGH) : "not available",
+      `<button class="back" data-back>← overview</button>
+       <div class="empty">${esc((D.cross_role&&D.cross_role.unavailable) || "Nothing crossed.")}
+       <br><br>A cross-role diff needs two captured identities. Export a second session from Burp and ingest it with <code>--role</code>.</div>`);
+    return;
+  }
+  let rows="";
+  SURFACE.forEach(id=>{ const n=N.get(id); if(n) rows+=rowFor(n,(n.attrs&&n.attrs.response_status)||""); });
+  panel("var(--signal)","Cross-role surface", esc(LOW)+" (low) vs "+esc(HIGH)+" (high)",
+    `<button class="back" data-back>← overview</button>
+     <div class="empty">Endpoints <b>${esc(LOW)}</b> reached that only <b>${esc(HIGH)}</b> is offered:</div>${rows}
+     <div class="subh hot">What this proves — and does not</div>
+     <div class="empty">Each is a broken-access-control <b>hypothesis</b> with the exact low-role request as evidence. It does <b>not</b> prove the response was authorised rather than an unhandled leak. Replay each as ${esc(LOW)} and compare with ${esc(HIGH)}.</div>`);
+}
+
+function evBlock(id){
+  const e=(D.evidence||{})[id];
+  if(!e) return `<div class="kv"><span class="k">evidence</span><span class="v ev">${esc(id)}</span></div>`;
+  const red=s=>esc(s).replace(/\[REDACTED\]/g,'<span class="red">[REDACTED]</span>');
+  return `<div class="subh">Evidence · ${esc(id)} <span class="ev">${esc(e.role||"")}</span></div>
+    <div class="kv"><span class="k">${esc(e.method)} ${esc(e.status)}</span><span class="v">${esc(e.url)}</span></div>
+    <div class="subh">Request</div><pre>${red(e.request)}</pre>
+    <div class="subh">Response</div><pre>${red(e.response)}</pre>`;
+}
+
+function showNode(id){
+  const n=N.get(id); if(!n) return showView();
+  const conn=D.edges.filter(e=>e.from===id||e.to===id);
+  let tags="";
+  if(n.state) tags+=`<span class="tag ${n.state==='REACHED_BY_LOWER_ROLE'?'hot':(n.state==='STATIC_ONLY'?'warn':'obs')}">${esc(n.state)}</span>`;
+  (n.roles||[]).forEach(r=>tags+=`<span class="tag">reached by ${esc(r)}</span>`);
+  (n.unknowns||[]).forEach(u=>tags+=`<span class="tag ${u==='ROLE_BOUNDARY_UNKNOWN'?'hot':'warn'}">${esc(u)}</span>`);
+  let attrs=""; for(const k in (n.attrs||{})) attrs+=`<div class="kv"><span class="k">${esc(k)}</span><span class="v">${esc(n.attrs[k])}</span></div>`;
+  const links=conn.slice(0,14).map(e=>{
+    const other=e.from===id?e.to:e.from, dir=e.from===id?"→":"←";
+    return `<div class="kv link" data-goto="${esc(other)}"><span class="k">${dir} ${esc(e.type)}${e.state==='INFERRED'?' <span class="ev" style="color:var(--inferred)">inferred</span>':''}</span><span class="v">${esc((N.get(other)||{}).label||other)}</span></div>`;
+  }).join("");
+  const why = SURFACE.has(id) ? `<div class="subh hot">Why this is flagged</div>
+      <div class="empty">Reached by <b>${esc(LOW)}</b>, but the application offers it only to <b>${esc(HIGH)}</b>. A broken-access-control <b>hypothesis</b>, not a finding. Replay as ${esc(LOW)} and compare with ${esc(HIGH)}.</div>` : "";
+  panel(colorOf(n.group), esc(n.label), esc((D.groups.find(g=>g.id===n.group)||{}).label||n.group)+" · "+esc(n.type),
+    `<button class="back" data-back>← back</button>
+     ${n.full&&n.full!==n.label?`<div class="kv"><span class="k">subject</span><span class="v">${esc(n.full)}</span></div>`:""}
+     ${tags?`<div style="margin:6px 0">${tags}</div>`:""}
+     ${attrs?`<div class="subh">Attributes</div>${attrs}`:""}
+     <div class="subh">Connections (${conn.length})</div>${links||'<div class="empty">None in this model.</div>'}
+     ${why}
+     ${(n.evidence||[]).map(evBlock).join("")}`);
+}
+
+/* ------------------------------------------------------------- the panels */
+function syncViews(){
+  document.getElementById("views").innerHTML = VIEWS
+    .filter(v=>v.needs!=="surface"||SURFACE.size)
+    .map(v=>`<button class="view${v.id===view?" active":""}${v.hot?" hot":""}" data-view="${v.id}">`
+      + `${v.name}<span class="d">${v.d}</span></button>`).join("");
+  document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",()=>applyView(b.dataset.view)));
+}
+function syncTree(){
+  document.getElementById("tree").innerHTML = BRANCHES.map(b=>`
+    <button class="row${open.has(b.id)?" on":""}" data-branch="${b.id}">
+      <span class="chev">▶</span>
+      <span class="dot" style="background:${colorOf(b.group)}"></span>
+      <span class="nm">${esc(b.label)}</span><span class="ct">${b.count}</span>
+    </button>`).join("");
+  document.querySelectorAll("[data-branch]").forEach(el=>el.addEventListener("click",()=>toggle(el.dataset.branch)));
+}
+
+function fillHeader(){
+  document.getElementById("ttl").textContent="SignalMap · "+(D.webapp||D.host);
+  document.getElementById("sub").innerHTML=`${esc(D.host)} · <b>${esc(D.ingest)}</b> · from Burp · ${esc((D.generated_at||"").replace("T"," ").replace("+00:00","Z"))}`;
+  const g=id=>(D.groups.find(x=>x.id===id)||{}).count||0;
+  const cells=[
+    [g("route"),"routes"], [g("api"),"APIs"], [g("script"),"JS"],
+    [g("thirdparty"),"third parties"], [g("vendor"),"tech"],
+    [g("finding"),"findings",true], [SURFACE.size,"cross-role",true]
+  ].filter(c=>c[0]||!c[2]);
+  document.getElementById("stats").innerHTML=cells
+    .map(c=>`<div class="stat${c[2]?" hot":""}"><b>${c[0]}</b><span>${c[1]}</span></div>`).join("");
+
+  document.getElementById("edgekey").innerHTML=
+    `<div class="key"><svg viewBox="0 0 28 8"><path d="M1 4 Q14 4 27 4" stroke="var(--line2)" stroke-width="1.6" fill="none"/></svg> branch — part of the app</div>
+     <div class="key"><svg viewBox="0 0 28 8"><line x1="1" y1="4" x2="27" y2="4" stroke="#C8D0D9" stroke-width="1.4"/></svg> OBSERVED — seen in this capture</div>
+     <div class="key"><svg viewBox="0 0 28 8"><line x1="1" y1="4" x2="27" y2="4" stroke="#C3B8F0" stroke-width="1.4" stroke-dasharray="4 4"/></svg> INFERRED — worked out, not seen</div>
+     ${SURFACE.size?`<div class="key"><svg viewBox="0 0 28 8"><line x1="1" y1="4" x2="27" y2="4" stroke="var(--signal)" stroke-width="2.4"/></svg> crossed role boundary</div>`:""}
+     <div class="note" style="margin-top:8px">Scroll to zoom, drag the background to pan, drag a node to move it.</div>`;
+
+  const tr=D.trimmed||{}, parts=[];
+  if(tr.folded_security_controls) parts.push(tr.folded_security_controls+" security-header node(s) folded onto their page");
+  if(tr.merged_pages) parts.push(tr.merged_pages+" page(s) merged into their route");
+  if(tr.dropped_for_size) parts.push(tr.dropped_for_size+" node(s) left off");
+  if(parts.length) document.getElementById("trimnote").innerHTML=
+    `<h2>Simplified for reading</h2><div class="note">${parts.join("; ")}. The full model is in <code>model/graph.json</code>.</div>`;
+
+  document.getElementById("foot").textContent =
+    "Observed in this capture — never 'reachable in general'. Values were redacted before anything was written.";
+}
+
+/* -------------------------------------------------------------- controls */
+document.getElementById("search").addEventListener("input",e=>{
+  search=e.target.value;
+  /* A search opens every branch that contains a match, so a hit is never
+     hidden behind a branch the reader has not thought to open. */
+  if(search.trim()){
+    const q=search.trim().toLowerCase();
+    BRANCHES.forEach(b=>{ if(b.children.some(c=>((c.full||"")+" "+c.label).toLowerCase().includes(q))) open.add(b.id); });
+    syncTree();
+  }
+  render();
+});
+document.getElementById("expandall").addEventListener("click",()=>{ BRANCHES.forEach(b=>open.add(b.id)); syncTree(); render(); });
+document.getElementById("collapseall").addEventListener("click",()=>{ open.clear(); syncTree(); render(); showOverview(); });
+document.getElementById("reset").addEventListener("click",()=>{
+  P.forEach((p,k)=>P.set(k,{x:p.x,y:p.y,pin:false}));
+  zoom=1; panX=0; panY=0; search=""; document.getElementById("search").value="";
+  applyView("overview");
+});
+document.getElementById("export").addEventListener("click",()=>{
+  size();
+  const clone=svg.cloneNode(true);
+  clone.setAttribute("xmlns",SVGNS); clone.setAttribute("width",W); clone.setAttribute("height",H);
+  const bg=document.createElementNS(SVGNS,"rect");
+  bg.setAttribute("width",W); bg.setAttribute("height",H); bg.setAttribute("fill","#FAFBFC");
+  clone.insertBefore(bg,clone.firstChild);
+  const url=URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(clone)],{type:"image/svg+xml"}));
+  const img=new Image();
+  const save=(href,ext)=>{ const a=document.createElement("a"); a.href=href; a.download=`signalmap-${D.webapp}-graph.${ext}`; a.click(); };
+  img.onload=()=>{
+    try{
+      const cv=document.createElement("canvas"); cv.width=W*2; cv.height=H*2;
+      const ctx=cv.getContext("2d"); ctx.scale(2,2); ctx.drawImage(img,0,0);
+      cv.toBlob(b=>{ save(URL.createObjectURL(b),"png"); URL.revokeObjectURL(url); });
+    }catch(_){ save(url,"svg"); }
+  };
+  img.onerror=()=>save(url,"svg");
+  img.src=url;
+});
+addEventListener("resize",()=>render());
+
+/* ----------------------------------------------------------------- start */
+fillHeader();
+applyView(SURFACE.size ? "crossrole" : ((D.signals||[]).length ? "findings" : "overview"));
+</script>
+</body>
+</html>

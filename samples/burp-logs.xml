@@ -1,0 +1,548 @@
+<?xml version="1.0"?>
+<!DOCTYPE items [
+<!ELEMENT items (item*)>
+<!ATTLIST items burpVersion CDATA "">
+<!ATTLIST items exportTime CDATA "">
+]>
+<items burpVersion="2026.8" exportTime="Thu Sep 24 12:05:00 IST 2026">
+  <item>
+    <time>Thu Sep 24 10:01:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[GET]]></method>
+    <path><![CDATA[/]]></path>
+    <extension>null</extension>
+    <request base64="true">R0VUIC8gSFRUUC8xLjENCkhvc3Q6IHNob3AuZXhhbXBsZS5jb20NClVzZXItQWdlbnQ6IE1vemlsbGEvNS4wIChNYWNpbnRvc2g7IEludGVsIE1hYyBPUyBYIDEwXzE1XzcpIEFwcGxlV2ViS2l0LzUzNy4zNg0KQWNjZXB0OiAqLyoNCkFjY2VwdC1MYW5ndWFnZTogZW4tR0IsZW47cT0wLjkNClJlZmVyZXI6IGh0dHBzOi8vc2hvcC5leGFtcGxlLmNvbS8NCkNvb2tpZTogY29uc2VudD0xOyBzaWQ9cyUzQUtwN21RMnhXOXZSNHRMbkI2aERjMEp5RjhhU2dFNXVUOyBfZ2E9R0ExLjIuODg0NDEyLjE3OTAyDQpBdXRob3JpemF0aW9uOiBCZWFyZXIgZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnpkV0lpT2lJME9ESXhJaXdpY205c1pTSTZJbU4xYzNSdmJXVnlJbjAuS3A3bVEyeFc5dlI0dExuQjZoRGMwSnlGOGFTZ0U1dVQxb1ZpQWNYdw0KDQo=</request>
+    <status>200</status>
+    <responselength>557</responselength>
+    <mimetype>HTML</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IHRleHQvaHRtbDsgY2hhcnNldD11dGYtOA0KU2VydmVyOiBuZ2lueC8xLjI1LjMNClgtUG93ZXJlZC1CeTogRXhwcmVzcw0KQ29udGVudC1MZW5ndGg6IDU1Nw0KQ29udGVudC1TZWN1cml0eS1Qb2xpY3k6IGRlZmF1bHQtc3JjICdzZWxmJzsgc2NyaXB0LXNyYyAnc2VsZicgaHR0cHM6Ly9tZXRyaWNzLmV4YW1wbGUubmV0OyBjb25uZWN0LXNyYyAnc2VsZicgaHR0cHM6Ly9hcGkub3BlbmFpLmNvbSBodHRwczovL2FwaS5zdHJpcGUuY29tDQpTdHJpY3QtVHJhbnNwb3J0LVNlY3VyaXR5OiBtYXgtYWdlPTMxNTM2MDAwOyBpbmNsdWRlU3ViRG9tYWlucw0KWC1GcmFtZS1PcHRpb25zOiBERU5ZDQpYLUNvbnRlbnQtVHlwZS1PcHRpb25zOiBub3NuaWZmDQoNCjwhZG9jdHlwZSBodG1sPjxodG1sPjxoZWFkPjxtZXRhIGNoYXJzZXQ9InV0Zi04Ij48dGl0bGU+RXhhbXBsZSBTaG9wPC90aXRsZT4KPGxpbmsgcmVsPSJtYW5pZmVzdCIgaHJlZj0iL21hbmlmZXN0LndlYm1hbmlmZXN0Ij4KPHNjcmlwdCBzcmM9Ii9zdGF0aWMvdmVuZG9yLmpzIj48L3NjcmlwdD48c2NyaXB0IHNyYz0iL3N0YXRpYy9hcHAuanMiPjwvc2NyaXB0Pgo8c2NyaXB0IHR5cGU9ImFwcGxpY2F0aW9uL2pzb24iIGlkPSJfX0NPTkZJR19fIj57ImFwaUJhc2UiOiIvYXBpIiwiY2RuIjoiaHR0cHM6Ly9jZG4uZXhhbXBsZS5uZXQifTwvc2NyaXB0Pgo8L2hlYWQ+PGJvZHk+PGgxPkV4YW1wbGUgU2hvcDwvaDE+Cjxmb3JtIGFjdGlvbj0iL2FwaS9hY2NvdW50L2FkZHJlc3MiIG1ldGhvZD0icG9zdCI+CiAgPGlucHV0IG5hbWU9ImxpbmUxIj48aW5wdXQgbmFtZT0icG9zdGNvZGUiPjxpbnB1dCBuYW1lPSJhY2NvdW50X2lkIiB2YWx1ZT0iNDgyMSI+PC9mb3JtPgo8aW1nIHNyYz0iaHR0cHM6Ly9jZG4uZXhhbXBsZS5uZXQvaW1nL2Jhbm5lci5wbmciPjwvYm9keT48L2h0bWw+</response>
+    <comment>role:user</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:02:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/static/vendor.js]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[GET]]></method>
+    <path><![CDATA[/static/vendor.js]]></path>
+    <extension>js</extension>
+    <request base64="true">R0VUIC9zdGF0aWMvdmVuZG9yLmpzIEhUVFAvMS4xDQpIb3N0OiBzaG9wLmV4YW1wbGUuY29tDQpVc2VyLUFnZW50OiBNb3ppbGxhLzUuMCAoTWFjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAxMF8xNV83KSBBcHBsZVdlYktpdC81MzcuMzYNCkFjY2VwdDogKi8qDQpBY2NlcHQtTGFuZ3VhZ2U6IGVuLUdCLGVuO3E9MC45DQpSZWZlcmVyOiBodHRwczovL3Nob3AuZXhhbXBsZS5jb20vDQpDb29raWU6IGNvbnNlbnQ9MTsgc2lkPXMlM0FLcDdtUTJ4Vzl2UjR0TG5CNmhEYzBKeUY4YVNnRTV1VDsgX2dhPUdBMS4yLjg4NDQxMi4xNzkwMg0KQXV0aG9yaXphdGlvbjogQmVhcmVyIGV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUp6ZFdJaU9pSTBPREl4SWl3aWNtOXNaU0k2SW1OMWMzUnZiV1Z5SW4wLktwN21RMnhXOXZSNHRMbkI2aERjMEp5RjhhU2dFNXVUMW9WaUFjWHcNCg0K</request>
+    <status>200</status>
+    <responselength>5173</responselength>
+    <mimetype>script</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2phdmFzY3JpcHQNClNlcnZlcjogbmdpbngvMS4yNS4zDQpYLVBvd2VyZWQtQnk6IEV4cHJlc3MNCkNvbnRlbnQtRW5jb2Rpbmc6IGd6aXANCkNvbnRlbnQtTGVuZ3RoOiAxMzQNCg0KH4sIAAAAAAAC/+3KMQrCMBxG8b2n+NzaDokguIirg4uIJ5A2hUj5R4JpEfXuKp5CeOvvPd8udDmWkO+aVm7tlnqq7hodrsH2J+1Ssf58i8nU+mqO1qfZ/f7tUKz7lrp5vDaV95rCJ2cNcRxDBgAAAAAAAAAAAAAAAADgP+ENZXEIFTUUAAA=</response>
+    <comment>role:user</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:03:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/static/app.js]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[GET]]></method>
+    <path><![CDATA[/static/app.js]]></path>
+    <extension>js</extension>
+    <request base64="true">R0VUIC9zdGF0aWMvYXBwLmpzIEhUVFAvMS4xDQpIb3N0OiBzaG9wLmV4YW1wbGUuY29tDQpVc2VyLUFnZW50OiBNb3ppbGxhLzUuMCAoTWFjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAxMF8xNV83KSBBcHBsZVdlYktpdC81MzcuMzYNCkFjY2VwdDogKi8qDQpBY2NlcHQtTGFuZ3VhZ2U6IGVuLUdCLGVuO3E9MC45DQpSZWZlcmVyOiBodHRwczovL3Nob3AuZXhhbXBsZS5jb20vDQpDb29raWU6IGNvbnNlbnQ9MTsgc2lkPXMlM0FLcDdtUTJ4Vzl2UjR0TG5CNmhEYzBKeUY4YVNnRTV1VDsgX2dhPUdBMS4yLjg4NDQxMi4xNzkwMg0KQXV0aG9yaXphdGlvbjogQmVhcmVyIGV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUp6ZFdJaU9pSTBPREl4SWl3aWNtOXNaU0k2SW1OMWMzUnZiV1Z5SW4wLktwN21RMnhXOXZSNHRMbkI2aERjMEp5RjhhU2dFNXVUMW9WaUFjWHcNCg0K</request>
+    <status>200</status>
+    <responselength>2255</responselength>
+    <mimetype>script</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2phdmFzY3JpcHQNClNlcnZlcjogbmdpbngvMS4yNS4zDQpYLVBvd2VyZWQtQnk6IEV4cHJlc3MNCkNvbnRlbnQtRW5jb2Rpbmc6IGd6aXANCkNvbnRlbnQtTGVuZ3RoOiAxMTU3DQoNCh+LCAAAAAAAAv+FVm1TGzcQ/u5fsb12OibFdzHh1QxtTSDBgfBimyRMJkN0urVP4U5SJZ2NYTzTH9Ff2F/S1d2FAMHpjD/Yq9WjfXn2WUfPwKZKh3jNcp1hyFUO//79D+RMSIgLmWQIz6KGyLUyDm7BGcavYA4jQ45BGE1QJsqEX2yw3WhEEewWIktaTuQIXMmRGBeGOaHkMgiZCYkJxDNwKdbYJoRhKizQJ1VTYHCFMyBI67EKTZfIFhs1tWg6IFWskhnowoFwHsUgKEm/jVYWwwa9aB28PDl+1XsNO3DbALDOCI2nRZwJm7I4w0OcdSDQV5eZmODlWvtg86q/df1+ZXK24S7i4/X0iD9/o18Fy3Q5Z9p2taiudHs3bDDby1ef9N9kg/H+WjFslxctSmdme1bSvdQ5bTtRtBq3+VayiRujdbYWr/IXyQq2R8/ZVrzJN5J1/FO1V16sroVCjtG6sIIIhYq2NjfW10pYpVEycReRvWppo760/jcm9U50+Yfp2c3bF8fxhTlMSjQ2tV3O0VpC6yU+w8Ned+/t6mF/68P7lXdnG8OL3ePKU7Js5gS3B8q6eynlSNXl9o48El3QmBMR8LqkC7MzyWFUSO4pAJliyalRI5Fhc4m4ZNAVRsIIHU+bQcS0iHR1HCyF1F3ZNLDzO3h2KdlcWtqG+SJkYd2JSdBYAn4aWZXHf1jHXGF3fCV/1WyMO+3gB7iWTbCbJIaK1PTUWyo59QQ641wV0kWscg6WKQiqTqp8XU/Ph2Tw9zvwZnByHHpSyrEYzWrQ+dJ2Y2EIjhm3Xx4161d6ycI4KoxHz58MFr5/CzXmpSDXO3yKqA7Kz2EfRzRpktPwliPHZAISJ2iAsywjq59SOaNfmgLCDgyG3WHv5eXJ8dFFuKhjOGZ81pMTJYiCi+gg6vOI2pVQyD/qlZAODRF1D+NivBiwcooS71XB+RS7kKsEM+ie9r4mRUViYpy6SupKyap0aBmmwqWlxasVi9UEF6VpizxnRlhsOrx2T7Xt6yxRdGE1316Do0k74ilzEX2nyfJYJanoOjzubGlLkXl+dyjtoFvQuRE3pfAG5LeLzFC3AvitFsfwvpLAvIJYQJCyMAQy1q61qlq5kIIiyYnlND704EcqtMqo60FBxaEjUmFH4tUBnzLMPxGTCP8bnV4bptOzo2VSdq/BrUInzKEFq/gVupJdjBTUEMFaXgV9J5DldyWuVH6w3+2/PLg8O9/vX5DWf/6rQDMDkpek4G5ACVNxf6Fm50THMpufPCV0dW6b1Unp4O2CGM1oZ2nSM6T1Nv+8/fW5eyIz8bp1T18kTuE9xoMy8GYwtb6Rj9dpNLW1+Dxg770B99ndJ6yH3afF6gaqMBxr6lZ+kVROjARnFSUqAj8oTP/kfLg/oJJ8bPhQNXMp9SYqG0NbXJatCQ5UjkHV+W8+dZgPPStd/c631opHzt3a+p13Qrx57OttdRyNT7Q1yv8WzZqhD3YOcSeKfiaG+Hq8ZVpTP8/7RzuRl3PBqT6alkRI+7rxH7osBWzRCAAA</response>
+    <comment>role:user</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:04:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/static/app.js.map]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[GET]]></method>
+    <path><![CDATA[/static/app.js.map]]></path>
+    <extension>map</extension>
+    <request base64="true">R0VUIC9zdGF0aWMvYXBwLmpzLm1hcCBIVFRQLzEuMQ0KSG9zdDogc2hvcC5leGFtcGxlLmNvbQ0KVXNlci1BZ2VudDogTW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTBfMTVfNykgQXBwbGVXZWJLaXQvNTM3LjM2DQpBY2NlcHQ6ICovKg0KQWNjZXB0LUxhbmd1YWdlOiBlbi1HQixlbjtxPTAuOQ0KUmVmZXJlcjogaHR0cHM6Ly9zaG9wLmV4YW1wbGUuY29tLw0KQ29va2llOiBjb25zZW50PTE7IHNpZD1zJTNBS3A3bVEyeFc5dlI0dExuQjZoRGMwSnlGOGFTZ0U1dVQ7IF9nYT1HQTEuMi44ODQ0MTIuMTc5MDINCkF1dGhvcml6YXRpb246IEJlYXJlciBleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKemRXSWlPaUkwT0RJeElpd2ljbTlzWlNJNkltTjFjM1J2YldWeUluMC5LcDdtUTJ4Vzl2UjR0TG5CNmhEYzBKeUY4YVNnRTV1VDFvVmlBY1h3DQoNCg==</request>
+    <status>200</status>
+    <responselength>864</responselength>
+    <mimetype>JSON</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NClNlcnZlcjogbmdpbngvMS4yNS4zDQpYLVBvd2VyZWQtQnk6IEV4cHJlc3MNCkNvbnRlbnQtTGVuZ3RoOiA4NjQNCg0KeyJ2ZXJzaW9uIjogMywgImZpbGUiOiAiYXBwLmpzIiwgInNvdXJjZVJvb3QiOiAiIiwgInNvdXJjZXMiOiBbInNyYy9pbmRleC50cyIsICJzcmMvYXBpL3Byb2ZpbGUudHMiLCAic3JjL2FwaS9vcmRlcnMudHMiLCAic3JjL2FwaS9hZG1pbi50cyIsICJzcmMvbGliL2FpLnRzIiwgInNyYy9jb25maWcudHMiXSwgInNvdXJjZXNDb250ZW50IjogWyJpbXBvcnQgeyBsb2FkUHJvZmlsZSB9IGZyb20gJy4vYXBpL3Byb2ZpbGUnO1xuZXhwb3J0IGZ1bmN0aW9uIGJvb3QoKSB7IGxvYWRQcm9maWxlKCk7IH1cbiIsICJleHBvcnQgYXN5bmMgZnVuY3Rpb24gbG9hZFByb2ZpbGUoKSB7IHJldHVybiBmZXRjaCgnL2FwaS9wcm9maWxlJyk7IH1cbiIsICJleHBvcnQgYXN5bmMgZnVuY3Rpb24gbGlzdE9yZGVycygpIHsgcmV0dXJuIGZldGNoKCcvYXBpL29yZGVycycpOyB9XG4iLCAiLy8gQWRtaW4gc3VyZmFjZS4gQnVuZGxlZCBmb3IgZXZlcnkgdmlzaXRvcjsgb25seSByZW5kZXJlZCBmb3Igc3RhZmYuXG5leHBvcnQgYXN5bmMgZnVuY3Rpb24gbGlzdFVzZXJzKCkgeyByZXR1cm4gZmV0Y2goJy9hcGkvYWRtaW4vdXNlcnMnKTsgfVxuZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIHNldEZsYWcobikgeyByZXR1cm4gZmV0Y2goJy9hcGkvYWRtaW4vZmxhZ3MnLCB7bWV0aG9kOidQT1NUJ30pOyB9XG4iLCAiZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIHN1bW1hcmlzZSh0KSB7IHJldHVybiBmZXRjaCgnaHR0cHM6Ly9hcGkub3BlbmFpLmNvbS92MS9jaGF0L2NvbXBsZXRpb25zJyk7IH1cbiIsICJleHBvcnQgY29uc3QgQ09ORklHID0geyByZWdpb246ICdhcC1zb3V0aC0xJyB9O1xuIl0sICJuYW1lcyI6IFtdLCAibWFwcGluZ3MiOiAiQUFBQSJ9</response>
+    <comment>role:user</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:05:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/login]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[GET]]></method>
+    <path><![CDATA[/login]]></path>
+    <extension>null</extension>
+    <request base64="true">R0VUIC9sb2dpbiBIVFRQLzEuMQ0KSG9zdDogc2hvcC5leGFtcGxlLmNvbQ0KVXNlci1BZ2VudDogTW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTBfMTVfNykgQXBwbGVXZWJLaXQvNTM3LjM2DQpBY2NlcHQ6ICovKg0KQWNjZXB0LUxhbmd1YWdlOiBlbi1HQixlbjtxPTAuOQ0KUmVmZXJlcjogaHR0cHM6Ly9zaG9wLmV4YW1wbGUuY29tLw0KQ29va2llOiBjb25zZW50PTE7IHNpZD1zJTNBS3A3bVEyeFc5dlI0dExuQjZoRGMwSnlGOGFTZ0U1dVQ7IF9nYT1HQTEuMi44ODQ0MTIuMTc5MDINCkF1dGhvcml6YXRpb246IEJlYXJlciBleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKemRXSWlPaUkwT0RJeElpd2ljbTlzWlNJNkltTjFjM1J2YldWeUluMC5LcDdtUTJ4Vzl2UjR0TG5CNmhEYzBKeUY4YVNnRTV1VDFvVmlBY1h3DQoNCg==</request>
+    <status>200</status>
+    <responselength>557</responselength>
+    <mimetype>HTML</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IHRleHQvaHRtbDsgY2hhcnNldD11dGYtOA0KU2VydmVyOiBuZ2lueC8xLjI1LjMNClgtUG93ZXJlZC1CeTogRXhwcmVzcw0KQ29udGVudC1MZW5ndGg6IDU1Nw0KDQo8IWRvY3R5cGUgaHRtbD48aHRtbD48aGVhZD48bWV0YSBjaGFyc2V0PSJ1dGYtOCI+PHRpdGxlPkV4YW1wbGUgU2hvcDwvdGl0bGU+CjxsaW5rIHJlbD0ibWFuaWZlc3QiIGhyZWY9Ii9tYW5pZmVzdC53ZWJtYW5pZmVzdCI+CjxzY3JpcHQgc3JjPSIvc3RhdGljL3ZlbmRvci5qcyI+PC9zY3JpcHQ+PHNjcmlwdCBzcmM9Ii9zdGF0aWMvYXBwLmpzIj48L3NjcmlwdD4KPHNjcmlwdCB0eXBlPSJhcHBsaWNhdGlvbi9qc29uIiBpZD0iX19DT05GSUdfXyI+eyJhcGlCYXNlIjoiL2FwaSIsImNkbiI6Imh0dHBzOi8vY2RuLmV4YW1wbGUubmV0In08L3NjcmlwdD4KPC9oZWFkPjxib2R5PjxoMT5FeGFtcGxlIFNob3A8L2gxPgo8Zm9ybSBhY3Rpb249Ii9hcGkvYWNjb3VudC9hZGRyZXNzIiBtZXRob2Q9InBvc3QiPgogIDxpbnB1dCBuYW1lPSJsaW5lMSI+PGlucHV0IG5hbWU9InBvc3Rjb2RlIj48aW5wdXQgbmFtZT0iYWNjb3VudF9pZCIgdmFsdWU9IjQ4MjEiPjwvZm9ybT4KPGltZyBzcmM9Imh0dHBzOi8vY2RuLmV4YW1wbGUubmV0L2ltZy9iYW5uZXIucG5nIj48L2JvZHk+PC9odG1sPg==</response>
+    <comment>role:user</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:06:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/api/session]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[POST]]></method>
+    <path><![CDATA[/api/session]]></path>
+    <extension>null</extension>
+    <request base64="true">UE9TVCAvYXBpL3Nlc3Npb24gSFRUUC8xLjENCkhvc3Q6IHNob3AuZXhhbXBsZS5jb20NClVzZXItQWdlbnQ6IE1vemlsbGEvNS4wIChNYWNpbnRvc2g7IEludGVsIE1hYyBPUyBYIDEwXzE1XzcpIEFwcGxlV2ViS2l0LzUzNy4zNg0KQWNjZXB0OiAqLyoNCkFjY2VwdC1MYW5ndWFnZTogZW4tR0IsZW47cT0wLjkNClJlZmVyZXI6IGh0dHBzOi8vc2hvcC5leGFtcGxlLmNvbS8NCkNvb2tpZTogY29uc2VudD0xOyBzaWQ9cyUzQUtwN21RMnhXOXZSNHRMbkI2aERjMEp5RjhhU2dFNXVUOyBfZ2E9R0ExLjIuODg0NDEyLjE3OTAyDQpBdXRob3JpemF0aW9uOiBCZWFyZXIgZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnpkV0lpT2lJME9ESXhJaXdpY205c1pTSTZJbU4xYzNSdmJXVnlJbjAuS3A3bVEyeFc5dlI0dExuQjZoRGMwSnlGOGFTZ0U1dVQxb1ZpQWNYdw0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi9qc29uDQpDb250ZW50LUxlbmd0aDogNDUNCg0KeyJ1c2VybmFtZSI6ICJhbmFueWEiLCAicGFzc3dvcmQiOiAiaHVudGVyMiJ9</request>
+    <status>200</status>
+    <responselength>166</responselength>
+    <mimetype>JSON</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NClNlcnZlcjogbmdpbngvMS4yNS4zDQpYLVBvd2VyZWQtQnk6IEV4cHJlc3MNCkNvbnRlbnQtTGVuZ3RoOiAxNjYNClNldC1Db29raWU6IHNpZD1zJTNBS3A3bVEyeFc5dlI0dExuQjZoRGMwSnlGOGFTZ0U1dVQ7IFBhdGg9LzsgSHR0cE9ubHk7IFNlY3VyZTsgU2FtZVNpdGU9TGF4DQpTZXQtQ29va2llOiBjc3JmPUtwN21RMnhXOXZSNDsgUGF0aD0vOyBTZWN1cmU7IFNhbWVTaXRlPVN0cmljdA0KDQp7Im9rIjogdHJ1ZSwgInRva2VuIjogImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUp6ZFdJaU9pSTBPREl4SWl3aWNtOXNaU0k2SW1OMWMzUnZiV1Z5SW4wLktwN21RMnhXOXZSNHRMbkI2aERjMEp5RjhhU2dFNXVUMW9WaUFjWHciLCAiZXhwaXJlc19pbiI6IDM2MDB9</response>
+    <comment>role:user</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:07:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/api/profile]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[GET]]></method>
+    <path><![CDATA[/api/profile]]></path>
+    <extension>null</extension>
+    <request base64="true">R0VUIC9hcGkvcHJvZmlsZSBIVFRQLzEuMQ0KSG9zdDogc2hvcC5leGFtcGxlLmNvbQ0KVXNlci1BZ2VudDogTW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTBfMTVfNykgQXBwbGVXZWJLaXQvNTM3LjM2DQpBY2NlcHQ6ICovKg0KQWNjZXB0LUxhbmd1YWdlOiBlbi1HQixlbjtxPTAuOQ0KUmVmZXJlcjogaHR0cHM6Ly9zaG9wLmV4YW1wbGUuY29tLw0KQ29va2llOiBjb25zZW50PTE7IHNpZD1zJTNBS3A3bVEyeFc5dlI0dExuQjZoRGMwSnlGOGFTZ0U1dVQ7IF9nYT1HQTEuMi44ODQ0MTIuMTc5MDINCkF1dGhvcml6YXRpb246IEJlYXJlciBleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKemRXSWlPaUkwT0RJeElpd2ljbTlzWlNJNkltTjFjM1J2YldWeUluMC5LcDdtUTJ4Vzl2UjR0TG5CNmhEYzBKeUY4YVNnRTV1VDFvVmlBY1h3DQoNCg==</request>
+    <status>200</status>
+    <responselength>192</responselength>
+    <mimetype>JSON</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NClNlcnZlcjogbmdpbngvMS4yNS4zDQpYLVBvd2VyZWQtQnk6IEV4cHJlc3MNCkNvbnRlbnQtTGVuZ3RoOiAxOTINCg0KeyJpZCI6IDQ4MjEsICJmdWxsX25hbWUiOiAiQW5hbnlhIFJhZ2hhdmFuIiwgImVtYWlsIjogImFuYW55YS5yYWdoYXZhbkBleGFtcGxlLm9yZyIsICJwaG9uZSI6ICIrOTE5ODc2NTQzMjEwIiwgInBhbiI6ICJBQkNERTEyMzRGIiwgImFkZHJlc3MiOiAiNDQgTmVocnUgUm9hZCwgQmVuZ2FsdXJ1IDU2MDAwMSIsICJwbGFuIjogInBybyJ9</response>
+    <comment>role:user</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:08:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/api/orders?status=open&page=1]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[GET]]></method>
+    <path><![CDATA[/api/orders]]></path>
+    <extension>null</extension>
+    <request base64="true">R0VUIC9hcGkvb3JkZXJzP3N0YXR1cz1vcGVuJnBhZ2U9MSBIVFRQLzEuMQ0KSG9zdDogc2hvcC5leGFtcGxlLmNvbQ0KVXNlci1BZ2VudDogTW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTBfMTVfNykgQXBwbGVXZWJLaXQvNTM3LjM2DQpBY2NlcHQ6ICovKg0KQWNjZXB0LUxhbmd1YWdlOiBlbi1HQixlbjtxPTAuOQ0KUmVmZXJlcjogaHR0cHM6Ly9zaG9wLmV4YW1wbGUuY29tLw0KQ29va2llOiBjb25zZW50PTE7IHNpZD1zJTNBS3A3bVEyeFc5dlI0dExuQjZoRGMwSnlGOGFTZ0U1dVQ7IF9nYT1HQTEuMi44ODQ0MTIuMTc5MDINCkF1dGhvcml6YXRpb246IEJlYXJlciBleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKemRXSWlPaUkwT0RJeElpd2ljbTlzWlNJNkltTjFjM1J2YldWeUluMC5LcDdtUTJ4Vzl2UjR0TG5CNmhEYzBKeUY4YVNnRTV1VDFvVmlBY1h3DQoNCg==</request>
+    <status>200</status>
+    <responselength>169</responselength>
+    <mimetype>JSON</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NClNlcnZlcjogbmdpbngvMS4yNS4zDQpYLVBvd2VyZWQtQnk6IEV4cHJlc3MNClRyYW5zZmVyLUVuY29kaW5nOiBjaHVua2VkDQoNCkE5DQp7Im9yZGVycyI6IFt7ImlkIjogOTAwMSwgInN0YXR1cyI6ICJvcGVuIiwgInRvdGFsIjogNDIwMCwgImN1c3RvbWVyX2VtYWlsIjogImFuYW55YS5yYWdoYXZhbkBleGFtcGxlLm9yZyJ9LCB7ImlkIjogOTAwMiwgInN0YXR1cyI6ICJzaGlwcGVkIiwgInRvdGFsIjogMTg5OX1dLCAicGFnZSI6IDF9DQowDQoNCg==</response>
+    <comment>role:user</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:09:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/api/orders/9001]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[GET]]></method>
+    <path><![CDATA[/api/orders/9001]]></path>
+    <extension>null</extension>
+    <request base64="true">R0VUIC9hcGkvb3JkZXJzLzkwMDEgSFRUUC8xLjENCkhvc3Q6IHNob3AuZXhhbXBsZS5jb20NClVzZXItQWdlbnQ6IE1vemlsbGEvNS4wIChNYWNpbnRvc2g7IEludGVsIE1hYyBPUyBYIDEwXzE1XzcpIEFwcGxlV2ViS2l0LzUzNy4zNg0KQWNjZXB0OiAqLyoNCkFjY2VwdC1MYW5ndWFnZTogZW4tR0IsZW47cT0wLjkNClJlZmVyZXI6IGh0dHBzOi8vc2hvcC5leGFtcGxlLmNvbS8NCkNvb2tpZTogY29uc2VudD0xOyBzaWQ9cyUzQUtwN21RMnhXOXZSNHRMbkI2aERjMEp5RjhhU2dFNXVUOyBfZ2E9R0ExLjIuODg0NDEyLjE3OTAyDQpBdXRob3JpemF0aW9uOiBCZWFyZXIgZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnpkV0lpT2lJME9ESXhJaXdpY205c1pTSTZJbU4xYzNSdmJXVnlJbjAuS3A3bVEyeFc5dlI0dExuQjZoRGMwSnlGOGFTZ0U1dVQxb1ZpQWNYdw0KDQo=</request>
+    <status>200</status>
+    <responselength>27</responselength>
+    <mimetype>JSON</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NClNlcnZlcjogbmdpbngvMS4yNS4zDQpYLVBvd2VyZWQtQnk6IEV4cHJlc3MNCkNvbnRlbnQtTGVuZ3RoOiAyNw0KDQp7ImlkIjogOTAwMSwgInRvdGFsIjogNDIwMH0=</response>
+    <comment>role:user</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:10:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/api/export]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[POST]]></method>
+    <path><![CDATA[/api/export]]></path>
+    <extension>null</extension>
+    <request base64="true">UE9TVCAvYXBpL2V4cG9ydCBIVFRQLzEuMQ0KSG9zdDogc2hvcC5leGFtcGxlLmNvbQ0KVXNlci1BZ2VudDogTW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTBfMTVfNykgQXBwbGVXZWJLaXQvNTM3LjM2DQpBY2NlcHQ6ICovKg0KQWNjZXB0LUxhbmd1YWdlOiBlbi1HQixlbjtxPTAuOQ0KUmVmZXJlcjogaHR0cHM6Ly9zaG9wLmV4YW1wbGUuY29tLw0KQ29va2llOiBjb25zZW50PTE7IHNpZD1zJTNBS3A3bVEyeFc5dlI0dExuQjZoRGMwSnlGOGFTZ0U1dVQ7IF9nYT1HQTEuMi44ODQ0MTIuMTc5MDINCkF1dGhvcml6YXRpb246IEJlYXJlciBleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKemRXSWlPaUkwT0RJeElpd2ljbTlzWlNJNkltTjFjM1J2YldWeUluMC5LcDdtUTJ4Vzl2UjR0TG5CNmhEYzBKeUY4YVNnRTV1VDFvVmlBY1h3DQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NCkNvbnRlbnQtTGVuZ3RoOiA2OA0KDQp7ImFjY291bnRfaWQiOiA0ODIxLCAiZm9ybWF0IjogImNzdiIsICJjYXJkIjogIjQxMTEgMTExMSAxMTExIDExMTEifQ==</request>
+    <status>201</status>
+    <responselength>32</responselength>
+    <mimetype>JSON</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAxIENyZWF0ZWQNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24vanNvbg0KU2VydmVyOiBuZ2lueC8xLjI1LjMNClgtUG93ZXJlZC1CeTogRXhwcmVzcw0KQ29udGVudC1MZW5ndGg6IDMyDQoNCnsiam9iIjogImV4cF80NDEyIiwgInJvd3MiOiA4MTJ9</response>
+    <comment>role:user</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:11:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/api/account/address]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[PUT]]></method>
+    <path><![CDATA[/api/account/address]]></path>
+    <extension>null</extension>
+    <request base64="true">UFVUIC9hcGkvYWNjb3VudC9hZGRyZXNzIEhUVFAvMS4xDQpIb3N0OiBzaG9wLmV4YW1wbGUuY29tDQpVc2VyLUFnZW50OiBNb3ppbGxhLzUuMCAoTWFjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAxMF8xNV83KSBBcHBsZVdlYktpdC81MzcuMzYNCkFjY2VwdDogKi8qDQpBY2NlcHQtTGFuZ3VhZ2U6IGVuLUdCLGVuO3E9MC45DQpSZWZlcmVyOiBodHRwczovL3Nob3AuZXhhbXBsZS5jb20vDQpDb29raWU6IGNvbnNlbnQ9MTsgc2lkPXMlM0FLcDdtUTJ4Vzl2UjR0TG5CNmhEYzBKeUY4YVNnRTV1VDsgX2dhPUdBMS4yLjg4NDQxMi4xNzkwMg0KQXV0aG9yaXphdGlvbjogQmVhcmVyIGV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUp6ZFdJaU9pSTBPREl4SWl3aWNtOXNaU0k2SW1OMWMzUnZiV1Z5SW4wLktwN21RMnhXOXZSNHRMbkI2aERjMEp5RjhhU2dFNXVUMW9WaUFjWHcNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24vanNvbg0KQ29udGVudC1MZW5ndGg6IDY2DQoNCnsibGluZTEiOiAiNDQgTmVocnUgUm9hZCwgQmVuZ2FsdXJ1IDU2MDAwMSIsICJwb3N0Y29kZSI6ICI1NjAwMDEifQ==</request>
+    <status>200</status>
+    <responselength>12</responselength>
+    <mimetype>JSON</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NClNlcnZlcjogbmdpbngvMS4yNS4zDQpYLVBvd2VyZWQtQnk6IEV4cHJlc3MNCkNvbnRlbnQtTGVuZ3RoOiAxMg0KDQp7Im9rIjogdHJ1ZX0=</response>
+    <comment>role:user</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:12:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/api/account/preferences]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[PATCH]]></method>
+    <path><![CDATA[/api/account/preferences]]></path>
+    <extension>null</extension>
+    <request base64="true">UEFUQ0ggL2FwaS9hY2NvdW50L3ByZWZlcmVuY2VzIEhUVFAvMS4xDQpIb3N0OiBzaG9wLmV4YW1wbGUuY29tDQpVc2VyLUFnZW50OiBNb3ppbGxhLzUuMCAoTWFjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAxMF8xNV83KSBBcHBsZVdlYktpdC81MzcuMzYNCkFjY2VwdDogKi8qDQpBY2NlcHQtTGFuZ3VhZ2U6IGVuLUdCLGVuO3E9MC45DQpSZWZlcmVyOiBodHRwczovL3Nob3AuZXhhbXBsZS5jb20vDQpDb29raWU6IGNvbnNlbnQ9MTsgc2lkPXMlM0FLcDdtUTJ4Vzl2UjR0TG5CNmhEYzBKeUY4YVNnRTV1VDsgX2dhPUdBMS4yLjg4NDQxMi4xNzkwMg0KQXV0aG9yaXphdGlvbjogQmVhcmVyIGV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUp6ZFdJaU9pSTBPREl4SWl3aWNtOXNaU0k2SW1OMWMzUnZiV1Z5SW4wLktwN21RMnhXOXZSNHRMbkI2aERjMEp5RjhhU2dFNXVUMW9WaUFjWHcNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24vanNvbg0KQ29udGVudC1MZW5ndGg6IDM5DQoNCnsibWFya2V0aW5nIjogZmFsc2UsICJjdXJyZW5jeSI6ICJJTlIifQ==</request>
+    <status>200</status>
+    <responselength>12</responselength>
+    <mimetype>JSON</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NClNlcnZlcjogbmdpbngvMS4yNS4zDQpYLVBvd2VyZWQtQnk6IEV4cHJlc3MNCkNvbnRlbnQtTGVuZ3RoOiAxMg0KDQp7Im9rIjogdHJ1ZX0=</response>
+    <comment>role:user</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:13:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/graphql]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[POST]]></method>
+    <path><![CDATA[/graphql]]></path>
+    <extension>null</extension>
+    <request base64="true">UE9TVCAvZ3JhcGhxbCBIVFRQLzEuMQ0KSG9zdDogc2hvcC5leGFtcGxlLmNvbQ0KVXNlci1BZ2VudDogTW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTBfMTVfNykgQXBwbGVXZWJLaXQvNTM3LjM2DQpBY2NlcHQ6ICovKg0KQWNjZXB0LUxhbmd1YWdlOiBlbi1HQixlbjtxPTAuOQ0KUmVmZXJlcjogaHR0cHM6Ly9zaG9wLmV4YW1wbGUuY29tLw0KQ29va2llOiBjb25zZW50PTE7IHNpZD1zJTNBS3A3bVEyeFc5dlI0dExuQjZoRGMwSnlGOGFTZ0U1dVQ7IF9nYT1HQTEuMi44ODQ0MTIuMTc5MDINCkF1dGhvcml6YXRpb246IEJlYXJlciBleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKemRXSWlPaUkwT0RJeElpd2ljbTlzWlNJNkltTjFjM1J2YldWeUluMC5LcDdtUTJ4Vzl2UjR0TG5CNmhEYzBKeUY4YVNnRTV1VDFvVmlBY1h3DQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NCkNvbnRlbnQtTGVuZ3RoOiAxNTgNCg0KeyJvcGVyYXRpb25OYW1lIjogIlByb2R1Y3RTZWFyY2giLCAicXVlcnkiOiAicXVlcnkgUHJvZHVjdFNlYXJjaCgkdGVybTogU3RyaW5nISkgeyBwcm9kdWN0cyh0ZXJtOiAkdGVybSkgeyBpZCBuYW1lIHByaWNlIH0gfSIsICJ2YXJpYWJsZXMiOiB7InRlcm0iOiAic2hpcnQifX0=</request>
+    <status>200</status>
+    <responselength>74</responselength>
+    <mimetype>JSON</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NClNlcnZlcjogbmdpbngvMS4yNS4zDQpYLVBvd2VyZWQtQnk6IEV4cHJlc3MNCkNvbnRlbnQtTGVuZ3RoOiA3NA0KDQp7ImRhdGEiOiB7InByb2R1Y3RzIjogW3siaWQiOiAxLCAibmFtZSI6ICJPeGZvcmQgc2hpcnQiLCAicHJpY2UiOiAyNDAwfV19fQ==</response>
+    <comment>role:user</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:14:11 IST 2026</time>
+    <url><![CDATA[https://api.openai.com/v1/chat/completions]]></url>
+    <host ip="203.0.113.24">api.openai.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[POST]]></method>
+    <path><![CDATA[/v1/chat/completions]]></path>
+    <extension>null</extension>
+    <request base64="true">UE9TVCBodHRwczovL2FwaS5vcGVuYWkuY29tL3YxL2NoYXQvY29tcGxldGlvbnMgSFRUUC8xLjENCkhvc3Q6IGFwaS5vcGVuYWkuY29tDQpVc2VyLUFnZW50OiBNb3ppbGxhLzUuMCAoTWFjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAxMF8xNV83KSBBcHBsZVdlYktpdC81MzcuMzYNCkFjY2VwdDogKi8qDQpBY2NlcHQtTGFuZ3VhZ2U6IGVuLUdCLGVuO3E9MC45DQpSZWZlcmVyOiBodHRwczovL3Nob3AuZXhhbXBsZS5jb20vDQpDb29raWU6IGNvbnNlbnQ9MTsgc2lkPXMlM0FLcDdtUTJ4Vzl2UjR0TG5CNmhEYzBKeUY4YVNnRTV1VDsgX2dhPUdBMS4yLjg4NDQxMi4xNzkwMg0KQXV0aG9yaXphdGlvbjogQmVhcmVyIGV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUp6ZFdJaU9pSTBPREl4SWl3aWNtOXNaU0k2SW1OMWMzUnZiV1Z5SW4wLktwN21RMnhXOXZSNHRMbkI2aERjMEp5RjhhU2dFNXVUMW9WaUFjWHcNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24vanNvbg0KQ29udGVudC1MZW5ndGg6IDQwDQoNCnsibW9kZWwiOiAiZ3B0LTRvLW1pbmkiLCAibWVzc2FnZXMiOiBbXX0=</request>
+    <status>200</status>
+    <responselength>70</responselength>
+    <mimetype>JSON</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NClNlcnZlcjogbmdpbngvMS4yNS4zDQpYLVBvd2VyZWQtQnk6IEV4cHJlc3MNCkNvbnRlbnQtTGVuZ3RoOiA3MA0KDQp7ImlkIjogImNoYXRjbXBsLTl4IiwgImNob2ljZXMiOiBbeyJtZXNzYWdlIjogeyJjb250ZW50IjogIlx1MjAyNiJ9fV19</response>
+    <comment>role:user</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:15:11 IST 2026</time>
+    <url><![CDATA[https://metrics.example.net/analytics.js]]></url>
+    <host ip="203.0.113.24">metrics.example.net</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[GET]]></method>
+    <path><![CDATA[/analytics.js]]></path>
+    <extension>js</extension>
+    <request base64="true">R0VUIGh0dHBzOi8vbWV0cmljcy5leGFtcGxlLm5ldC9hbmFseXRpY3MuanMgSFRUUC8xLjENCkhvc3Q6IG1ldHJpY3MuZXhhbXBsZS5uZXQNClVzZXItQWdlbnQ6IE1vemlsbGEvNS4wIChNYWNpbnRvc2g7IEludGVsIE1hYyBPUyBYIDEwXzE1XzcpIEFwcGxlV2ViS2l0LzUzNy4zNg0KQWNjZXB0OiAqLyoNCkFjY2VwdC1MYW5ndWFnZTogZW4tR0IsZW47cT0wLjkNClJlZmVyZXI6IGh0dHBzOi8vc2hvcC5leGFtcGxlLmNvbS8NCkNvb2tpZTogY29uc2VudD0xOyBzaWQ9cyUzQUtwN21RMnhXOXZSNHRMbkI2aERjMEp5RjhhU2dFNXVUOyBfZ2E9R0ExLjIuODg0NDEyLjE3OTAyDQpBdXRob3JpemF0aW9uOiBCZWFyZXIgZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnpkV0lpT2lJME9ESXhJaXdpY205c1pTSTZJbU4xYzNSdmJXVnlJbjAuS3A3bVEyeFc5dlI0dExuQjZoRGMwSnlGOGFTZ0U1dVQxb1ZpQWNYdw0KDQo=</request>
+    <status>200</status>
+    <responselength>16</responselength>
+    <mimetype>script</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2phdmFzY3JpcHQNClNlcnZlcjogbmdpbngvMS4yNS4zDQpYLVBvd2VyZWQtQnk6IEV4cHJlc3MNCkNvbnRlbnQtTGVuZ3RoOiAxNg0KDQohZnVuY3Rpb24oKXt9KCk7</response>
+    <comment>role:user</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:16:11 IST 2026</time>
+    <url><![CDATA[https://cdn.example.net/img/banner.png]]></url>
+    <host ip="203.0.113.24">cdn.example.net</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[GET]]></method>
+    <path><![CDATA[/img/banner.png]]></path>
+    <extension>png</extension>
+    <request base64="true">R0VUIGh0dHBzOi8vY2RuLmV4YW1wbGUubmV0L2ltZy9iYW5uZXIucG5nIEhUVFAvMS4xDQpIb3N0OiBjZG4uZXhhbXBsZS5uZXQNClVzZXItQWdlbnQ6IE1vemlsbGEvNS4wIChNYWNpbnRvc2g7IEludGVsIE1hYyBPUyBYIDEwXzE1XzcpIEFwcGxlV2ViS2l0LzUzNy4zNg0KQWNjZXB0OiAqLyoNCkFjY2VwdC1MYW5ndWFnZTogZW4tR0IsZW47cT0wLjkNClJlZmVyZXI6IGh0dHBzOi8vc2hvcC5leGFtcGxlLmNvbS8NCkNvb2tpZTogY29uc2VudD0xOyBzaWQ9cyUzQUtwN21RMnhXOXZSNHRMbkI2aERjMEp5RjhhU2dFNXVUOyBfZ2E9R0ExLjIuODg0NDEyLjE3OTAyDQpBdXRob3JpemF0aW9uOiBCZWFyZXIgZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnpkV0lpT2lJME9ESXhJaXdpY205c1pTSTZJbU4xYzNSdmJXVnlJbjAuS3A3bVEyeFc5dlI0dExuQjZoRGMwSnlGOGFTZ0U1dVQxb1ZpQWNYdw0KDQo=</request>
+    <status>200</status>
+    <responselength>6</responselength>
+    <mimetype></mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IGltYWdlL2dpZg0KU2VydmVyOiBuZ2lueC8xLjI1LjMNClgtUG93ZXJlZC1CeTogRXhwcmVzcw0KQ29udGVudC1MZW5ndGg6IDYNCg0KR0lGODlh</response>
+    <comment>role:user</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:17:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/api/internal/debug]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[GET]]></method>
+    <path><![CDATA[/api/internal/debug]]></path>
+    <extension>null</extension>
+    <request base64="true">R0VUIC9hcGkvaW50ZXJuYWwvZGVidWcgSFRUUC8xLjENCkhvc3Q6IHNob3AuZXhhbXBsZS5jb20NClVzZXItQWdlbnQ6IE1vemlsbGEvNS4wIChNYWNpbnRvc2g7IEludGVsIE1hYyBPUyBYIDEwXzE1XzcpIEFwcGxlV2ViS2l0LzUzNy4zNg0KQWNjZXB0OiAqLyoNCkFjY2VwdC1MYW5ndWFnZTogZW4tR0IsZW47cT0wLjkNClJlZmVyZXI6IGh0dHBzOi8vc2hvcC5leGFtcGxlLmNvbS8NCkNvb2tpZTogY29uc2VudD0xOyBzaWQ9cyUzQUtwN21RMnhXOXZSNHRMbkI2aERjMEp5RjhhU2dFNXVUOyBfZ2E9R0ExLjIuODg0NDEyLjE3OTAyDQpBdXRob3JpemF0aW9uOiBCZWFyZXIgZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnpkV0lpT2lJME9ESXhJaXdpY205c1pTSTZJbU4xYzNSdmJXVnlJbjAuS3A3bVEyeFc5dlI0dExuQjZoRGMwSnlGOGFTZ0U1dVQxb1ZpQWNYdw0KDQo=</request>
+    <status>403</status>
+    <responselength>22</responselength>
+    <mimetype>JSON</mimetype>
+    <response base64="true">SFRUUC8xLjEgNDAzIEZvcmJpZGRlbg0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi9qc29uDQpTZXJ2ZXI6IG5naW54LzEuMjUuMw0KWC1Qb3dlcmVkLUJ5OiBFeHByZXNzDQpDb250ZW50LUxlbmd0aDogMjINCg0KeyJlcnJvciI6ICJmb3JiaWRkZW4ifQ==</response>
+    <comment>role:user</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:18:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/api/billing/invoices]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[GET]]></method>
+    <path><![CDATA[/api/billing/invoices]]></path>
+    <extension>null</extension>
+    <request base64="true">R0VUIC9hcGkvYmlsbGluZy9pbnZvaWNlcyBIVFRQLzEuMQ0KSG9zdDogc2hvcC5leGFtcGxlLmNvbQ0KVXNlci1BZ2VudDogTW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTBfMTVfNykgQXBwbGVXZWJLaXQvNTM3LjM2DQpBY2NlcHQ6ICovKg0KQWNjZXB0LUxhbmd1YWdlOiBlbi1HQixlbjtxPTAuOQ0KUmVmZXJlcjogaHR0cHM6Ly9zaG9wLmV4YW1wbGUuY29tLw0KQ29va2llOiBjb25zZW50PTE7IHNpZD1zJTNBS3A3bVEyeFc5dlI0dExuQjZoRGMwSnlGOGFTZ0U1dVQ7IF9nYT1HQTEuMi44ODQ0MTIuMTc5MDINCg0K</request>
+    <status>401</status>
+    <responselength>20</responselength>
+    <mimetype>JSON</mimetype>
+    <response base64="true">SFRUUC8xLjEgNDAxIFVuYXV0aG9yaXplZA0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi9qc29uDQpTZXJ2ZXI6IG5naW54LzEuMjUuMw0KWC1Qb3dlcmVkLUJ5OiBFeHByZXNzDQpDb250ZW50LUxlbmd0aDogMjANCkFsbG93OiBHRVQsIFBPU1QsIERFTEVURQ0KDQp7ImVycm9yIjogInNpZ24gaW4ifQ==</response>
+    <comment>role:user</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:19:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/api/admin/users]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[GET]]></method>
+    <path><![CDATA[/api/admin/users]]></path>
+    <extension>null</extension>
+    <request base64="true">R0VUIC9hcGkvYWRtaW4vdXNlcnMgSFRUUC8xLjENCkhvc3Q6IHNob3AuZXhhbXBsZS5jb20NClVzZXItQWdlbnQ6IE1vemlsbGEvNS4wIChNYWNpbnRvc2g7IEludGVsIE1hYyBPUyBYIDEwXzE1XzcpIEFwcGxlV2ViS2l0LzUzNy4zNg0KQWNjZXB0OiAqLyoNCkFjY2VwdC1MYW5ndWFnZTogZW4tR0IsZW47cT0wLjkNClJlZmVyZXI6IGh0dHBzOi8vc2hvcC5leGFtcGxlLmNvbS8NCkNvb2tpZTogY29uc2VudD0xOyBzaWQ9cyUzQUtwN21RMnhXOXZSNHRMbkI2aERjMEp5RjhhU2dFNXVUOyBfZ2E9R0ExLjIuODg0NDEyLjE3OTAyDQpBdXRob3JpemF0aW9uOiBCZWFyZXIgZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnpkV0lpT2lJME9ESXhJaXdpY205c1pTSTZJbU4xYzNSdmJXVnlJbjAuS3A3bVEyeFc5dlI0dExuQjZoRGMwSnlGOGFTZ0U1dVQxb1ZpQWNYdw0KDQo=</request>
+    <status>200</status>
+    <responselength>910</responselength>
+    <mimetype>JSON</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NClNlcnZlcjogbmdpbngvMS4yNS4zDQpYLVBvd2VyZWQtQnk6IEV4cHJlc3MNCkNvbnRlbnQtTGVuZ3RoOiA5MTANCg0KeyJ1c2VycyI6IFt7ImlkIjogMSwgImVtYWlsIjogInBlcnNvbjFAZXhhbXBsZS5vcmciLCAicm9sZSI6ICJzdGFmZiJ9LCB7ImlkIjogMiwgImVtYWlsIjogInBlcnNvbjJAZXhhbXBsZS5vcmciLCAicm9sZSI6ICJzdGFmZiJ9LCB7ImlkIjogMywgImVtYWlsIjogInBlcnNvbjNAZXhhbXBsZS5vcmciLCAicm9sZSI6ICJjdXN0b21lciJ9LCB7ImlkIjogNCwgImVtYWlsIjogInBlcnNvbjRAZXhhbXBsZS5vcmciLCAicm9sZSI6ICJjdXN0b21lciJ9LCB7ImlkIjogNSwgImVtYWlsIjogInBlcnNvbjVAZXhhbXBsZS5vcmciLCAicm9sZSI6ICJjdXN0b21lciJ9LCB7ImlkIjogNiwgImVtYWlsIjogInBlcnNvbjZAZXhhbXBsZS5vcmciLCAicm9sZSI6ICJjdXN0b21lciJ9LCB7ImlkIjogNywgImVtYWlsIjogInBlcnNvbjdAZXhhbXBsZS5vcmciLCAicm9sZSI6ICJjdXN0b21lciJ9LCB7ImlkIjogOCwgImVtYWlsIjogInBlcnNvbjhAZXhhbXBsZS5vcmciLCAicm9sZSI6ICJjdXN0b21lciJ9LCB7ImlkIjogOSwgImVtYWlsIjogInBlcnNvbjlAZXhhbXBsZS5vcmciLCAicm9sZSI6ICJjdXN0b21lciJ9LCB7ImlkIjogMTAsICJlbWFpbCI6ICJwZXJzb24xMEBleGFtcGxlLm9yZyIsICJyb2xlIjogImN1c3RvbWVyIn0sIHsiaWQiOiAxMSwgImVtYWlsIjogInBlcnNvbjExQGV4YW1wbGUub3JnIiwgInJvbGUiOiAiY3VzdG9tZXIifSwgeyJpZCI6IDEyLCAiZW1haWwiOiAicGVyc29uMTJAZXhhbXBsZS5vcmciLCAicm9sZSI6ICJjdXN0b21lciJ9LCB7ImlkIjogMTMsICJlbWFpbCI6ICJwZXJzb24xM0BleGFtcGxlLm9yZyIsICJyb2xlIjogImN1c3RvbWVyIn0sIHsiaWQiOiAxNCwgImVtYWlsIjogInBlcnNvbjE0QGV4YW1wbGUub3JnIiwgInJvbGUiOiAiY3VzdG9tZXIifV0sICJ0b3RhbCI6IDE0fQ==</response>
+    <comment>role:user</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:20:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/api/config/internal]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[GET]]></method>
+    <path><![CDATA[/api/config/internal]]></path>
+    <extension>null</extension>
+    <request base64="true">R0VUIC9hcGkvY29uZmlnL2ludGVybmFsIEhUVFAvMS4xDQpIb3N0OiBzaG9wLmV4YW1wbGUuY29tDQpVc2VyLUFnZW50OiBNb3ppbGxhLzUuMCAoTWFjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAxMF8xNV83KSBBcHBsZVdlYktpdC81MzcuMzYNCkFjY2VwdDogKi8qDQpBY2NlcHQtTGFuZ3VhZ2U6IGVuLUdCLGVuO3E9MC45DQpSZWZlcmVyOiBodHRwczovL3Nob3AuZXhhbXBsZS5jb20vDQpDb29raWU6IGNvbnNlbnQ9MTsgc2lkPXMlM0FLcDdtUTJ4Vzl2UjR0TG5CNmhEYzBKeUY4YVNnRTV1VDsgX2dhPUdBMS4yLjg4NDQxMi4xNzkwMg0KQXV0aG9yaXphdGlvbjogQmVhcmVyIGV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUp6ZFdJaU9pSTBPREl4SWl3aWNtOXNaU0k2SW1OMWMzUnZiV1Z5SW4wLktwN21RMnhXOXZSNHRMbkI2aERjMEp5RjhhU2dFNXVUMW9WaUFjWHcNCg0K</request>
+    <status>200</status>
+    <responselength>670</responselength>
+    <mimetype>JSON</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NClNlcnZlcjogbmdpbngvMS4yNS4zDQpYLVBvd2VyZWQtQnk6IEV4cHJlc3MNCkNvbnRlbnQtTGVuZ3RoOiA2NzANCg0KewogInJlZ2lvbiI6ICJhcC1zb3V0aC0xIiwKICJkYXRhYmFzZV91cmwiOiAicG9zdGdyZXNxbDovL3Nob3BfYXBwOktwN21RMnhXOXZSNHRMbkJAZGIuaW50ZXJuYWwuZXhhbXBsZTo1NDMyL3Nob3AiLAogImF3c19hY2Nlc3Nfa2V5X2lkIjogIkFLSUFETTRLUjlYVzJWUTdUWUJOIiwKICJvcGVuYWlfYXBpX2tleSI6ICJzay1wcm9qLURtNGtSOXhXMnZRN3RZYk42aExjMEpwRjhhU2dFNXVUMW9WaUFjWHdRek0zTmJZcktkIiwKICJzdHJpcGVfcHVibGlzaGFibGVfa2V5IjogInBrX2xpdmVfNTFIOGtSOXhXMnZRN3RZYk42aExjMEpwRiIsCiAibWFwc19hcGlfa2V5IjogIkFJemFTeURtNGtSOXhXMnZRN3RZYk42aExjMEpwRjhhU2dFNXVUMSIsCiAic2VudHJ5X2RzbiI6ICJodHRwczovLzRiMWM5ZDhlN2Y2YTViNGMzZDJlMWYwYTliOGM3ZDZlQG8xMjM0NS5pbmdlc3Quc2VudHJ5LmlvLzk4NzY1IiwKICJzaWduaW5nX2tleSI6ICItLS0tLUJFR0lOIFJTQSBQUklWQVRFIEtFWS0tLS0tXG5NSUlFcEFJQkFBS0NBUUVBeFc5dlI0dExuQjZoRGMwSnlGOGFTZ0U1dVQxb1ZpQWNYd1F6TTNOYllyS2RQakhnXG5Gc0V1VHdWeFp5QUtwN21RMnhXOXZSNHRMbkI2aERjMEp5RjhhU2dFNXVUMW9WaUFjWHdRek0zTmJZcktkUGpIXG4tLS0tLUVORCBSU0EgUFJJVkFURSBLRVktLS0tLSIKfQ==</response>
+    <comment>role:user</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:21:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/checkout]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[GET]]></method>
+    <path><![CDATA[/checkout]]></path>
+    <extension>null</extension>
+    <request base64="true">R0VUIC9jaGVja291dCBIVFRQLzEuMQ0KSG9zdDogc2hvcC5leGFtcGxlLmNvbQ0KVXNlci1BZ2VudDogTW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTBfMTVfNykgQXBwbGVXZWJLaXQvNTM3LjM2DQpBY2NlcHQ6ICovKg0KQWNjZXB0LUxhbmd1YWdlOiBlbi1HQixlbjtxPTAuOQ0KUmVmZXJlcjogaHR0cHM6Ly9zaG9wLmV4YW1wbGUuY29tLw0KQ29va2llOiBjb25zZW50PTE7IHNpZD1zJTNBS3A3bVEyeFc5dlI0dExuQjZoRGMwSnlGOGFTZ0U1dVQ7IF9nYT1HQTEuMi44ODQ0MTIuMTc5MDINCkF1dGhvcml6YXRpb246IEJlYXJlciBleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKemRXSWlPaUkwT0RJeElpd2ljbTlzWlNJNkltTjFjM1J2YldWeUluMC5LcDdtUTJ4Vzl2UjR0TG5CNmhEYzBKeUY4YVNnRTV1VDFvVmlBY1h3DQoNCg==</request>
+    <status>301</status>
+    <responselength>0</responselength>
+    <mimetype>HTML</mimetype>
+    <response base64="true">SFRUUC8xLjEgMzAxIE1vdmVkIFBlcm1hbmVudGx5DQpDb250ZW50LVR5cGU6IHRleHQvaHRtbA0KU2VydmVyOiBuZ2lueC8xLjI1LjMNClgtUG93ZXJlZC1CeTogRXhwcmVzcw0KQ29udGVudC1MZW5ndGg6IDANCkxvY2F0aW9uOiAvY2hlY2tvdXQvDQoNCg==</response>
+    <comment>role:user</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:22:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/checkout/]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[GET]]></method>
+    <path><![CDATA[/checkout/]]></path>
+    <extension>null</extension>
+    <request base64="true">R0VUIC9jaGVja291dC8gSFRUUC8xLjENCkhvc3Q6IHNob3AuZXhhbXBsZS5jb20NClVzZXItQWdlbnQ6IE1vemlsbGEvNS4wIChNYWNpbnRvc2g7IEludGVsIE1hYyBPUyBYIDEwXzE1XzcpIEFwcGxlV2ViS2l0LzUzNy4zNg0KQWNjZXB0OiAqLyoNCkFjY2VwdC1MYW5ndWFnZTogZW4tR0IsZW47cT0wLjkNClJlZmVyZXI6IGh0dHBzOi8vc2hvcC5leGFtcGxlLmNvbS8NCkNvb2tpZTogY29uc2VudD0xOyBzaWQ9cyUzQUtwN21RMnhXOXZSNHRMbkI2aERjMEp5RjhhU2dFNXVUOyBfZ2E9R0ExLjIuODg0NDEyLjE3OTAyDQpBdXRob3JpemF0aW9uOiBCZWFyZXIgZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnpkV0lpT2lJME9ESXhJaXdpY205c1pTSTZJbU4xYzNSdmJXVnlJbjAuS3A3bVEyeFc5dlI0dExuQjZoRGMwSnlGOGFTZ0U1dVQxb1ZpQWNYdw0KDQo=</request>
+    <status>302</status>
+    <responselength>0</responselength>
+    <mimetype>HTML</mimetype>
+    <response base64="true">SFRUUC8xLjEgMzAyIEZvdW5kDQpDb250ZW50LVR5cGU6IHRleHQvaHRtbA0KU2VydmVyOiBuZ2lueC8xLjI1LjMNClgtUG93ZXJlZC1CeTogRXhwcmVzcw0KQ29udGVudC1MZW5ndGg6IDANCkxvY2F0aW9uOiAvbG9naW4/cmV0dXJuX3RvPSUyRmNoZWNrb3V0DQoNCg==</response>
+    <comment>role:user</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:23:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/static/vendor.js]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[GET]]></method>
+    <path><![CDATA[/static/vendor.js]]></path>
+    <extension>js</extension>
+    <request base64="true">R0VUIC9zdGF0aWMvdmVuZG9yLmpzIEhUVFAvMS4xDQpIb3N0OiBzaG9wLmV4YW1wbGUuY29tDQpVc2VyLUFnZW50OiBNb3ppbGxhLzUuMCAoTWFjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAxMF8xNV83KSBBcHBsZVdlYktpdC81MzcuMzYNCkFjY2VwdDogKi8qDQpBY2NlcHQtTGFuZ3VhZ2U6IGVuLUdCLGVuO3E9MC45DQpSZWZlcmVyOiBodHRwczovL3Nob3AuZXhhbXBsZS5jb20vDQpDb29raWU6IGNvbnNlbnQ9MTsgc2lkPXMlM0FLcDdtUTJ4Vzl2UjR0TG5CNmhEYzBKeUY4YVNnRTV1VDsgX2dhPUdBMS4yLjg4NDQxMi4xNzkwMg0KQXV0aG9yaXphdGlvbjogQmVhcmVyIGV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUp6ZFdJaU9pSTBPREl4SWl3aWNtOXNaU0k2SW1OMWMzUnZiV1Z5SW4wLktwN21RMnhXOXZSNHRMbkI2aERjMEp5RjhhU2dFNXVUMW9WaUFjWHcNCg0K</request>
+    <status>304</status>
+    <responselength>0</responselength>
+    <mimetype>script</mimetype>
+    <response base64="true">SFRUUC8xLjEgMzA0IE5vdCBNb2RpZmllZA0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi9qYXZhc2NyaXB0DQpTZXJ2ZXI6IG5naW54LzEuMjUuMw0KWC1Qb3dlcmVkLUJ5OiBFeHByZXNzDQpDb250ZW50LUxlbmd0aDogMA0KDQo=</response>
+    <comment>role:user</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 12:00:00 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/api/orders/9003]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port><protocol>https</protocol>
+    <method><![CDATA[GET]]></method><path><![CDATA[/api/orders/9003]]></path>
+    <extension>null</extension>
+    <request base64="true">!!! truncated mid-write !!!</request>
+    <status>200</status><responselength>0</responselength><mimetype>JSON</mimetype>
+    <response base64="true">!!! truncated mid-write !!!</response>
+    <comment>role:user</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:24:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/admin]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[GET]]></method>
+    <path><![CDATA[/admin]]></path>
+    <extension>null</extension>
+    <request base64="true">R0VUIC9hZG1pbiBIVFRQLzEuMQ0KSG9zdDogc2hvcC5leGFtcGxlLmNvbQ0KVXNlci1BZ2VudDogTW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTBfMTVfNykgQXBwbGVXZWJLaXQvNTM3LjM2DQpBY2NlcHQ6ICovKg0KQWNjZXB0LUxhbmd1YWdlOiBlbi1HQixlbjtxPTAuOQ0KUmVmZXJlcjogaHR0cHM6Ly9zaG9wLmV4YW1wbGUuY29tLw0KQ29va2llOiBjb25zZW50PTE7IHNpZD1zJTNBWng0blQ4cFcxclk2dUk5b0E1c0QzZkc3aEowa0wybU47IF9nYT1HQTEuMi44ODQ0MTIuMTc5MDINCg0K</request>
+    <status>200</status>
+    <responselength>209</responselength>
+    <mimetype>HTML</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IHRleHQvaHRtbDsgY2hhcnNldD11dGYtOA0KU2VydmVyOiBuZ2lueC8xLjI1LjMNClgtUG93ZXJlZC1CeTogRXhwcmVzcw0KQ29udGVudC1MZW5ndGg6IDIwOQ0KDQo8IWRvY3R5cGUgaHRtbD48aHRtbD48aGVhZD48dGl0bGU+QWRtaW48L3RpdGxlPgo8c2NyaXB0IHNyYz0iL3N0YXRpYy92ZW5kb3IuanMiPjwvc2NyaXB0PjxzY3JpcHQgc3JjPSIvc3RhdGljL2FkbWluLmNodW5rLmpzIj48L3NjcmlwdD4KPC9oZWFkPjxib2R5PjxoMT5TdGFmZjwvaDE+PGEgaHJlZj0iL2FkbWluL3VzZXJzIj5Vc2VyczwvYT48L2JvZHk+PC9odG1sPg==</response>
+    <comment>role:admin</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:25:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/static/vendor.js]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[GET]]></method>
+    <path><![CDATA[/static/vendor.js]]></path>
+    <extension>js</extension>
+    <request base64="true">R0VUIC9zdGF0aWMvdmVuZG9yLmpzIEhUVFAvMS4xDQpIb3N0OiBzaG9wLmV4YW1wbGUuY29tDQpVc2VyLUFnZW50OiBNb3ppbGxhLzUuMCAoTWFjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAxMF8xNV83KSBBcHBsZVdlYktpdC81MzcuMzYNCkFjY2VwdDogKi8qDQpBY2NlcHQtTGFuZ3VhZ2U6IGVuLUdCLGVuO3E9MC45DQpSZWZlcmVyOiBodHRwczovL3Nob3AuZXhhbXBsZS5jb20vDQpDb29raWU6IGNvbnNlbnQ9MTsgc2lkPXMlM0FaeDRuVDhwVzFyWTZ1STlvQTVzRDNmRzdoSjBrTDJtTjsgX2dhPUdBMS4yLjg4NDQxMi4xNzkwMg0KDQo=</request>
+    <status>200</status>
+    <responselength>5173</responselength>
+    <mimetype>script</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2phdmFzY3JpcHQNClNlcnZlcjogbmdpbngvMS4yNS4zDQpYLVBvd2VyZWQtQnk6IEV4cHJlc3MNCkNvbnRlbnQtRW5jb2Rpbmc6IGd6aXANCkNvbnRlbnQtTGVuZ3RoOiAxMzQNCg0KH4sIAAAAAAAC/+3KMQrCMBxG8b2n+NzaDokguIirg4uIJ5A2hUj5R4JpEfXuKp5CeOvvPd8udDmWkO+aVm7tlnqq7hodrsH2J+1Ssf58i8nU+mqO1qfZ/f7tUKz7lrp5vDaV95rCJ2cNcRxDBgAAAAAAAAAAAAAAAADgP+ENZXEIFTUUAAA=</response>
+    <comment>role:admin</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:26:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/static/admin.chunk.js]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[GET]]></method>
+    <path><![CDATA[/static/admin.chunk.js]]></path>
+    <extension>js</extension>
+    <request base64="true">R0VUIC9zdGF0aWMvYWRtaW4uY2h1bmsuanMgSFRUUC8xLjENCkhvc3Q6IHNob3AuZXhhbXBsZS5jb20NClVzZXItQWdlbnQ6IE1vemlsbGEvNS4wIChNYWNpbnRvc2g7IEludGVsIE1hYyBPUyBYIDEwXzE1XzcpIEFwcGxlV2ViS2l0LzUzNy4zNg0KQWNjZXB0OiAqLyoNCkFjY2VwdC1MYW5ndWFnZTogZW4tR0IsZW47cT0wLjkNClJlZmVyZXI6IGh0dHBzOi8vc2hvcC5leGFtcGxlLmNvbS8NCkNvb2tpZTogY29uc2VudD0xOyBzaWQ9cyUzQVp4NG5UOHBXMXJZNnVJOW9BNXNEM2ZHN2hKMGtMMm1OOyBfZ2E9R0ExLjIuODg0NDEyLjE3OTAyDQoNCg==</request>
+    <status>200</status>
+    <responselength>555</responselength>
+    <mimetype>script</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2phdmFzY3JpcHQNClNlcnZlcjogbmdpbngvMS4yNS4zDQpYLVBvd2VyZWQtQnk6IEV4cHJlc3MNCkNvbnRlbnQtTGVuZ3RoOiA1NTcNCg0KLyogc2hvcC5leGFtcGxlLmNvbSDigJQgYWRtaW4gY2h1bmssIHNlcnZlZCBvbmx5IHVuZGVyIC9hZG1pbiAqLwpleHBvcnQgYXN5bmMgZnVuY3Rpb24gbGlzdFVzZXJzKCkgIHsgcmV0dXJuIGZldGNoKCIvYXBpL2FkbWluL3VzZXJzIik7IH0KZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIHNldEZsYWcobix2KSB7IHJldHVybiBmZXRjaCgiL2FwaS9hZG1pbi9mbGFncyIsIHttZXRob2Q6IlBPU1QifSk7IH0KZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIHJhd1JlcG9ydChpZCl7IHJldHVybiBmZXRjaCgiL2FwaS9yZXBvcnRzL2V4cG9ydC9yYXciKTsgfQpleHBvcnQgYXN5bmMgZnVuY3Rpb24gZGVsZXRlVXNlcihpZCl7IHJldHVybiBmZXRjaCgiL2FwaS9hZG1pbi91c2Vycy80MiIsIHttZXRob2Q6IkRFTEVURSJ9KTsgfQpleHBvcnQgYXN5bmMgZnVuY3Rpb24gaW50ZXJuYWxDb25maWcoKXsgcmV0dXJuIGZldGNoKCIvYXBpL2NvbmZpZy9pbnRlcm5hbCIpOyB9CmV4cG9ydCBhc3luYyBmdW5jdGlvbiBhdWRpdExvZygpICAgeyByZXR1cm4gZmV0Y2goIi9hcGkvYWRtaW4vYXVkaXQiKTsgfQo=</response>
+    <comment>role:admin</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:27:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/api/session]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[POST]]></method>
+    <path><![CDATA[/api/session]]></path>
+    <extension>null</extension>
+    <request base64="true">UE9TVCAvYXBpL3Nlc3Npb24gSFRUUC8xLjENCkhvc3Q6IHNob3AuZXhhbXBsZS5jb20NClVzZXItQWdlbnQ6IE1vemlsbGEvNS4wIChNYWNpbnRvc2g7IEludGVsIE1hYyBPUyBYIDEwXzE1XzcpIEFwcGxlV2ViS2l0LzUzNy4zNg0KQWNjZXB0OiAqLyoNCkFjY2VwdC1MYW5ndWFnZTogZW4tR0IsZW47cT0wLjkNClJlZmVyZXI6IGh0dHBzOi8vc2hvcC5leGFtcGxlLmNvbS8NCkNvb2tpZTogY29uc2VudD0xOyBzaWQ9cyUzQVp4NG5UOHBXMXJZNnVJOW9BNXNEM2ZHN2hKMGtMMm1OOyBfZ2E9R0ExLjIuODg0NDEyLjE3OTAyDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NCkNvbnRlbnQtTGVuZ3RoOiA0Mg0KDQp7InVzZXJuYW1lIjogIm9wcyIsICJwYXNzd29yZCI6ICJodW50ZXIyIn0=</request>
+    <status>200</status>
+    <responselength>12</responselength>
+    <mimetype>JSON</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NClNlcnZlcjogbmdpbngvMS4yNS4zDQpYLVBvd2VyZWQtQnk6IEV4cHJlc3MNCkNvbnRlbnQtTGVuZ3RoOiAxMg0KU2V0LUNvb2tpZTogc2lkPXMlM0FaeDRuVDhwVzFyWTZ1STlvQTVzRDNmRzdoSjBrTDJtTjsgUGF0aD0vOyBIdHRwT25seTsgU2VjdXJlDQoNCnsib2siOiB0cnVlfQ==</response>
+    <comment>role:admin</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:28:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/api/admin/users]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[GET]]></method>
+    <path><![CDATA[/api/admin/users]]></path>
+    <extension>null</extension>
+    <request base64="true">R0VUIC9hcGkvYWRtaW4vdXNlcnMgSFRUUC8xLjENCkhvc3Q6IHNob3AuZXhhbXBsZS5jb20NClVzZXItQWdlbnQ6IE1vemlsbGEvNS4wIChNYWNpbnRvc2g7IEludGVsIE1hYyBPUyBYIDEwXzE1XzcpIEFwcGxlV2ViS2l0LzUzNy4zNg0KQWNjZXB0OiAqLyoNCkFjY2VwdC1MYW5ndWFnZTogZW4tR0IsZW47cT0wLjkNClJlZmVyZXI6IGh0dHBzOi8vc2hvcC5leGFtcGxlLmNvbS8NCkNvb2tpZTogY29uc2VudD0xOyBzaWQ9cyUzQVp4NG5UOHBXMXJZNnVJOW9BNXNEM2ZHN2hKMGtMMm1OOyBfZ2E9R0ExLjIuODg0NDEyLjE3OTAyDQoNCg==</request>
+    <status>200</status>
+    <responselength>910</responselength>
+    <mimetype>JSON</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NClNlcnZlcjogbmdpbngvMS4yNS4zDQpYLVBvd2VyZWQtQnk6IEV4cHJlc3MNCkNvbnRlbnQtTGVuZ3RoOiA5MTANCg0KeyJ1c2VycyI6IFt7ImlkIjogMSwgImVtYWlsIjogInBlcnNvbjFAZXhhbXBsZS5vcmciLCAicm9sZSI6ICJzdGFmZiJ9LCB7ImlkIjogMiwgImVtYWlsIjogInBlcnNvbjJAZXhhbXBsZS5vcmciLCAicm9sZSI6ICJzdGFmZiJ9LCB7ImlkIjogMywgImVtYWlsIjogInBlcnNvbjNAZXhhbXBsZS5vcmciLCAicm9sZSI6ICJjdXN0b21lciJ9LCB7ImlkIjogNCwgImVtYWlsIjogInBlcnNvbjRAZXhhbXBsZS5vcmciLCAicm9sZSI6ICJjdXN0b21lciJ9LCB7ImlkIjogNSwgImVtYWlsIjogInBlcnNvbjVAZXhhbXBsZS5vcmciLCAicm9sZSI6ICJjdXN0b21lciJ9LCB7ImlkIjogNiwgImVtYWlsIjogInBlcnNvbjZAZXhhbXBsZS5vcmciLCAicm9sZSI6ICJjdXN0b21lciJ9LCB7ImlkIjogNywgImVtYWlsIjogInBlcnNvbjdAZXhhbXBsZS5vcmciLCAicm9sZSI6ICJjdXN0b21lciJ9LCB7ImlkIjogOCwgImVtYWlsIjogInBlcnNvbjhAZXhhbXBsZS5vcmciLCAicm9sZSI6ICJjdXN0b21lciJ9LCB7ImlkIjogOSwgImVtYWlsIjogInBlcnNvbjlAZXhhbXBsZS5vcmciLCAicm9sZSI6ICJjdXN0b21lciJ9LCB7ImlkIjogMTAsICJlbWFpbCI6ICJwZXJzb24xMEBleGFtcGxlLm9yZyIsICJyb2xlIjogImN1c3RvbWVyIn0sIHsiaWQiOiAxMSwgImVtYWlsIjogInBlcnNvbjExQGV4YW1wbGUub3JnIiwgInJvbGUiOiAiY3VzdG9tZXIifSwgeyJpZCI6IDEyLCAiZW1haWwiOiAicGVyc29uMTJAZXhhbXBsZS5vcmciLCAicm9sZSI6ICJjdXN0b21lciJ9LCB7ImlkIjogMTMsICJlbWFpbCI6ICJwZXJzb24xM0BleGFtcGxlLm9yZyIsICJyb2xlIjogImN1c3RvbWVyIn0sIHsiaWQiOiAxNCwgImVtYWlsIjogInBlcnNvbjE0QGV4YW1wbGUub3JnIiwgInJvbGUiOiAiY3VzdG9tZXIifV0sICJ0b3RhbCI6IDE0fQ==</response>
+    <comment>role:admin</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:29:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/api/admin/flags]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[POST]]></method>
+    <path><![CDATA[/api/admin/flags]]></path>
+    <extension>null</extension>
+    <request base64="true">UE9TVCAvYXBpL2FkbWluL2ZsYWdzIEhUVFAvMS4xDQpIb3N0OiBzaG9wLmV4YW1wbGUuY29tDQpVc2VyLUFnZW50OiBNb3ppbGxhLzUuMCAoTWFjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAxMF8xNV83KSBBcHBsZVdlYktpdC81MzcuMzYNCkFjY2VwdDogKi8qDQpBY2NlcHQtTGFuZ3VhZ2U6IGVuLUdCLGVuO3E9MC45DQpSZWZlcmVyOiBodHRwczovL3Nob3AuZXhhbXBsZS5jb20vDQpDb29raWU6IGNvbnNlbnQ9MTsgc2lkPXMlM0FaeDRuVDhwVzFyWTZ1STlvQTVzRDNmRzdoSjBrTDJtTjsgX2dhPUdBMS4yLjg4NDQxMi4xNzkwMg0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi9qc29uDQpDb250ZW50LUxlbmd0aDogNDENCg0KeyJmbGFnIjogIm5ld19jaGVja291dCIsICJlbmFibGVkIjogdHJ1ZX0=</request>
+    <status>200</status>
+    <responselength>12</responselength>
+    <mimetype>JSON</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NClNlcnZlcjogbmdpbngvMS4yNS4zDQpYLVBvd2VyZWQtQnk6IEV4cHJlc3MNCkNvbnRlbnQtTGVuZ3RoOiAxMg0KDQp7Im9rIjogdHJ1ZX0=</response>
+    <comment>role:admin</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:30:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/api/admin/users/42]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[DELETE]]></method>
+    <path><![CDATA[/api/admin/users/42]]></path>
+    <extension>null</extension>
+    <request base64="true">REVMRVRFIC9hcGkvYWRtaW4vdXNlcnMvNDIgSFRUUC8xLjENCkhvc3Q6IHNob3AuZXhhbXBsZS5jb20NClVzZXItQWdlbnQ6IE1vemlsbGEvNS4wIChNYWNpbnRvc2g7IEludGVsIE1hYyBPUyBYIDEwXzE1XzcpIEFwcGxlV2ViS2l0LzUzNy4zNg0KQWNjZXB0OiAqLyoNCkFjY2VwdC1MYW5ndWFnZTogZW4tR0IsZW47cT0wLjkNClJlZmVyZXI6IGh0dHBzOi8vc2hvcC5leGFtcGxlLmNvbS8NCkNvb2tpZTogY29uc2VudD0xOyBzaWQ9cyUzQVp4NG5UOHBXMXJZNnVJOW9BNXNEM2ZHN2hKMGtMMm1OOyBfZ2E9R0ExLjIuODg0NDEyLjE3OTAyDQoNCg==</request>
+    <status>204</status>
+    <responselength>0</responselength>
+    <mimetype>JSON</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjA0IE5vIENvbnRlbnQNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24vanNvbg0KU2VydmVyOiBuZ2lueC8xLjI1LjMNClgtUG93ZXJlZC1CeTogRXhwcmVzcw0KQ29udGVudC1MZW5ndGg6IDANCg0K</response>
+    <comment>role:admin</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:31:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/api/reports/export/raw]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[GET]]></method>
+    <path><![CDATA[/api/reports/export/raw]]></path>
+    <extension>null</extension>
+    <request base64="true">R0VUIC9hcGkvcmVwb3J0cy9leHBvcnQvcmF3IEhUVFAvMS4xDQpIb3N0OiBzaG9wLmV4YW1wbGUuY29tDQpVc2VyLUFnZW50OiBNb3ppbGxhLzUuMCAoTWFjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAxMF8xNV83KSBBcHBsZVdlYktpdC81MzcuMzYNCkFjY2VwdDogKi8qDQpBY2NlcHQtTGFuZ3VhZ2U6IGVuLUdCLGVuO3E9MC45DQpSZWZlcmVyOiBodHRwczovL3Nob3AuZXhhbXBsZS5jb20vDQpDb29raWU6IGNvbnNlbnQ9MTsgc2lkPXMlM0FaeDRuVDhwVzFyWTZ1STlvQTVzRDNmRzdoSjBrTDJtTjsgX2dhPUdBMS4yLjg4NDQxMi4xNzkwMg0KDQo=</request>
+    <status>200</status>
+    <responselength>15</responselength>
+    <mimetype>JSON</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NClNlcnZlcjogbmdpbngvMS4yNS4zDQpYLVBvd2VyZWQtQnk6IEV4cHJlc3MNCkNvbnRlbnQtTGVuZ3RoOiAxNQ0KDQp7InJvd3MiOiAxMjA0NX0=</response>
+    <comment>role:admin</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:32:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/api/config/internal]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[GET]]></method>
+    <path><![CDATA[/api/config/internal]]></path>
+    <extension>null</extension>
+    <request base64="true">R0VUIC9hcGkvY29uZmlnL2ludGVybmFsIEhUVFAvMS4xDQpIb3N0OiBzaG9wLmV4YW1wbGUuY29tDQpVc2VyLUFnZW50OiBNb3ppbGxhLzUuMCAoTWFjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAxMF8xNV83KSBBcHBsZVdlYktpdC81MzcuMzYNCkFjY2VwdDogKi8qDQpBY2NlcHQtTGFuZ3VhZ2U6IGVuLUdCLGVuO3E9MC45DQpSZWZlcmVyOiBodHRwczovL3Nob3AuZXhhbXBsZS5jb20vDQpDb29raWU6IGNvbnNlbnQ9MTsgc2lkPXMlM0FaeDRuVDhwVzFyWTZ1STlvQTVzRDNmRzdoSjBrTDJtTjsgX2dhPUdBMS4yLjg4NDQxMi4xNzkwMg0KDQo=</request>
+    <status>200</status>
+    <responselength>670</responselength>
+    <mimetype>JSON</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NClNlcnZlcjogbmdpbngvMS4yNS4zDQpYLVBvd2VyZWQtQnk6IEV4cHJlc3MNCkNvbnRlbnQtTGVuZ3RoOiA2NzANCg0KewogInJlZ2lvbiI6ICJhcC1zb3V0aC0xIiwKICJkYXRhYmFzZV91cmwiOiAicG9zdGdyZXNxbDovL3Nob3BfYXBwOktwN21RMnhXOXZSNHRMbkJAZGIuaW50ZXJuYWwuZXhhbXBsZTo1NDMyL3Nob3AiLAogImF3c19hY2Nlc3Nfa2V5X2lkIjogIkFLSUFETTRLUjlYVzJWUTdUWUJOIiwKICJvcGVuYWlfYXBpX2tleSI6ICJzay1wcm9qLURtNGtSOXhXMnZRN3RZYk42aExjMEpwRjhhU2dFNXVUMW9WaUFjWHdRek0zTmJZcktkIiwKICJzdHJpcGVfcHVibGlzaGFibGVfa2V5IjogInBrX2xpdmVfNTFIOGtSOXhXMnZRN3RZYk42aExjMEpwRiIsCiAibWFwc19hcGlfa2V5IjogIkFJemFTeURtNGtSOXhXMnZRN3RZYk42aExjMEpwRjhhU2dFNXVUMSIsCiAic2VudHJ5X2RzbiI6ICJodHRwczovLzRiMWM5ZDhlN2Y2YTViNGMzZDJlMWYwYTliOGM3ZDZlQG8xMjM0NS5pbmdlc3Quc2VudHJ5LmlvLzk4NzY1IiwKICJzaWduaW5nX2tleSI6ICItLS0tLUJFR0lOIFJTQSBQUklWQVRFIEtFWS0tLS0tXG5NSUlFcEFJQkFBS0NBUUVBeFc5dlI0dExuQjZoRGMwSnlGOGFTZ0U1dVQxb1ZpQWNYd1F6TTNOYllyS2RQakhnXG5Gc0V1VHdWeFp5QUtwN21RMnhXOXZSNHRMbkI2aERjMEp5RjhhU2dFNXVUMW9WaUFjWHdRek0zTmJZcktkUGpIXG4tLS0tLUVORCBSU0EgUFJJVkFURSBLRVktLS0tLSIKfQ==</response>
+    <comment>role:admin</comment>
+  </item>
+  <item>
+    <time>Thu Sep 24 10:33:11 IST 2026</time>
+    <url><![CDATA[https://shop.example.com/api/profile]]></url>
+    <host ip="203.0.113.24">shop.example.com</host>
+    <port>443</port>
+    <protocol>https</protocol>
+    <method><![CDATA[GET]]></method>
+    <path><![CDATA[/api/profile]]></path>
+    <extension>null</extension>
+    <request base64="true">R0VUIC9hcGkvcHJvZmlsZSBIVFRQLzEuMQ0KSG9zdDogc2hvcC5leGFtcGxlLmNvbQ0KVXNlci1BZ2VudDogTW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTBfMTVfNykgQXBwbGVXZWJLaXQvNTM3LjM2DQpBY2NlcHQ6ICovKg0KQWNjZXB0LUxhbmd1YWdlOiBlbi1HQixlbjtxPTAuOQ0KUmVmZXJlcjogaHR0cHM6Ly9zaG9wLmV4YW1wbGUuY29tLw0KQ29va2llOiBjb25zZW50PTE7IHNpZD1zJTNBWng0blQ4cFcxclk2dUk5b0E1c0QzZkc3aEowa0wybU47IF9nYT1HQTEuMi44ODQ0MTIuMTc5MDINCg0K</request>
+    <status>200</status>
+    <responselength>35</responselength>
+    <mimetype>JSON</mimetype>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NClNlcnZlcjogbmdpbngvMS4yNS4zDQpYLVBvd2VyZWQtQnk6IEV4cHJlc3MNCkNvbnRlbnQtTGVuZ3RoOiAzNQ0KDQp7ImlkIjogMSwgImZ1bGxfbmFtZSI6ICJPcHMgU3RhZmYifQ==</response>
+    <comment>role:admin</comment>
+  </item>
+</items>
